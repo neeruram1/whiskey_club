@@ -14,47 +14,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_13_160114) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bottles", force: :cascade do |t|
-    t.string "name"
-    t.bigint "brought_by_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "meeting_id"
-    t.index ["brought_by_id"], name: "index_bottles_on_brought_by_id"
-    t.index ["meeting_id"], name: "index_bottles_on_meeting_id"
-  end
-
-  create_table "meetings", force: :cascade do |t|
-    t.datetime "date", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "brought_by_id"
-    t.index ["brought_by_id"], name: "index_meetings_on_brought_by_id"
-  end
-
-  create_table "members", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.index ["email"], name: "index_members_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
-  end
-
-  create_table "ratings", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.bigint "bottle_id", null: false
-    t.float "score", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bottle_id"], name: "index_ratings_on_bottle_id"
-    t.index ["member_id"], name: "index_ratings_on_member_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -66,10 +25,4 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_13_160114) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_foreign_key "bottles", "meetings"
-  add_foreign_key "bottles", "members", column: "brought_by_id"
-  add_foreign_key "meetings", "members", column: "brought_by_id"
-  add_foreign_key "ratings", "bottles"
-  add_foreign_key "ratings", "members"
 end
