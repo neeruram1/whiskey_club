@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: Georgia, serif;
+  --font-sans: Cormorant Garamond, serif;
+  --font-of: Great Vibes, cursive;
 }

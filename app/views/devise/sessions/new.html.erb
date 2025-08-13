@@ -1,8 +1,8 @@
-<div class="min-h-[50vh] grid place-items-center px-6 py-10">
+<div class="min-h-[50vh] grid place-items-left px-6 py-10">
   <div class="w-full max-w-xl">
-    <div class="rounded-2xl p-6 shadow-sm ring-4 ring-sky-200">
+    <div class="rounded-2xl p-6 shadow-sm">
       <% if flash[:alert].present? || flash[:notice].present? %>
-        <div class="mb-4 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
+        <div class="mb-4 rounded-lg border border-yellow-300 bg-red-50 px-4 py-3 text-sm text-red-800">
           <%= flash[:alert] || flash[:notice] %>
         </div>
       <% end %>
@@ -13,7 +13,7 @@
           
           <!-- Email -->
           <div>
-            <%= f.label :email, class: "mb-1.5 block text-sm" %>
+            <%= f.label :email, class: "mb-1.5 block text-xl" %>
             <%= f.email_field :email,
                   autofocus: true,
                   autocomplete: "email",
@@ -22,7 +22,7 @@
 
           <!-- Password -->
           <div>
-            <%= f.label :password, class: "mb-1.5 block text-sm" %>
+            <%= f.label :password, class: "mb-1.5 block text-xl" %>
             <%= f.password_field :password,
                   autocomplete: "current-password",
                   class: "block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-black placeholder:text-gray-400 shadow-xs focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-100" %>
@@ -31,9 +31,9 @@
           <!-- Remember Me -->
           <% if devise_mapping.rememberable? %>
             <div>
-              <label class="inline-flex items-center gap-2 text-sm">
-                <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500" %>
-                <span>Remember me</span>
+              <label class="inline-flex items-center gap-2 text-xl">
+                <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-sky-300" %>
+                <span>Remember Me</span>
               </label>
             </div>
           <% end %>
@@ -41,7 +41,7 @@
           <!-- Submit -->
           <div class="text-center">
             <%= f.submit "Log in",
-                  class: "inline-flex w-3/4 items-center justify-center rounded-xl bg-stone-600 px-4 py-2.5 text-md uppercase font-medium shadow-lg transition hover:scale-[1.02] hover:bg-stone-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-stone-100 active:bg-stone-800" %>
+                  class: "inline-flex w-3/4 items-center justify-center rounded-xl px-4 py-2.5 ring-2 ring-sky-100 text-xl shadow-lg transition hover:scale-[1.02] hover:bg-stone-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-stone-100 active:bg-stone-800" %>
           </div>
 
         </div>
