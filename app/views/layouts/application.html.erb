@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Montclair Collective Spirits</title>
+    <title>Collective Spirits of Montclair</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,8 +11,13 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-stone-900 text-slate-100">
+    <main>
+      <div class="pt-8 text-center items-center">
+        <span class="text-6xl font-extrabold subpixel-antialiased text-shadow-xs text-shadow-white text-stone-600/90">
+          Collective Spirits of Montclair
+        </span>
+      </div>
       <%= yield %>
     </main>
   </body>
