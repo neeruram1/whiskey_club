@@ -19,7 +19,7 @@
             <%= flash[:alert] || flash[:notice] %>
           </div>
         <% end %>
-
+        
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <div class="space-y-6">
 

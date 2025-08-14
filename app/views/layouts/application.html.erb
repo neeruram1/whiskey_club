@@ -18,9 +18,16 @@
           <span class="relative -top-1 text-lg text-lagavulin-gold text-shadow-md text-shadow-zinc-950 font-of pb-[1px]">of</span>
             MONTCLAIR
           </span>
+          <span class="ml-auto text-sm tracking-widest text-shadow-sm text-shadow-zinc-950 text-lagavulin-gold">
+            <% if user_signed_in? %>
+              <%= button_to "Log Out", destroy_user_session_path, 
+                method: :delete, 
+                class: "inline-flex items-center justify-center rounded-4xl border-1 border-lagavulin-green bg-lagavulin-green px-4 py-2 text-sm tracking-widest text-shadow-sm uppercase font-semibold text-lagavulin-gold transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50"
+              %>
+            <% end %>
+          </span>
         </div>
       </header>
-
       <main class="flex-1">
         <%= yield %>
       </main>
