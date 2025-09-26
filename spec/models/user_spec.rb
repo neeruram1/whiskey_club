@@ -12,6 +12,7 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { should have_many(:ratings) }
     it { should have_many(:bottles) }
-    it { should have_many(:meetings)}
+    it { should have_many(:meeting_attendees) }
+    it { should have_many(:meetings).through(:meeting_attendees) }
   end
 end

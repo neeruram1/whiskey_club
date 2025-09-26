@@ -7,5 +7,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
   has_many :ratings
   has_many :bottles
-  has_many :meetings
+  has_many :meeting_attendees
+  has_many :meetings, through: :meeting_attendees
 end
