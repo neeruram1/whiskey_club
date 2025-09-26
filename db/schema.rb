@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_26_020426) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_26_021849) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_020426) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "bottle_id", null: false
+    t.index ["bottle_id"], name: "index_ratings_on_bottle_id"
     t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
@@ -76,5 +78,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_020426) do
   add_foreign_key "meeting_attendees", "users"
   add_foreign_key "meetings", "bottles"
   add_foreign_key "meetings", "users", column: "bottle_bringer_id"
+  add_foreign_key "ratings", "bottles"
   add_foreign_key "ratings", "users"
 end
