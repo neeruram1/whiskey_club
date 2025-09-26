@@ -11,6 +11,6 @@ RSpec.describe Bottle, type: :model do
   describe 'associations' do
     it { should have_many(:ratings) }
     it { should belong_to(:user) }
-    it { should belong_to(:meeting)}
+    it { should belong_to(:meeting) }
   end
 end
