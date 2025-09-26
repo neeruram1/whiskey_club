@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_26_021849) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_26_182422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,7 +23,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_021849) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "meeting_id"
-    t.index ["meeting_id"], name: "index_bottles_on_meeting_id"
+    t.datetime "revealed_at"
+    t.index ["meeting_id"], name: "index_bottles_on_meeting_id_unique_when_present", unique: true, where: "(meeting_id IS NOT NULL)"
     t.index ["user_id"], name: "index_bottles_on_user_id"
   end
 
@@ -39,12 +40,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_021849) do
 
   create_table "meetings", force: :cascade do |t|
     t.date "date", null: false
-    t.bigint "bottle_id"
-    t.bigint "bottle_bringer_id"
+    t.bigint "bottle_bringer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["bottle_bringer_id"], name: "index_meetings_on_bottle_bringer_id"
-    t.index ["bottle_id"], name: "index_meetings_on_bottle_id"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -76,7 +76,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_021849) do
   add_foreign_key "bottles", "users"
   add_foreign_key "meeting_attendees", "meetings"
   add_foreign_key "meeting_attendees", "users"
-  add_foreign_key "meetings", "bottles"
   add_foreign_key "meetings", "users", column: "bottle_bringer_id"
   add_foreign_key "ratings", "bottles"
   add_foreign_key "ratings", "users"

@@ -9,4 +9,8 @@ class User < ApplicationRecord
   has_many :bottles
   has_many :meeting_attendees
   has_many :meetings, through: :meeting_attendees
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

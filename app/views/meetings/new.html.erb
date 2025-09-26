@@ -1,0 +1,28 @@
+<h1>New Meeting</h1>
+<%= form_with model: @meeting, local: true do |form| %>
+  <% if @meeting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
+      <ul>
+        <% @meeting.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+      <%= link_to 'Back', root_path %>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :bottle_bringer_id %>
+    <%= form.select :bottle_bringer_id, User.all.collect { |u| [u.full_name, u.id] }, { include_blank: true } %>
+  </div>
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_field :date %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+  <div class="actions">
+    <%= link_to 'Back', root_path %>
+  </div>
+<% end %>

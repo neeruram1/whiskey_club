@@ -1,0 +1,7 @@
+<% if @current_meeting %>
+  <h2><%= @current_meeting.date.strftime("%B %d, %Y") %></h2>
+  <p>Bottle Bringer: <%= @current_meeting.bottle_bringer.full_name %></p>
+<% else %>
+  <p>No upcoming meetings.</p>
+  <p><%= link_to 'Schedule a Meeting', new_meeting_path %></p>
+<% end %>
