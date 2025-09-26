@@ -10,9 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_14_200443) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_26_003311) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bottles", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "distillery", null: false
+    t.integer "age"
+    t.decimal "final_score", precision: 3, scale: 1
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bottles_on_user_id"
+  end
+
+  create_table "meeting_attendees", force: :cascade do |t|
+    t.bigint "meeting_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_id", "user_id"], name: "index_meeting_attendees_on_meeting_id_and_user_id", unique: true
+    t.index ["meeting_id"], name: "index_meeting_attendees_on_meeting_id"
+    t.index ["user_id"], name: "index_meeting_attendees_on_user_id"
+  end
+
+  create_table "meetings", force: :cascade do |t|
+    t.date "date", null: false
+    t.bigint "bottle_id"
+    t.bigint "bottle_bringer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bottle_bringer_id"], name: "index_meetings_on_bottle_bringer_id"
+    t.index ["bottle_id"], name: "index_meetings_on_bottle_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "score", default: 0, null: false
+    t.text "comment"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +68,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_200443) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bottles", "users"
+  add_foreign_key "meeting_attendees", "meetings"
+  add_foreign_key "meeting_attendees", "users"
+  add_foreign_key "meetings", "bottles"
+  add_foreign_key "meetings", "users", column: "bottle_bringer_id"
+  add_foreign_key "ratings", "users"
 end
