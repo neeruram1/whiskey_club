@@ -5,7 +5,7 @@ class MeetingsController < ApplicationController
 
   def create
     @meeting = Meeting.new(meeting_params)
-    asdfasdf
+    
     if @meeting.save!
       redirect_to root_path, notice: 'Meeting scheduled successfully.'
     else
