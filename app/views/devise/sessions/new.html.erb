@@ -1,64 +1,74 @@
+<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
+  <!-- Background image -->
+  <div class="pointer-events-none absolute inset-0 bg-[url('/assets/charredoak.png')] bg-cover bg-center opacity-100"></div>
+  <!-- Gradient overlay (stronger for login readability) -->
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/40 via-[#0f2a23]/10 to-[#0f2a23]/0"></div>
 
-<div class="mx-auto w-full max-w-screen-xl px-6 py-12 md:py-16">
-  <div class="grid gap-30 md:grid-cols-2 md:items-start">
-    <div>
-      <div class="mb-4 text-xl/10 uppercase tracking-widest text-shadow-md text-shadow-zinc-950 text-lagavulin-gold">Est. 2023</div>
-        <h1 class="mb-4 text-6xl/19 font-semibold text-shadow-md tracking-wide text-shadow-zinc-950 text-lagavulin-gold">
-          <span>COLLECTIVE SPIRITS </span>
-          <span class="relative -top-3 text-5xl pb-[2px] font-of">of</span>
-          <span> MONTCLAIR</span>
-        </h1>
-      <p class="mt-4 max-w-prose text-xl/10 tracking-wide text-shadow-lg text-shadow-zinc-950 text-lagavulin-gold">
-        Poured in good company since… well, since we felt like it.
-      </p>
-    </div>
-    <div>
-      <div class="rounded-2xl border-4 border-lagavulin-gold ring-4 ring-lagavulin-green-light ring-offset-4 ring-offset-[#F8F5E9] bg-[#F8F5E9] p-6 shadow-xl">
-        <% if flash[:alert].present? || flash[:notice].present? %>
-          <div class="mb-4 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
-            <%= flash[:alert] || flash[:notice] %>
-          </div>
-        <% end %>
-        
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <div class="space-y-6">
+  <!-- Centered content -->
+  <div class="relative z-10 mx-auto flex min-h-screen max-w-5xl items-center px-6 py-12 md:py-16">
+    <div class="grid w-full gap-16 md:grid-cols-2 md:items-start">
 
-            <%# Email %>
-            <div>
-              <div class="mb-2 flex items-baseline justify-between">
-                <%= f.label :email, class: "text-lg tracking-widest text-shadow-sm uppercase text-shadow-lagavulin-green-light text-lagavulin-green" %>
+      <!-- Left side: Hero branding -->
+      <div>
+        <%= image_tag "transparent_green_seal.png",
+          alt: "Collective Spirits Wax Seal",
+          class: "opacity-90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)]" %>
+      </div>
+
+      <!-- Right side: Login form -->
+      <div class="items-center justify-center py-6">
+        <div class="rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 shadow-2xl shadow-black/40">
+
+          <% if flash[:alert].present? || flash[:notice].present? %>
+            <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
+              <p><%= flash[:alert] || flash[:notice] %></p>
+            </div>
+          <% end %>
+
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="space-y-6">
+
+              <!-- Email -->
+              <div>
+                <label class="mb-2 block text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-lagavulin-green">
+                  <%= f.label :email, "Email", class: "sr-only" %>
+                  Email
+                </label>
+                <%= f.email_field :email,
+                      autofocus: true,
+                      autocomplete: "email",
+                      placeholder: "name@example.com",
+                      class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
               </div>
-              <%= f.email_field :email,
-                    autofocus: true,
-                    autocomplete: "email",
-                    placeholder: "name@example.com",
-                    class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-300 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/15" %>
-            </div>
 
-            <%# Password + Forgot link %>
-            <div>
-              <div class="mb-2 flex items-baseline justify-between">
-                <%= f.label :password, class: "text-lg tracking-widest text-shadow-sm uppercase text-shadow-lagavulin-green-light text-lagavulin-green" %>
+              <!-- Password -->
+              <div>
+                <label class="mb-2 block text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-lagavulin-green">
+                  <%= f.label :password, "Password", class: "sr-only" %>
+                  Password
+                </label>
+                <%= f.password_field :password,
+                      autocomplete: "current-password",
+                      placeholder: "• • • • • • • •",
+                      class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
               </div>
-              <%= f.password_field :password,
-                    autocomplete: "current-password",
-                    placeholder: "• • • • • • • •",
-                    class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-300 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/15" %>
-            </div>
 
-            <%# Submit %>
-            <div class="pt-1 text-center">
-              <%= f.submit "Enter the club",
-                    class: "inline-flex w-1/2 items-center justify-center rounded-4xl border-1 border-lagavulin-green bg-lagavulin-green px-4 py-3 text-sm tracking-widest text-shadow-sm uppercase font-semibold text-lagavulin-gold transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50" %>
+              <!-- Submit -->
+              <div class="pt-2">
+                <%= f.submit "Enter the Club",
+                      class: "inline-flex w-full items-center justify-center rounded-4xl border border-lagavulin-green bg-lagavulin-green px-6 py-3 text-sm tracking-[0.22em] uppercase font-semibold text-lagavulin-gold shadow-md shadow-lagavulin-green/30 transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50" %>
+              </div>
             </div>
+          <% end %>
+
+          <div class="mt-6 border-t border-gray-200 pt-4 text-center text-xs md:text-sm text-gray-700">
+            <%= render "devise/shared/links" %>
           </div>
-        <% end %>
 
-        <div class="mt-6 border-t border-gray-200 pt-4 text-center text-sm text-gray-700">
-          <%= render "devise/shared/links" %>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
+

@@ -1,47 +1,68 @@
-<div class="mx-auto w-full max-w-screen-xl px-6 py-12 md:py-16">
-  <div class="mb-4 text-xl/10 uppercase tracking-widest text-shadow-md text-shadow-zinc-950 text-lagavulin-gold"> 
-    <h1>New Meeting</h1>
-  </div>
-  <div class="rounded-2xl border-4 border-lagavulin-gold ring-4 ring-lagavulin-green-light ring-offset-4 ring-offset-[#F8F5E9] bg-[#F8F5E9] p-6 shadow-xl">
-    <% if @meeting.errors.any? %>
-      <div class="mb-4 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
-        <%= @meeting.errors.full_messages.join(", ") %>
-      </div>
-    <% end %>
-    
-    
-    <%= form_with model: @meeting, local: true do |f| %>
-      <div class="space-y-6">
-        <%# Bottle Bringer %>
-        <div>
-          <div class="mb-2 flex items-baseline justify-between">
-            <%= f.label :bottle_bringer_id, class: "text-lg tracking-widest text-shadow-sm uppercase text-shadow-lagavulin-green-light text-lagavulin-green" %>
-          </div>
-          <%= f.select :bottle_bringer_id,
-                User.all.collect { |u| [u.full_name, u.id] }, { include_blank: true },
-                class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-300 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/15" %>
-        </div>
-        <%# Date %>
-        <div>
-          <div class="mb-2 flex items-baseline justify-between">
-            <%= f.label :date, class: "text-lg tracking-widest text-shadow-sm uppercase text-shadow-lagavulin-green-light text-lagavulin-green" %>
-          </div>
-          <%= f.date_field :date,
-                class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-300 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/15" %>
-        </div>
+<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
+  <!-- Background image -->
+  <div class="pointer-events-none absolute inset-0 bg-[url('/assets/charredoak.png')] bg-cover bg-center opacity-90"></div>
+  <!-- Gradient overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/60 via-[#0f2a23]/30 to-[#0f2a23]/0"></div>
 
-        <%# Submit %>
-        <div class="pt-1 text-center">
-          <%= f.submit "Schedule Meeting",
-                class: "inline-flex w-1/2 items-center justify-center rounded-4xl border-1 border-lagavulin-green bg-lagavulin-green px-4 py-3 text-sm tracking-widest text-shadow-sm uppercase font-semibold text-lagavulin-gold transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50" %>
-        </div>
-      </div>
+  <!-- Page content -->
+  <div class="relative z-10 mx-auto w-full max-w-xl px-6 py-12 md:py-16">
+    <!-- Page heading -->
+    <header class="mb-8 space-y-2 text-center">
+      <h1 class="text-3xl md:text-4xl uppercase tracking-[0.35em] text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
+        New Meeting
+      </h1>
+      <p class="text-sm text-[#E8D6A7]/80">
+        Schedule the next tasting for the Collective Spirits of Montclair.
+      </p>
+    </header>
 
-      <span class="ml-auto text-sm tracking-widest text-shadow-sm text-shadow-zinc-950 text-lagavulin-gold">
-        <%= link_to 'Back', root_path, 
-            class: "inline-flex items-center justify-center rounded-4xl border-1 border-lagavulin-green bg-lagavulin-green px-4 py-2 text-sm tracking-widest text-shadow-sm uppercase font-semibold text-lagavulin-gold transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50"
-        %>
-      </span>
-    <% end %>
+    <!-- Form card -->
+    <div class="rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
+      <% if @meeting.errors.any? %>
+        <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
+          <p class="font-semibold mb-1">Please fix the following:</p>
+          <ul class="list-disc list-inside">
+            <% @meeting.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @meeting, local: true do |f| %>
+        <div class="space-y-6">
+
+          <!-- Bottle Bringer -->
+          <div>
+            <label class="mb-2 block text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-lagavulin-green">
+              <%= f.label :bottle_bringer_id, "Bottle Bringer", class: "sr-only" %>
+              Bottle Bringer
+            </label>
+            <%= f.select :bottle_bringer_id,
+                  User.all.collect { |u| [u.full_name, u.id] }, { include_blank: "Select a member" },
+                  class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+          </div>
+
+          <!-- Date -->
+          <div>
+            <label class="mb-2 block text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-lagavulin-green">
+              <%= f.label :date, "Date", class: "sr-only" %>
+              Date
+            </label>
+            <%= f.date_field :date,
+                  class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
+            <%= f.submit "Schedule",
+                  class: "inline-flex w-full md:w-auto items-center justify-center rounded-4xl border border-lagavulin-green bg-lagavulin-green px-6 py-3 text-sm tracking-[0.22em] uppercase font-semibold text-lagavulin-gold shadow-md shadow-lagavulin-green/30 transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50" %>
+
+            <%= link_to 'Back to Meetings', root_path,
+                  class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
