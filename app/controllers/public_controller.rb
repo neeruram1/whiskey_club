@@ -1,5 +1,6 @@
 class PublicController < ApplicationController
   def index
-    @current_meeting = Meeting.current
+    @upcoming_meetings = Meeting.upcoming
+    @past_meetings = Meeting.past_meetings
   end
 end

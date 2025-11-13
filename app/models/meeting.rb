@@ -8,6 +8,7 @@ class Meeting < ApplicationRecord
 
   validates :date, presence: true
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc) }
+  scope :past_meetings, -> { where('date < ?', Date.today).order(date: :desc) }
 
   def self.current
     upcoming.first

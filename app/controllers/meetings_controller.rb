@@ -6,10 +6,10 @@ class MeetingsController < ApplicationController
   def create
     @meeting = Meeting.new(meeting_params)
     
-    if @meeting.save!
+    if @meeting.save
       redirect_to root_path, notice: 'Meeting scheduled successfully.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
