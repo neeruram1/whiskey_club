@@ -25,14 +25,12 @@
             </span>
           <% end %>
         </div>
-
-        <!-- Right: auth actions -->
         <div class="ml-4 flex items-center gap-4">
           <% if user_signed_in? %>
             <%= button_to "Log Out",
                   destroy_user_session_path,
                   method: :delete,
-                  class: "inline-flex items-center justify-center rounded-4xl border border-lagavulin-green bg-lagavulin-green px-4 py-2 text-xs md:text-sm tracking-[0.22em] uppercase font-semibold text-lagavulin-gold shadow-sm shadow-lagavulin-green/30 transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50" %>
+                  class: "btn" %>
           <% end %>
         </div>
       </div>
