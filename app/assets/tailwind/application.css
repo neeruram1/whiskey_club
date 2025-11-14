@@ -7,3 +7,66 @@
   --color-lagavulin-green: #2B3E38;
   --color-lagavulin-green-light: #A3B8B1;
 }
+
+@layer components {
+  .btn {
+    @apply 
+      relative 
+      mx-auto 
+      inline-flex 
+      px-3 
+      py-2 
+      items-center 
+      rounded-3xl 
+      border 
+      border-lagavulin-gold 
+      bg-black/30 
+      backdrop-blur-sm 
+      md:text-lg 
+      tracking-widest 
+      uppercase 
+      font-medium 
+      text-lagavulin-gold 
+      shadow-lg 
+      shadow-lagavulin-gold/20 
+      transition-colors 
+      duration-200 
+      hover:bg-lagavulin-green-light 
+      hover:text-lagavulin-green 
+      hover:font-semibold 
+      focus-visible:outline-none 
+      focus-visible:ring-4 
+      focus-visible:ring-lagavulin-gold/40;
+  }
+
+  .form-btn {
+    @apply 
+      inline-flex 
+      w-full 
+      md:w-auto 
+      items-center 
+      justify-center 
+      rounded-3xl 
+      border 
+      border-lagavulin-green 
+      bg-lagavulin-green 
+      px-6 
+      py-3 
+      text-sm 
+      tracking-widest 
+      uppercase 
+      font-semibold 
+      text-lagavulin-gold 
+      shadow-md 
+      shadow-lagavulin-green/30 
+      transition-colors 
+      duration-200 
+      hover:bg-lagavulin-green-light 
+      hover:text-lagavulin-green 
+      focus-visible:outline-none 
+      focus-visible:ring-4 
+      focus-visible:ring-lagavulin-gold/30 
+      disabled:cursor-not-allowed 
+      disabled:opacity-50;
+  }
+}

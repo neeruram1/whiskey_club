@@ -6,8 +6,8 @@ RSpec.describe Meeting, type: :model do
   end
 
   describe 'associations' do
-    it { should have_one(:bottle).dependent(:destroy) }
-    it { should have_one(:bottle_bringer).through(:bottle).source(:user) }
+    it { should have_one(:bottle) }
+    it { should belong_to(:bottle_bringer).class_name('User') }
     it { should have_many(:meeting_attendees).dependent(:destroy) }
     it { is_expected.to have_many(:attendees).through(:meeting_attendees).source(:user) }
   end

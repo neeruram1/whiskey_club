@@ -5,31 +5,55 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-    <body class="bg-lagavulin-green min-h-screen flex flex-col">
-      <header class="px-6 py-4 border-b border-lagavulin-gold">
-        <div class="mx-auto max-w-screen-xl flex items-center">
-          <span class="text-2xl tracking-wide text-shadow-md text-shadow-zinc-950 text-lagavulin-gold">
-            COLLECTIVE SPIRITS
-          <span class="relative -top-1 text-lg text-lagavulin-gold text-shadow-md text-shadow-zinc-950 font-of pb-[1px]">of</span>
-            MONTCLAIR
-          </span>
-          <span class="ml-auto text-sm tracking-widest text-shadow-sm text-shadow-zinc-950 text-lagavulin-gold">
-            <% if user_signed_in? %>
-              <%= button_to "Log Out", destroy_user_session_path, 
-                method: :delete, 
-                class: "inline-flex items-center justify-center rounded-4xl border-1 border-lagavulin-green bg-lagavulin-green px-4 py-2 text-sm tracking-widest text-shadow-sm uppercase font-semibold text-lagavulin-gold transition-colors duration-200 hover:bg-lagavulin-green-light hover:text-lagavulin-green focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lagavulin-gold/30 disabled:cursor-not-allowed disabled:opacity-50"
-              %>
-            <% end %>
-          </span>
+
+  <body class="bg-lagavulin-green min-h-screen flex flex-col">
+  <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+    <header class="border-b border-lagavulin-gold bg-[#0f2a23]/95 backdrop-blur">
+      <div class="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-4">
+        <!-- Left: logo + wordmark -->
+        <div class="flex items-center gap-3">
+          <%= link_to root_path, class: "flex items-center gap-3" do %>
+            <span class="text-sm md:text-base tracking-[0.3em] uppercase text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
+              Collective Spirits
+              <span class="font-of text-[0.9em] align-middle">of</span>
+              Montclair
+            </span>
+          <% end %>
         </div>
-      </header>
-      <main class="flex-1">
-        <%= yield %>
-      </main>
-    </body>
+        <div class="ml-4 flex items-center gap-4">
+          <% if user_signed_in? %>
+            <%= button_to "Log Out",
+                  destroy_user_session_path,
+                  method: :delete,
+                  class: "btn" %>
+          <% end %>
+        </div>
+      </div>
+    </header>
+  <% end %>
+
+    <main class="flex-1">
+      <%= yield %>
+    </main>
+    <footer class="relative py-10 bg-[#0f2a23]/95 border-t border-lagavulin-gold">
+  <div class="mx-auto max-w-screen-xl px-6 text-center space-y-4">
+    
+    <!-- Club line -->
+    <p class="mt-2 text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">
+      Collective Spirits of Montclair · Est. 2023
+    </p>
+
+    <!-- Tiny legal-ish line -->
+    <p class="text-[0.65rem] tracking-widest text-[#E8D6A7]/40">
+      A private whiskey club for friends with good taste.
+    </p>
+  </div>
+</footer>
+
+  </body>
 </html>

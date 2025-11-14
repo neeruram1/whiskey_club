@@ -1,0 +1,19 @@
+<ul class="space-y-3 border-l border-lagavulin-gold/50 pl-6">
+        <% meetings.each do |meeting| %>
+            <li class="relative">
+              <div class="rounded-xl bg-black/25 px-4 py-3 shadow-md shadow-black/40 w-full">
+                <div class="inline-block">
+                  <p class="text-[#E8D6A7] text-lg font-semibold tracking-widest uppercase">
+                    <%= meeting.date.strftime("%B %d, %Y") %>
+                  </p>
+                  <p class="mt-1 text-md md:text-md font-medium text-[#E8D6A7]/85">
+                    Bottle Bringer: <%= meeting.bottle_bringer.full_name %>
+                  </p>
+                  </div>
+                  <div class="inline-block float-right">
+                    <%= link_to 'View Details', meeting_path(meeting), class: "btn" %>
+                  </div>
+              </div>
+            </li>
+        <% end %>
+      </ul>
