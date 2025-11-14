@@ -13,7 +13,7 @@
     @apply 
       relative 
       mx-auto 
-      inline-block 
+      inline-flex 
       px-3 
       py-2 
       items-center 
