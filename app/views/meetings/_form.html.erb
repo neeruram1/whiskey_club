@@ -6,7 +6,7 @@
               Bottle Bringer
             </label>
             <%= f.select :bottle_bringer_id,
-                  @users, { include_blank: "Select a member" },
+                  @users.map { |user| [user.full_name, user.id] }, { include_blank: "Select a member" },
                   class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
           </div>
           <div>
