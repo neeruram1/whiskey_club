@@ -27,8 +27,8 @@
       uppercase 
       font-medium 
       text-lagavulin-gold 
-      shadow-lg 
-      shadow-lagavulin-gold/20 
+      shadow-md 
+      shadow-black
       transition-colors 
       duration-200 
       hover:bg-lagavulin-green-light 
@@ -58,7 +58,7 @@
       font-semibold 
       text-lagavulin-gold 
       shadow-md 
-      shadow-lagavulin-green/30 
+      shadow-black/40 
       transition-colors 
       duration-200 
       hover:bg-lagavulin-green-light 

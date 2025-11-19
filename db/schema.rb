@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_26_182422) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_17_192152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_182422) do
     t.datetime "updated_at", null: false
     t.bigint "meeting_id"
     t.datetime "revealed_at"
+    t.string "bottle_type"
     t.index ["meeting_id"], name: "index_bottles_on_meeting_id_unique_when_present", unique: true, where: "(meeting_id IS NOT NULL)"
     t.index ["user_id"], name: "index_bottles_on_user_id"
   end

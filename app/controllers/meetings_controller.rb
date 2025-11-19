@@ -28,7 +28,7 @@ class MeetingsController < ApplicationController
     if @meeting.update(meeting_params)
       redirect_to meeting_path(@meeting), notice: 'Meeting updated successfully.'
     else
-      @users = User.all  # needed if your form uses @users
+      @users = User.all
       render :edit, status: :unprocessable_entity
     end
   end

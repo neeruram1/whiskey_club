@@ -13,4 +13,14 @@ class Meeting < ApplicationRecord
   def self.current
     upcoming.first
   end
+
+  def meeting_status
+    if date == Date.current
+      :happening_today
+    elsif date < Date.current
+      :past
+    else
+      :upcoming
+    end
+  end
 end

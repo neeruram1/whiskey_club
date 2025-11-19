@@ -1,0 +1,92 @@
+<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
+  <div class="pointer-events-none absolute inset-0 bg-[url('/assets/charredoak.png')] bg-cover bg-center opacity-90"></div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
+
+  <div class="relative z-10 mx-auto w-full max-w-4xl px-16 py-16">
+    <div class="mb-6 flex items-center justify-between text-lg font-medium uppercase tracking-[0.22em] text-lagavulin-gold/80">
+      <span>Bottle Profile</span>
+
+      <%= link_to "Back to Meeting",
+            meeting_path(@bottle.meeting),
+            class: "hover:text-lagavulin-gold" %>
+    </div>
+    <header class="mb-8">
+      <h1 class="text-4xl font-semibold tracking-[0.12em] uppercase text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
+        <%= @bottle.name %>
+      </h1>
+    </header>
+    <section class="mx-auto max-w-3xl rounded-3xl border border-lagavulin-gold/35 bg-black/55 px-15 py-15 shadow-2xl shadow-black/70 backdrop-blur-sm">
+      <div class="grid gap-8 border-b border-lagavulin-gold/25 pb-4 md:grid-cols-2">
+        <div class="space-y-5">
+          <% if @bottle.distillery.present? %>
+            <div>
+              <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+                Distillery
+              </p>
+              <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+                <%= @bottle.distillery %>
+              </p>
+            </div>
+          <% end %>
+
+          <% if @bottle.bottle_type.present? %>
+            <div>
+              <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+                Style
+              </p>
+              <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+                <%= @bottle.bottle_type %>
+              </p>
+            </div>
+          <% end %>
+
+          <% if @bottle.age.present? %>
+            <div>
+              <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+                Age
+              </p>
+              <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+                <%= pluralize(@bottle.age, "year") %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+        <div class="space-y-5 text-right">
+          <div>
+            <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+              Date of Tasting
+            </p>
+            <p class="mt-1 text-sm uppercase md:text-base text-[#E8D6A7]">
+              <span class="font-semibold">
+                <%= @bottle.meeting.date.strftime("%B %d, %Y") %>
+              </span>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+              Final Score
+            </p>
+            <p class="mt-1 text-sm uppercase md:text-base text-[#E8D6A7]">
+            <% if @bottle.final_score.present? %>
+              <%= @bottle.final_score %>
+            <% else %>
+              0.0
+            <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <%= link_to "Edit Bottle",
+              edit_meeting_bottle_path(@bottle.meeting),
+              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+        <%= link_to "Rate Bottle",
+              edit_meeting_bottle_path(@bottle.meeting),
+              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+      </div>
+    </section>
+  </div>
+</div>
+

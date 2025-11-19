@@ -1,6 +1,6 @@
 class Bottle < ApplicationRecord
   belongs_to :user
-  belongs_to :meeting, optional: true
+  belongs_to :meeting
   has_many :ratings, dependent: :destroy
 
   validates :name, presence: true

@@ -1,30 +1,67 @@
 <div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
   <div class="pointer-events-none absolute inset-0 bg-[url('/assets/charredoak.png')] bg-cover bg-center opacity-90"></div>
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/60 via-[#0f2a23]/30 to-[#0f2a23]/0"></div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
 
-  <div class="relative z-10 mx-auto w-full max-w-3xl px-6 py-12 md:py-16">
-    <header class="mb-8 space-y-2 text-center">
-      <h1 class="text-3xl md:text-4xl uppercase tracking-widest text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
+  <div class="relative z-10 mx-auto w-full max-w-4xl px-16 py-16">
+    <div class="mb-6 flex items-center justify-between text-lg font-medium uppercase tracking-[0.22em] text-lagavulin-gold/80">
+      <%= link_to "Back to Meetings",
+            root_path,
+            class: "hover:text-lagavulin-gold" %>
+    </div>
+    <header class="mb-8">
+      <h1 class="text-4xl font-semibold tracking-[0.12em] uppercase text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
         Meeting Details
       </h1>
     </header>
-    <div class="rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
-      <div class="space-y-6">
-        <div>
-          <h2 class="text-xl font-semibold text-lagavulin-green">Date:</h2>
-          <p class="mt-1 text-gray-900"><%= @meeting.date.strftime("%B %d, %Y") %></p>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold text-lagavulin-green">Bottle Bringer:</h2>
-          <p class="mt-1 text-gray-900"><%= @meeting.bottle_bringer.full_name %></p>
+    <section class="mx-auto max-w-3xl rounded-3xl border border-lagavulin-gold/35 bg-black/55 px-15 py-15 shadow-2xl shadow-black/70 backdrop-blur-sm">
+      <div class="grid gap-8 border-b border-lagavulin-gold/25 pb-4 md:grid-cols-2">
+        <div class="space-y-5">
+          <div>
+            <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+              Date
+            </p>
+            <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+              <%= @meeting.date.strftime("%B %d, %Y") %>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+              Curator
+            </p>
+            <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+              <%= @meeting.bottle_bringer.full_name %>
+            </p>
+          </div>
+
+          <% if @meeting.bottle.present? %>
+            <div>
+              <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
+                Featured Bottle
+              </p>
+              <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+                <%= @meeting.bottle.name %>
+              </p>
+            <%= link_to "Bottle Details",
+                  meeting_bottle_path(@meeting, @meeting.bottle),
+              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+            </div>
+          <% end %>
         </div>
       </div>
-      <div class="mt-8">
-        <%= link_to 'Edit Meeting', edit_meeting_path(@meeting),
-              class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
+
+      <div class="mt-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <%= link_to "Edit Meeting",
+              edit_meeting_path(@meeting),
+              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+        <% if @meeting.bottle.blank? && @meeting.meeting_status != :upcoming %>
+          <%= link_to "Add Bottle",
+                new_meeting_bottle_path(@meeting),
+                class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+        <% end %>
       </div>
-      <div>
-        <%= link_to 'Back to Meetings', root_path,
-              class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
-    </div>
+    </section>
+  </div>
 </div>
+
+
