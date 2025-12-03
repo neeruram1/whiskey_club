@@ -38,6 +38,11 @@
   <% end %>
 
     <main class="flex-1">
+      <div class="fixed top-6 right-6 z-50 w-full max-w-sm">
+        <div id="flash-messages">
+          <%= render "shared/flash" %>
+        </div>
+      </div>
       <%= yield %>
     </main>
     <footer class="relative py-10 bg-[#0f2a23]/95 border-t border-lagavulin-gold">
@@ -54,6 +59,35 @@
     </p>
   </div>
 </footer>
+
+<script>
+  function setupFlashFade() {
+    const flashContainer = document.getElementById("flash-messages");
+    if (!flashContainer) return;
+
+    const messages = flashContainer.querySelectorAll(".flash-message");
+    if (!messages.length) return;
+
+    // Start fade after 4 seconds
+    setTimeout(() => {
+      messages.forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(-6px)";
+        el.style.boxShadow = "0 0 0 rgba(201,169,104,0)";
+      });
+
+      // Remove from DOM after transition (700–800ms)
+      setTimeout(() => {
+        flashContainer.innerHTML = "";
+      }, 800);
+    }, 1500);
+  }
+
+  document.addEventListener("turbo:load", setupFlashFade);
+  document.addEventListener("DOMContentLoaded", setupFlashFade);
+</script>
+
+
 
   </body>
 </html>

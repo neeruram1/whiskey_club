@@ -69,4 +69,52 @@
       disabled:cursor-not-allowed 
       disabled:opacity-50;
   }
+  .flash-message {
+    @apply mb-6 rounded-xl border px-4 py-3 text-sm shadow-lg transition-all opacity-100;
+    animation: flashFadeIn 0.8s ease-out forwards, goldShimmer 14s ease-out forwards;
+  }
+
+  .flash-gold {
+    @apply border-lagavulin-gold/70 bg-[#F8F5E9]/95 text-lagavulin-green;
+    border: 2px solid rgba(201, 169, 104, 0.85);
+    box-shadow:
+      0 0 12px rgba(201, 169, 104, 0.25),
+      0 0 30px rgba(201, 169, 104, 0.15);
+  }
+
+  .flash-red {
+    @apply border-red-400 bg-red-50 text-red-900;
+  }
+
+  @keyframes goldShimmer {
+    0% {
+      box-shadow:
+        0 0 0 rgba(201, 169, 104, 0),
+        0 0 0 rgba(201, 169, 104, 0);
+    }
+
+    60% {
+      box-shadow:
+        0 0 14px rgba(201, 169, 104, 0.40),
+        0 0 40px rgba(201, 169, 104, 0.25);
+    }
+
+    100% {
+      box-shadow:
+        0 0 10px rgba(201, 169, 104, 0.25),
+        0 0 25px rgba(201, 169, 104, 0.15);
+    }
+  }
+
+  @keyframes flashFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

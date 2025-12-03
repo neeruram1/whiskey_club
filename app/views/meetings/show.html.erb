@@ -54,6 +54,10 @@
         <%= link_to "Edit Meeting",
               edit_meeting_path(@meeting),
               class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+        <%= link_to "Delete Meeting", 
+              meeting_path(@meeting), 
+              method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, 
+              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
         <% if @meeting.bottle.blank? && @meeting.meeting_status != :upcoming %>
           <%= link_to "Add Bottle",
                 new_meeting_bottle_path(@meeting),

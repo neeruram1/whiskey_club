@@ -1,0 +1,17 @@
+<% flash.each do |type, message| %>
+  <% next unless message.present? %>
+
+  <% css = case type.to_sym
+    when :notice
+      "flash-gold"
+    when :alert, :error
+      "flash-red"
+    else
+      "flash-gold"
+    end
+  %>
+
+  <div class="flash-message <%= css %>">
+    <p class="tracking-[0.18em] uppercase"><%= message %></p>
+  </div>
+<% end %>
