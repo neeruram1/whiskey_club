@@ -2,8 +2,8 @@
         <div class="space-y-6">
           <div>
             <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-              <%= f.label :bottle_bringer_id, "Curator", class: "sr-only" %>
-              Curator
+              <%= f.label :bottle_bringer_id, "Bottle Master", class: "sr-only" %>
+              Bottle Master
             </label>
             <%= f.select :bottle_bringer_id,
                   @users.map { |user| [user.full_name, user.id] }, { include_blank: "Select a member" },

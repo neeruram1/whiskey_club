@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe Meeting, type: :model do
   describe 'validations' do
     it { should validate_presence_of(:date) }
+
+    it "should not be a duplicate meeting on the same date" do
+      meeting = (create :meeting, date: Date.today)
+      duplicate_meeting = build(:meeting, date: Date.today)
+      expect(duplicate_meeting).not_to be_valid
+    end
   end
 
   describe 'associations' do

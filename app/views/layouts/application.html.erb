@@ -16,14 +16,15 @@
     <header class="border-b border-lagavulin-gold bg-[#0f2a23]/95 backdrop-blur">
       <div class="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-4">
         <!-- Left: logo + wordmark -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-30">
           <%= link_to root_path, class: "flex items-center gap-3" do %>
-            <span class="text-sm md:text-base tracking-[0.3em] uppercase text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
+            <span class="text-sm hover:underline md:text-base tracking-[0.3em] uppercase text-lagavulin-gold">
               Collective Spirits
               <span class="font-of text-[0.9em] align-middle">of</span>
               Montclair
             </span>
           <% end %>
+          <span class="text-sm md:text-base tracking-[0.3em] uppercase text-lagavulin-gold"> Logged in as <strong class="text-lagavulin-gold"><%= current_user.full_name %></strong></span>
         </div>
         <div class="ml-4 flex items-center gap-4">
           <% if user_signed_in? %>

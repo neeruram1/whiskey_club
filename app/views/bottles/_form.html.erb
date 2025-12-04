@@ -28,6 +28,15 @@
             class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
     </div>
     <div>
+      <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
+        <%= f.label :bottle_type, "Bottle Type", class: "sr-only" %>
+        Bottle Type
+      </label>
+      <%= f.text_field :bottle_type,
+            placeholder: "Enter bottle type (e.g., Bourbon, Scotch, etc...)",
+            class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+    </div>
+    <div>
       <%= f.hidden_field :user_id, value: meeting.bottle_bringer_id %>
     </div>
 

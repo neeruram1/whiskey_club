@@ -6,13 +6,14 @@ class Meeting < ApplicationRecord
 
   enum status: { scheduled: 0, started: 1, completed: 2 }
 
-  validates :date, presence: true
+  validates :date, presence: true, uniqueness: true
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc) }
   scope :past_meetings, -> { where('date < ?', Date.today).order(date: :desc) }
 
   def self.current
     upcoming.first
   end
+
 
   def meeting_status
     if date == Date.current

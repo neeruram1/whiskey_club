@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     resources :bottles
   end
 
+  resources :ratings
   # get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -9,6 +9,9 @@
 }
 
 @layer components {
+  .small-caps {
+      font-variant-caps: small-caps;
+    }
   .btn {
     @apply 
       relative 
@@ -24,7 +27,7 @@
       backdrop-blur-sm 
       md:text-lg 
       tracking-widest 
-      uppercase 
+      uppercase
       font-medium 
       text-lagavulin-gold 
       shadow-md 

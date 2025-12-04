@@ -1,23 +1,27 @@
 <div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
   <div class="pointer-events-none absolute inset-0 bg-[url('/assets/charredoak.png')] bg-cover bg-center opacity-90"></div>
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/60 via-[#0f2a23]/30 to-[#0f2a23]/0"></div>
+
   <div class="relative z-10 mx-auto w-full max-w-xl px-6 py-12 md:py-16">
     <header class="mb-8 space-y-2 text-center">
       <h1 class="text-3xl md:text-4xl uppercase tracking-widest text-lagavulin-gold">
-        Edit Meeting
+        Edit Bottle
       </h1>
     </header>
+
     <div class="rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
-      <% if @meeting.errors.any? %>
+      <% if @bottle.errors.any? %>
         <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
           <p class="font-semibold mb-1">Please fix the following:</p>
           <ul class="list-disc list-inside">
-            <% @meeting.errors.full_messages.each do |msg| %>
+            <% @bottle.errors.full_messages.each do |msg| %>
               <li><%= msg %></li>
             <% end %>
           </ul>
         </div>
       <% end %>
-      <%= render 'form', meeting: @meeting %>
+
+      <%= render 'form', bottle: @bottle, meeting: @meeting %>
     </div>
   </div>
+</div>

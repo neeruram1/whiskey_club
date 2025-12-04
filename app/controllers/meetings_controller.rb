@@ -18,6 +18,7 @@ class MeetingsController < ApplicationController
   end
 
   def show
+    @bottle = @meeting&.bottle
   end
 
   def edit
@@ -37,6 +38,10 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.find(params[:id])
     @meeting.destroy
     redirect_to root_path, alert: 'Meeting deleted successfully.'
+  end
+
+  def find_rating(bottle)
+    @user_rating = bottle.ratings.find_by(user: current_user, bottle: @meeting.bottle)
   end
 
   private
