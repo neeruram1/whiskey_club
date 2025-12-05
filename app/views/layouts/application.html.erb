@@ -12,83 +12,89 @@
   </head>
 
   <body class="bg-lagavulin-green min-h-screen flex flex-col">
-  <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
-    <header class="border-b border-lagavulin-gold bg-[#0f2a23]/95 backdrop-blur">
-      <div class="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-4">
-        <!-- Left: logo + wordmark -->
-        <div class="flex items-center gap-30">
-          <%= link_to root_path, class: "flex items-center gap-3" do %>
-            <span class="text-sm hover:underline md:text-base tracking-[0.3em] uppercase text-lagavulin-gold">
-              Collective Spirits
-              <span class="font-of text-[0.9em] align-middle">of</span>
-              Montclair
-            </span>
-          <% end %>
-          <span class="text-sm md:text-base tracking-[0.3em] uppercase text-lagavulin-gold"> Logged in as <strong class="text-lagavulin-gold"><%= current_user.full_name %></strong></span>
-        </div>
-        <div class="ml-4 flex items-center gap-4">
+    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+      <header class="border-b border-lagavulin-gold bg-[#0f2a23]/95 backdrop-blur">
+        <div class="mx-auto flex max-w-screen-xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          
+          <!-- Left: logo + wordmark + user -->
+          <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
+            <%= link_to root_path, class: "flex items-center" do %>
+              <span class="text-[0.7rem] tracking-[0.25em] uppercase text-lagavulin-gold sm:text-sm sm:tracking-[0.3em] md:text-base">
+                Collective Spirits
+                <span class="font-of text-[0.9em] align-middle">of</span>
+                Montclair
+              </span>
+            <% end %>
+
+            <% if user_signed_in? %>
+              <span class="text-[0.7rem] tracking-[0.22em] uppercase text-lagavulin-gold/80 sm:text-xs md:text-sm">
+                Logged in as
+                <strong class="text-lagavulin-gold"><%= current_user.full_name %></strong>
+              </span>
+            <% end %>
+          </div>
+
+          <!-- Right: logout -->
           <% if user_signed_in? %>
-            <%= button_to "Log Out",
-                  destroy_user_session_path,
-                  method: :delete,
-                  class: "btn" %>
+            <div class="flex justify-start sm:justify-end">
+              <%= button_to "Log Out",
+                    destroy_user_session_path,
+                    method: :delete,
+                    class: "btn-sm sm:btn" %>
+            </div>
           <% end %>
         </div>
-      </div>
-    </header>
-  <% end %>
+      </header>
+    <% end %>
 
     <main class="flex-1">
-      <div class="fixed top-6 right-6 z-50 w-full max-w-sm">
+      <!-- Flash messages, centered and mobile-friendly -->
+      <div class="fixed top-4 left-1/2 z-50 w-full max-w-sm -translate-x-1/2 px-4 sm:top-6">
         <div id="flash-messages">
           <%= render "shared/flash" %>
         </div>
       </div>
+
       <%= yield %>
     </main>
-    <footer class="relative py-10 bg-[#0f2a23]/95 border-t border-lagavulin-gold">
-  <div class="mx-auto max-w-screen-xl px-6 text-center space-y-4">
-    
-    <!-- Club line -->
-    <p class="mt-2 text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">
-      Collective Spirits of Montclair · Est. 2023
-    </p>
 
-    <!-- Tiny legal-ish line -->
-    <p class="text-[0.65rem] tracking-widest text-[#E8D6A7]/40">
-      A private whiskey club for friends with good taste.
-    </p>
-  </div>
-</footer>
+    <footer class="relative border-t border-lagavulin-gold bg-[#0f2a23]/95 py-8 sm:py-10">
+      <div class="mx-auto max-w-screen-xl px-4 text-center space-y-3 sm:px-6 sm:space-y-4">
+        <p class="mt-1 text-[0.65rem] tracking-[0.3em] uppercase text-lagavulin-gold/70 sm:text-xs">
+          Collective Spirits of Montclair · Est. 2023
+        </p>
 
-<script>
-  function setupFlashFade() {
-    const flashContainer = document.getElementById("flash-messages");
-    if (!flashContainer) return;
+        <p class="text-[0.6rem] tracking-widest text-[#E8D6A7]/40 sm:text-[0.65rem]">
+          A private whiskey club for friends with good taste.
+        </p>
+      </div>
+    </footer>
 
-    const messages = flashContainer.querySelectorAll(".flash-message");
-    if (!messages.length) return;
+    <script>
+      function setupFlashFade() {
+        const flashContainer = document.getElementById("flash-messages");
+        if (!flashContainer) return;
 
-    // Start fade after 4 seconds
-    setTimeout(() => {
-      messages.forEach((el) => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(-6px)";
-        el.style.boxShadow = "0 0 0 rgba(201,169,104,0)";
-      });
+        const messages = flashContainer.querySelectorAll(".flash-message");
+        if (!messages.length) return;
 
-      // Remove from DOM after transition (700–800ms)
-      setTimeout(() => {
-        flashContainer.innerHTML = "";
-      }, 800);
-    }, 1500);
-  }
+        // Start fade after 1.5s
+        setTimeout(() => {
+          messages.forEach((el) => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(-6px)";
+            el.style.boxShadow = "0 0 0 rgba(201,169,104,0)";
+          });
 
-  document.addEventListener("turbo:load", setupFlashFade);
-  document.addEventListener("DOMContentLoaded", setupFlashFade);
-</script>
+          // Remove from DOM after transition
+          setTimeout(() => {
+            flashContainer.innerHTML = "";
+          }, 800);
+        }, 1500);
+      }
 
-
-
+      document.addEventListener("turbo:load", setupFlashFade);
+      document.addEventListener("DOMContentLoaded", setupFlashFade);
+    </script>
   </body>
 </html>
