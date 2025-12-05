@@ -1,6 +1,10 @@
 <div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
   <!-- Background image -->
-  <div class="pointer-events-none absolute inset-0 bg-[url('/assets/charredoak.png')] bg-cover bg-center opacity-100"></div>
+  <div
+    class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
+    style="background-image: url(<%= asset_path 'charredoak.png' %>);">
+  </div>
+
   <!-- Gradient overlay -->
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/60 via-[#0f2a23]/30 to-[#0f2a23]/0"></div>
 
