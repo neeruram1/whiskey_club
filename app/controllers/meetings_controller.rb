@@ -42,8 +42,10 @@ class MeetingsController < ApplicationController
   end
 
   def find_rating
-    @user_rating = @meeting.bottle.ratings.find_by(user: current_user).score if @meeting.bottle.present?
+    return if @meeting&.bottle&.ratings&.empty?
+    @user_rating = @meeting&.bottle&.ratings&.find_by(user: current_user)&.score
   end
+
 
   private
 
