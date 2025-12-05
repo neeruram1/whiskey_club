@@ -7,129 +7,19 @@
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
 
   <!-- Content -->
-  <div class="relative z-10 mx-auto w-full max-w-6xl px-8 py-10 md:px-12 md:py-14">
-    <!-- Back link -->
-    <div class="mb-10">
-      <%= link_to "Back to Meetings",
-            root_path,
-            class: "btn" %>
-    </div>
+  <div class="relative z-10 mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 md:px-12 md:py-14">
+    <%= render "header", meeting: @meeting %>
 
-    <!-- Page title -->
-    <header class="mb-10">
-      <h1 class="text-3xl md:text-4xl tracking-[0.28em] uppercase text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
-        Meeting Details
-      </h1>
-    </header>
-
-    <!-- Main content stack -->
     <div class="space-y-10">
-      <!-- Meeting summary -->
-      <div class="grid gap-8 md:grid-cols-2">
-        <div>
-          <p class="text-base uppercase tracking-[0.28em] text-lagavulin-gold/70">
-            Meeting Date
-          </p>
-          <p class="mt-1 small-caps text-lg text-[#E8D6A7]">
-            <%= @meeting.date.strftime("%B %d, %Y") %>
-          </p>
-        </div>
-
-        <div>
-          <p class="text-base uppercase tracking-[0.28em] text-lagavulin-gold/70">
-            Bottle Master
-          </p>
-          <p class="mt-1 small-caps text-lg text-[#E8D6A7]">
-            <%= @meeting.bottle_bringer.full_name %>
-          </p>
-        </div>
-      </div>
-      <div class="h-px bg-lagavulin-gold/25"></div>
-
-      <% if @bottle.present? %>
-        <div class="text-left">
-          <p class="text-4xl font-semibold tracking-[0.28em] uppercase text-lagavulin-gold">
-            <%= @bottle.distillery %>
-          </p>
-          <p class="mt-2 text-3xl small-caps tracking-wide text-[#E8D6A7]">
-            <%= @bottle.name %>
-          </p>
-        </div>
-        <section class="grid gap-10 md:grid-cols-2 mt-6">
-          <div class="mt-1 aspect-[3/4] w-60 md:w-60 rounded-2xl border border-lagavulin-gold/45 bg-black/35 shadow-lg shadow-black/60 flex items-center justify-center text-[0.65rem] tracking-[0.18em] uppercase text-lagavulin-gold/55 text-center px-6">
-            Bottle Photo<br>Coming Soon
-          </div>
-
-          <div class="mt-8 space-y-8">
-            <p>
-              <span class="uppercase text-sm tracking-[0.28em] text-lagavulin-gold/80">Style</span>
-              <span class="ml-2 text-lg small-caps text-[#E8D6A7]"><%= @bottle.bottle_type %></span>
-            </p>
-
-            <% if @bottle.age.present? %>
-              <p>
-                <span class="uppercase text-sm tracking-[0.28em] text-lagavulin-gold/80">Age</span>
-                <span class="ml-2 text-lg small-caps text-[#E8D6A7]"><%= pluralize(@bottle.age, "year") %></span>
-              </p>
-            <% end %>
-
-            <p>
-              <span class="uppercase text-sm tracking-[0.28em] text-lagavulin-gold/80">Average Rating</span>
-              <% if @bottle.ratings.any? %>
-                <span class="ml-2 text-lg small-caps text-[#E8D6A7]"><%= @bottle.ratings.average(:score).round(1) %> / 10</span>
-              <% else %>
-                <span class="ml-2 text-lg small-caps text-[#E8D6A7]">n/a</span>
-              <% end %>
-            </p>
-
-            <% if @user_rating.present? %>
-              <p>
-                <span class="uppercase text-lg tracking-[0.28em] text-lagavulin-gold/80">Your Rating</span>
-                <span class="ml-2 text-lg text-[#E8D6A7]"><%= @user_rating %> / 10</span>
-              </p>
-            <% else %>
-              <p class="text-base tracking-[0.18em] text-[#E8D6A7]/80 uppercase">
-                You have not rated this bottle yet.
-              </p>
-            <% end %>
-            <div class="mt-8 space-y-2">
-              <%= link_to "Add Your Rating",
-                    new_rating_path(@bottle),
-                    class: "block text-sm uppercase tracking-wide text-lagavulin-gold/60 hover:text-lagavulin-gold hover:underline" %>
-
-              <%= link_to "Edit Bottle",
-                    edit_meeting_bottle_path(@meeting),
-                    class: "block text-sm uppercase tracking-wide text-lagavulin-gold/60 hover:text-lagavulin-gold hover:underline" %>
-            </div>
-          </div>
-        </section>
-      <% else %>
-        <p class="text-lg tracking-[0.18em] text-[#E8D6A7]/80 uppercase">
-          No bottle has been added for this meeting yet.
-        </p>
-      <% end %>
+      <%= render "bottle_section",
+            meeting: @meeting,
+            bottle: @bottle %>
 
       <div class="h-px bg-lagavulin-gold/25"></div>
 
-      <!-- Actions -->
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mt-8">
-        <div class="flex flex-col gap-2 md:flex-row md:gap-8">
-          <%= link_to "Edit Meeting",
-                edit_meeting_path(@meeting),
-                class: "text-sm md:text-base uppercase tracking-wide text-lagavulin-gold/80 hover:text-lagavulin-gold" %>
-
-          <% if @meeting.bottle.blank? && @meeting.meeting_status != :upcoming %>
-            <%= link_to "Add Bottle",
-                  new_meeting_bottle_path(@meeting),
-                  class: "text-sm md:text-base uppercase tracking-wide text-lagavulin-gold/80 hover:text-lagavulin-gold" %>
-          <% end %>
-        </div>
-
-        <%= link_to "Delete Meeting",
-              meeting_path(@meeting),
-              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-              class: "text-sm md:text-base uppercase tracking-wide text-lagavulin-gold/60 hover:text-lagavulin-gold" %>
-      </div>
+      <%= render "actions",
+            meeting: @meeting,
+            bottle: @bottle %>
     </div>
   </div>
 </div>

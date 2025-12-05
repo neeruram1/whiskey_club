@@ -1,0 +1,76 @@
+<% if bottle.present? %>
+  <section class="mt-10">
+    <div class="grid gap-10 md:gap-12 md:grid-cols-2 items-start">
+      <!-- Left: Feature title / hero text -->
+      <div class="space-y-4 md:space-y-6">
+        <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/60">
+          Featured Bottle
+        </p>
+
+        <% tracking = bottle.distillery.length > 12 ? "tracking-[0.16em]" : "tracking-[0.22em] md:tracking-[0.28em]" %>
+        <p class="text-2xl sm:text-3xl md:text-4xl font-semibold <%= tracking %> uppercase text-lagavulin-gold">
+          <%= bottle.distillery %>
+        </p>
+
+        <p class="text-2xl sm:text-3xl small-caps tracking-wide text-[#E8D6A7]">
+          <%= bottle.name %>
+        </p>
+
+        <!-- optional: space for description / tasting notes later -->
+        <%# <p class="max-w-md text-sm leading-relaxed text-[#E8D6A7]/85">
+          Add a short description or tasting notes here to really lean into the magazine feel.
+        </p> %>
+      </div>
+
+      <!-- Right: Specs + ratings with vertical divider -->
+      <div class="md:border-l md:border-lagavulin-gold/20 md:pl-8 space-y-6 sm:space-y-8">
+        <p>
+          <span class="uppercase text-xs sm:text-sm tracking-[0.24em] text-lagavulin-gold/80">
+            Style
+          </span>
+          <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
+            <%= bottle.bottle_type %>
+          </span>
+        </p>
+
+        <% if bottle.age.present? %>
+          <p>
+            <span class="uppercase text-xs sm:text-sm tracking-[0.24em] text-lagavulin-gold/80">
+              Age
+            </span>
+            <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
+              <%= pluralize(bottle.age, "year") %>
+            </span>
+          </p>
+        <% end %>
+
+        <p>
+          <span class="uppercase text-xs sm:text-sm tracking-[0.24em] text-lagavulin-gold/80">
+            Average Rating
+          </span>
+          <% if bottle.ratings.any? %>
+            <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
+              <%= bottle.ratings.average(:score).round(1) %> / 10
+            </span>
+          <% else %>
+            <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
+              n/a
+            </span>
+          <% end %>
+        </p>
+
+        <%= render "rating_section", bottle: bottle %>
+
+        <%= link_to "Edit Bottle",
+              edit_meeting_bottle_path(bottle.meeting, bottle),
+              class: "block text-xs sm:text-sm uppercase tracking-wide text-lagavulin-gold/60 hover:text-lagavulin-gold hover:underline" %>
+      </div>
+    </div>
+  </section>
+<% else %>
+  <p class="mt-8 text-sm sm:text-lg tracking-[0.18em] text-[#E8D6A7]/80 uppercase">
+    No bottle has been added for this meeting yet.
+  </p>
+<% end %>
+
+

@@ -1,0 +1,36 @@
+<!-- Back link -->
+<div class="mb-10">
+  <%= link_to "Back to Meetings",
+        root_path,
+        class: "btn" %>
+</div>
+
+<!-- Page title -->
+<header class="mb-8 md:mb-10">
+  <h1 class="text-2xl sm:text-3xl md:text-4xl tracking-[0.22em] md:tracking-[0.28em] uppercase text-lagavulin-gold text-shadow-md text-shadow-zinc-950">
+    Meeting Details
+  </h1>
+</header>
+
+<div class="grid gap-6 sm:gap-8 md:grid-cols-2 mb-4">
+  <div>
+    <p class="text-xs sm:text-sm uppercase tracking-[0.24em] text-lagavulin-gold/70">
+      Meeting Date
+    </p>
+    <p class="mt-1 small-caps text-base sm:text-lg text-[#E8D6A7]">
+      <%= meeting.date.strftime("%B %d, %Y") %>
+    </p>
+  </div>
+
+  <div>
+    <p class="text-xs sm:text-sm uppercase tracking-[0.24em] text-lagavulin-gold/70">
+      Bottle Master
+    </p>
+    <p class="mt-1 small-caps text-base sm:text-lg text-[#E8D6A7]">
+      <%= meeting.bottle_bringer.full_name %>
+    </p>
+  </div>
+</div>
+
+
+<div class="h-px bg-lagavulin-gold/25"></div>

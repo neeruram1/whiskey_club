@@ -1,5 +1,6 @@
 class MeetingsController < ApplicationController
   before_action :find_meeting, only: [:show, :edit, :update]
+  before_action :find_rating, only: [:show]
 
   def new
     @meeting = Meeting.new
@@ -40,8 +41,8 @@ class MeetingsController < ApplicationController
     redirect_to root_path, alert: 'Meeting deleted successfully.'
   end
 
-  def find_rating(bottle)
-    @user_rating = bottle.ratings.find_by(user: current_user, bottle: @meeting.bottle)
+  def find_rating
+    @user_rating = @meeting.bottle.ratings.find_by(user: current_user).score if @meeting.bottle.present?
   end
 
   private

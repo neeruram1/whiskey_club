@@ -42,6 +42,34 @@
       focus-visible:ring-lagavulin-gold/40;
   }
 
+  .btn-sm {
+      @apply 
+      inline-flex 
+      items-center 
+      px-2 
+      py-1.5 
+      rounded-2xl
+      border 
+      border-lagavulin-gold 
+      bg-black/30 
+      backdrop-blur-sm 
+      text-xs 
+      tracking-widest 
+      uppercase 
+      font-medium 
+      text-lagavulin-gold 
+      shadow 
+      shadow-black/50 
+      transition-colors 
+      duration-200 
+      hover:bg-lagavulin-green-light 
+      hover:text-lagavulin-green 
+      hover:font-semibold 
+      focus-visible:outline-none 
+      focus-visible:ring-2 
+      focus-visible:ring-lagavulin-gold/40;
+    }
+
   .form-btn {
     @apply 
       inline-flex 
