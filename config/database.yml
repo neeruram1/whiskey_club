@@ -78,7 +78,6 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: whiskey_club_production
-  username: whiskey_club
-  password: <%= ENV["WHISKEY_CLUB_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
