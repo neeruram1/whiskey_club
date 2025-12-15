@@ -1,0 +1,52 @@
+<ul class="space-y-4 pl-2 sm:pl-4">
+  <% meetings.each do |meeting| %>
+    <li class="relative">
+
+      <%= link_to meeting_path(meeting),
+            class: "block group" do %>
+
+        <div class="flex">
+
+          <!-- Animated gold accent -->
+          <div class="w-1 bg-lagavulin-gold/30 rounded-l-xl
+                      transition-all duration-300
+                      group-hover:bg-lagavulin-gold group-active:bg-lagavulin-gold/80"></div>
+
+          <!-- Card body -->
+          <div class="flex-1 rounded-r-xl bg-black/25 px-4 py-4 shadow-md shadow-black/40
+                      transition-all duration-300
+                      group-hover:bg-black/35 group-hover:shadow-black/60
+                      group-active:scale-[0.98]">
+
+            <!-- Inner layout -->
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+              <!-- Meeting info -->
+              <div class="flex-1">
+                <p class="text-[#E8D6A7] text-base sm:text-lg small-caps font-semibold tracking-widest">
+                  <%= meeting.date.strftime("%B %d, %Y") %>
+                </p>
+
+                <p class="mt-1 text-sm sm:text-base small-caps font-medium text-[#E8D6A7]/85 leading-snug">
+                  This month's selection by <%= meeting.bottle_bringer.full_name %>
+                </p>
+              </div>
+
+              <!-- Arrow indicator -->
+              <div class="flex items-center sm:ml-4 shrink-0 text-lagavulin-gold/70 
+                          transition group-hover:text-lagavulin-gold">
+                <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                     fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      <% end %>
+
+    </li>
+  <% end %>
+</ul>
