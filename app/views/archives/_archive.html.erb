@@ -14,14 +14,6 @@
 
       <!-- Toggle -->
       <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm tracking-widest uppercase">
-        <%= link_to root_path,
-        class: "inline-flex items-center gap-2 text-xs tracking-[0.3em] uppercase
-                text-[#E8D6A7]/70 hover:text-lagavulin-gold transition" do %>
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Home
-        <% end %>
         <button
           type="button"
           data-archive-toggle-target="tab"
@@ -42,8 +34,17 @@
           Tasting Nights
         </button>
       </div>
+      <span class="absolute right-0 bottom-0 w-24 h-6 bg-gradient-to-l from-whiskey-club-dark/95 to-whiskey-club-dark/0 pointer-events-none"></span>
+        <%= link_to root_path,
+          class: "inline-flex items-center gap-2 text-xs tracking-[0.3em] uppercase
+                  text-[#E8D6A7]/70 hover:text-lagavulin-gold transition" do %>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Home
+        <% end %>
+      </span>
     </div>
-
     <div class="h-px bg-lagavulin-gold/25"></div>
   </div>
 
