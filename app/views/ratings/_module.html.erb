@@ -1,22 +1,37 @@
 <%# locals: bottle:, current_user_rating: (Rating or nil) %>
 
-<section class="mt-8 rounded-3xl border border-lagavulin-gold/25 bg-black/20 p-5 sm:p-7 shadow-lg shadow-black/40">
-  <div class="flex items-start justify-between gap-4">
+<section class="rounded-2xl border border-lagavulin-gold/18 bg-black/10 p-4 sm:p-5">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+
+    <!-- Status -->
     <div class="space-y-1">
-      <p class="text-xs tracking-[0.32em] uppercase text-lagavulin-gold/70">Your rating</p>
+      <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">
+        Rating
+      </p>
 
       <% if current_user_rating&.score.present? %>
-        <p class="text-[#E8D6A7] text-2xl font-semibold tracking-wide">
-          <%= number_with_precision(current_user_rating.score, precision: 1) %>
-          <span class="text-[#E8D6A7]/60 text-sm font-medium">/ 10</span>
+        <p class="text-sm sm:text-base tracking-widest text-[#E8D6A7]">
+          <span class="text-[#E8D6A7]/70">Your rating:</span>
+          <span class="font-semibold"><%= number_with_precision(current_user_rating.score, precision: 1) %></span>
+          <span class="text-[#E8D6A7]/60">/ 5</span>
         </p>
-        <p class="text-xs tracking-widest text-[#E8D6A7]/60">Adjust anytime.</p>
       <% else %>
-        <p class="text-sm tracking-widest text-[#E8D6A7]/70">Not rated yet.</p>
+        <p class="text-sm sm:text-base tracking-widest text-[#E8D6A7]/75">
+          <span class="text-[#E8D6A7]/70">Your rating:</span>
+          <span class="text-[#E8D6A7]/55">—</span>
+          <span class="text-[#E8D6A7]/60">/ 5</span>
+        </p>
       <% end %>
+
+      <p class="text-[0.7rem] tracking-widest text-[#E8D6A7]/45">
+        0.1 increments allowed
+      </p>
     </div>
 
-    <div class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/50">1.0–10.0</div>
+    <!-- (Optional) small hint on the right; remove if you want even cleaner -->
+    <div class="text-[0.7rem] tracking-[0.32em] uppercase text-[#E8D6A7]/45">
+      1.0–5.0
+    </div>
   </div>
 
   <div class="mt-4">
@@ -25,31 +40,29 @@
 
       <%= hidden_field_tag "rating[bottle_id]", bottle.id %>
 
-      <div>
-        <label class="block text-xs tracking-[0.32em] uppercase text-[#E8D6A7]/60 mb-2">
+      <div class="w-full sm:w-auto">
+        <label class="block text-[0.7rem] tracking-[0.32em] uppercase text-[#E8D6A7]/55 mb-2">
           Score
         </label>
 
         <%= number_field_tag "rating[score]",
               current_user_rating&.score,
-              in: 1..10,
+              in: 1..5,
               step: 0.1,
               required: true,
               inputmode: "decimal",
-              placeholder: "8.7",
-              class: "w-full sm:w-32 rounded-xl border border-lagavulin-gold/35 bg-[#0b201b]/70
-                      px-3 py-2 text-base text-[#E8D6A7] placeholder:text-[#E8D6A7]/35
-                      focus:border-lagavulin-gold focus:outline-none focus:ring-4 focus:ring-lagavulin-gold/15" %>
+              placeholder: "4.2",
+              class: "w-full sm:w-28 rounded-xl border border-lagavulin-gold/28 bg-[#0b201b]/60
+                      px-3 py-2.5 text-sm sm:text-base text-[#E8D6A7] placeholder:text-[#E8D6A7]/30
+                      shadow-sm shadow-black/25
+                      focus:border-lagavulin-gold focus:outline-none focus:ring-4 focus:ring-lagavulin-gold/12" %>
       </div>
 
-      <div class="pt-1">
-        <%= submit_tag(current_user_rating.present? ? "Save changes" : "Save rating",
-              class: "inline-flex w-full sm:w-auto items-center justify-center form-btn") %>
-
-        <p class="mt-2 text-[0.7rem] tracking-widest text-[#E8D6A7]/45">
-          Saved to your profile immediately.
-        </p>
+      <div class="w-full sm:w-auto sm:pb-[1px]">
+        <%= submit_tag(current_user_rating.present? ? "Save" : "Add",
+              class: "btn-mini w-full sm:w-auto") %>
       </div>
     <% end %>
   </div>
 </section>
+

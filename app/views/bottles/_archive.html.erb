@@ -1,33 +1,28 @@
 <% bottle_of_month = bottles.max_by { |b| b.meeting.date } %>
 <% bottles_for_list = bottle_of_month ? bottles.reject { |b| b.id == bottle_of_month.id } : bottles %>
 
-<div class="space-y-10">
+<div class="space-y-6">
 
   <!-- Featured: Bottle of the Month (not filterable) -->
   <% if bottle_of_month.present? %>
     <div class="space-y-2">
-      <p class="text-xs tracking-[0.32em] uppercase text-[#E8D6A7]/60">Featured</p>
-
       <%= link_to bottle_path(bottle_of_month), class: "block group" do %>
         <div class="relative overflow-hidden rounded-3xl border border-lagavulin-gold/55 bg-black/25 p-6 sm:p-8
                     shadow-xl shadow-black/50 transition group-hover:bg-black/35">
 
           <div class="pointer-events-none absolute -inset-24 bg-[radial-gradient(circle,rgba(201,169,104,0.18),transparent_60%)] opacity-90"></div>
-          <div class="pointer-events-none absolute left-6 right-6 top-6 h-px bg-lagavulin-gold/35"></div>
-
           <div class="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div class="space-y-2">
+            <div class="space-y-4">
               <div class="flex flex-wrap items-center gap-3">
                 <span class="inline-flex items-center rounded-full
                              border border-lagavulin-gold/70 bg-lagavulin-gold/15
                              px-3 py-1 text-[0.7rem] tracking-[0.28em] uppercase
                              text-lagavulin-gold">
-                  Bottle of the Month
+                  Current Bottle of the Month
                 </span>
-
-                <span class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/70">
-                  <%= bottle_of_month.meeting.date.strftime("%B %Y") %>
-                </span>
+              </div>
+              <div class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/70">
+                <%= bottle_of_month.meeting.date.strftime("%B %Y") %>
               </div>
 
               <p class="text-[#E8D6A7]/90 text-sm sm:text-base small-caps tracking-widest">
@@ -39,7 +34,8 @@
               </h3>
 
               <p class="mt-2 text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
-                My rating: <%= bottle_of_month.user_rating(current_user)&.score || "—" %>
+                My Rating: <%= bottle_of_month.user_rating(current_user)&.score || "—" %>
+                · Final Score: <%= bottle_of_month.average_rating || "—" %>
               </p>
             </div>
 
@@ -51,8 +47,6 @@
               </svg>
             </div>
           </div>
-
-          <div class="pointer-events-none absolute left-6 right-6 bottom-6 h-px bg-lagavulin-gold/20"></div>
         </div>
       <% end %>
     </div>
@@ -76,9 +70,8 @@
     <div class="space-y-4">
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 class="text-[#E8D6A7] text-xl sm:text-2xl font-semibold tracking-wide">Archive</h2>
           <p class="mt-1 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60">
-            <span data-bottle-filter-target="count"><%= bottles_for_list.count %></span> shown
+            <span data-bottle-filter-target="count"><%= bottles_for_list.count %></span> bottles shown
           </p>
         </div>
 
