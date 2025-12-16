@@ -4,13 +4,15 @@
     class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
     style="background-image: url(<%= asset_path 'charredoak.png' %>);">
   </div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/70 via-[#0f2a23]/40 to-[#0f2a23]/10"></div>
+
 
   <div class="relative z-10 mx-auto w-full max-w-4xl px-16 py-16">
     <div class="mb-6 flex items-center justify-between text-lg font-medium uppercase tracking-[0.22em] text-lagavulin-gold/80">
       <span>Bottle Profile</span>
 
-      <%= link_to "Back to Meeting",
-            meeting_path(@bottle.meeting),
+      <%= link_to "Back to Archive",
+            archives_path,
             class: "hover:text-lagavulin-gold" %>
     </div>
     <header class="mb-8">

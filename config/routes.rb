@@ -5,9 +5,8 @@ Rails.application.routes.draw do
   resources :meetings do
     resources :bottles
   end
+
   resources :archives, only: [:index]
-
-
   resources :bottles
   resources :ratings
   

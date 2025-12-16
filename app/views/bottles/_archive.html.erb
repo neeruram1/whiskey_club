@@ -1,17 +1,20 @@
 <% bottle_of_month = bottles.max_by { |b| b.meeting.date } %>
 <% bottles_for_list = bottle_of_month ? bottles.reject { |b| b.id == bottle_of_month.id } : bottles %>
 
-<div data-controller="bottle-filter" class="mb-12 space-y-10">
+<div class="space-y-10">
 
-  <!-- Featured: Bottle of the Month (above everything, not filterable) -->
+  <!-- Featured: Bottle of the Month (not filterable) -->
   <% if bottle_of_month.present? %>
     <div class="space-y-2">
+      <p class="text-xs tracking-[0.32em] uppercase text-[#E8D6A7]/60">Featured</p>
+
       <%= link_to bottle_path(bottle_of_month), class: "block group" do %>
         <div class="relative overflow-hidden rounded-3xl border border-lagavulin-gold/55 bg-black/25 p-6 sm:p-8
                     shadow-xl shadow-black/50 transition group-hover:bg-black/35">
 
-          <!-- subtle glow -->
           <div class="pointer-events-none absolute -inset-24 bg-[radial-gradient(circle,rgba(201,169,104,0.18),transparent_60%)] opacity-90"></div>
+          <div class="pointer-events-none absolute left-6 right-6 top-6 h-px bg-lagavulin-gold/35"></div>
+
           <div class="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div class="space-y-2">
               <div class="flex flex-wrap items-center gap-3">
@@ -19,7 +22,7 @@
                              border border-lagavulin-gold/70 bg-lagavulin-gold/15
                              px-3 py-1 text-[0.7rem] tracking-[0.28em] uppercase
                              text-lagavulin-gold">
-                  Current Bottle of the Month
+                  Bottle of the Month
                 </span>
 
                 <span class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/70">
@@ -35,11 +38,8 @@
                 <%= bottle_of_month.name %>
               </h3>
 
-              <p class="mt-2 text-[#E8D6A7]/70 text-xs small-caps sm:text-sm tracking-widest">
-                my rating: <%= bottle_of_month.user_rating(current_user)&.score || "—" %>
-              </p>
-              <p class="mt-1 text-xs sm:text-sm small-caps text-[#E8D6A7]/60 tracking-widest">
-                Average Club Rating: <%= bottle_of_month.average_rating || "—" %>
+              <p class="mt-2 text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+                My rating: <%= bottle_of_month.user_rating(current_user)&.score || "—" %>
               </p>
             </div>
 
@@ -52,239 +52,265 @@
             </div>
           </div>
 
+          <div class="pointer-events-none absolute left-6 right-6 bottom-6 h-px bg-lagavulin-gold/20"></div>
         </div>
       <% end %>
     </div>
   <% end %>
 
-  <!-- Header: title + search + sort + filters -->
-  <div class="space-y-4">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <p class="mt-1 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60">
-          <span data-bottle-filter-target="count"><%= bottles_for_list.count %></span> bottles shown
-        </p>
+  <div class="flex items-center">
+  <%= link_to root_path,
+        class: "inline-flex items-center gap-2 text-xs tracking-[0.3em] uppercase
+                text-[#E8D6A7]/70 hover:text-lagavulin-gold transition" do %>
+    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Back
+  <% end %>
+</div>
+
+  <!-- Bottle Archive UI -->
+  <div data-controller="bottle-filter" class="space-y-6">
+
+    <!-- Header: title + search + sort + filters -->
+    <div class="space-y-4">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 class="text-[#E8D6A7] text-xl sm:text-2xl font-semibold tracking-wide">Archive</h2>
+          <p class="mt-1 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60">
+            <span data-bottle-filter-target="count"><%= bottles_for_list.count %></span> shown
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+
+          <!-- Search -->
+          <div class="w-full sm:w-[18rem]">
+            <input
+              type="search"
+              placeholder="Search distillery or bottle…"
+              data-bottle-filter-target="query"
+              data-action="input->bottle-filter#filter"
+              class="w-full rounded-xl border border-lagavulin-gold/25 bg-black/20
+                     px-3 py-2 text-sm text-[#E8D6A7] placeholder:text-[#E8D6A7]/40
+                     focus:outline-none focus:ring-4 focus:ring-lagavulin-gold/15 focus:border-lagavulin-gold/50"
+            />
+          </div>
+
+          <!-- Sort -->
+          <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm tracking-widest uppercase">
+            <% [
+              ["Newest", "date_desc"],
+              ["Highest Rated", "rating_desc"],
+              ["A–Z", "distillery_asc"]
+            ].each do |label, value| %>
+              <button
+                type="button"
+                data-bottle-filter-target="sortButton"
+                data-sort-value="<%= value %>"
+                data-action="click->bottle-filter#sort"
+                class="border-b border-transparent pb-1 text-[#E8D6A7]/70
+                       hover:text-lagavulin-gold hover:border-lagavulin-gold/40 transition-colors"
+              >
+                <%= label %>
+              </button>
+            <% end %>
+          </div>
+
+          <!-- Filters toggle -->
+          <button
+            type="button"
+            data-bottle-filter-target="refineToggle"
+            data-action="click->bottle-filter#toggleRefine"
+            class="shrink-0 inline-flex items-center gap-2 rounded-full
+                   border border-lagavulin-gold/25 bg-black/15
+                   px-3 py-2 text-xs tracking-[0.28em] uppercase text-[#E8D6A7]/75
+                   hover:text-lagavulin-gold hover:border-lagavulin-gold/50 transition"
+          >
+            <span data-bottle-filter-target="refineLabel">Filters</span>
+            <svg data-bottle-filter-target="refineChevron" class="h-3.5 w-3.5 opacity-80 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+      <!-- Filter chips (filters only) -->
+      <div data-bottle-filter-target="chipsRow" class="hidden flex flex-wrap items-center gap-2">
+        <p class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/50 mr-2">Active:</p>
 
-        <!-- Search -->
-        <div class="w-full sm:w-[18rem]">
-          <input
-            type="search"
-            placeholder="Search distillery or bottle…"
-            data-bottle-filter-target="query"
-            data-action="input->bottle-filter#filter"
-            class="w-full rounded-xl border border-lagavulin-gold/25 bg-black/20
-                   px-3 py-2 text-sm text-[#E8D6A7] placeholder:text-[#E8D6A7]/40
-                   focus:outline-none focus:ring-4 focus:ring-lagavulin-gold/15 focus:border-lagavulin-gold/50"
-          />
-        </div>
-
-        <!-- Sort (primary) -->
-        <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm tracking-widest uppercase">
-          <% [
-            ["Newest", "date_desc"],
-            ["Highest Rated", "rating_desc"],
-            ["A–Z", "distillery_asc"]
-          ].each do |label, value| %>
-            <button
-              type="button"
-              data-bottle-filter-target="sortButton"
-              data-sort-value="<%= value %>"
-              data-action="click->bottle-filter#sort"
-              class="border-b border-transparent pb-1 text-[#E8D6A7]/70
-                     hover:text-lagavulin-gold hover:border-lagavulin-gold/40 transition-colors"
-            >
-              <%= label %>
-            </button>
-          <% end %>
-        </div>
-
-        <!-- Filters (clearer) -->
         <button
           type="button"
-          data-bottle-filter-target="refineToggle"
-          data-action="click->bottle-filter#toggleRefine"
-          class="shrink-0 inline-flex items-center gap-2 rounded-full
-                 border border-lagavulin-gold/25 bg-black/15
-                 px-3 py-2 text-xs tracking-[0.28em] uppercase text-[#E8D6A7]/75
-                 hover:text-lagavulin-gold hover:border-lagavulin-gold/50 transition"
+          data-bottle-filter-target="chipDistillery"
+          data-filter-key="distillery"
+          data-action="click->bottle-filter#clearOne"
+          class="hidden inline-flex items-center gap-2 rounded-full
+                 border border-lagavulin-gold/30 bg-black/15
+                 px-3 py-1 text-[0.7rem] tracking-[0.22em] uppercase text-[#E8D6A7]/80
+                 hover:text-lagavulin-gold hover:border-lagavulin-gold/60 transition"
         >
-          <span data-bottle-filter-target="refineLabel">Filters</span>
-          <svg data-bottle-filter-target="refineChevron" class="h-3.5 w-3.5 opacity-80 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-          </svg>
+          <span data-bottle-filter-target="chipDistilleryText"></span>
+          <span class="text-[#E8D6A7]/50">×</span>
+        </button>
+
+        <button
+          type="button"
+          data-bottle-filter-target="chipRating"
+          data-filter-key="rating"
+          data-action="click->bottle-filter#clearOne"
+          class="hidden inline-flex items-center gap-2 rounded-full
+                 border border-lagavulin-gold/30 bg-black/15
+                 px-3 py-1 text-[0.7rem] tracking-[0.22em] uppercase text-[#E8D6A7]/80
+                 hover:text-lagavulin-gold hover:border-lagavulin-gold/60 transition"
+        >
+          <span data-bottle-filter-target="chipRatingText"></span>
+          <span class="text-[#E8D6A7]/50">×</span>
+        </button>
+
+        <button
+          type="button"
+          data-bottle-filter-target="chipYear"
+          data-filter-key="year"
+          data-action="click->bottle-filter#clearOne"
+          class="hidden inline-flex items-center gap-2 rounded-full
+                 border border-lagavulin-gold/30 bg-black/15
+                 px-3 py-1 text-[0.7rem] tracking-[0.22em] uppercase text-[#E8D6A7]/80
+                 hover:text-lagavulin-gold hover:border-lagavulin-gold/60 transition"
+        >
+          <span data-bottle-filter-target="chipYearText"></span>
+          <span class="text-[#E8D6A7]/50">×</span>
+        </button>
+
+        <button
+          type="button"
+          data-bottle-filter-target="clearAll"
+          data-action="click->bottle-filter#clearAll"
+          class="ml-1 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60
+                 hover:text-lagavulin-gold transition"
+        >
+          Clear all
         </button>
       </div>
-    </div>
 
-    <!-- Active filter chips (hidden unless active) -->
-    <div data-bottle-filter-target="chipsRow" class="hidden flex flex-wrap items-center gap-2">
-      <p class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/50 mr-2">Active:</p>
-
-      <button
-        type="button"
-        data-bottle-filter-target="chipDistillery"
-        data-filter-key="distillery"
-        data-action="click->bottle-filter#clearOne"
-        class="hidden inline-flex items-center gap-2 rounded-full
-               border border-lagavulin-gold/30 bg-black/15
-               px-3 py-1 text-[0.7rem] tracking-[0.22em] uppercase text-[#E8D6A7]/80
-               hover:text-lagavulin-gold hover:border-lagavulin-gold/60 transition"
+      <!-- Filters panel -->
+      <div
+        data-bottle-filter-target="refinePanel"
+        class="hidden rounded-2xl border border-lagavulin-gold/20 bg-black/10 p-4 sm:p-5"
       >
-        <span data-bottle-filter-target="chipDistilleryText"></span>
-        <span class="text-[#E8D6A7]/50">×</span>
-      </button>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <p class="mb-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">Distillery</p>
+            <select
+              data-bottle-filter-target="distillery"
+              data-action="change->bottle-filter#filter"
+              class="w-full bg-transparent border-b border-lagavulin-gold/40
+                     text-[#E8D6A7] uppercase tracking-widest
+                     focus:outline-none focus:border-lagavulin-gold"
+            >
+              <option value="">All</option>
+              <% bottles_for_list.map(&:distillery).uniq.sort.each do |distillery| %>
+                <option value="<%= distillery %>"><%= distillery %></option>
+              <% end %>
+            </select>
+          </div>
 
-      <button
-        type="button"
-        data-bottle-filter-target="chipRating"
-        data-filter-key="rating"
-        data-action="click->bottle-filter#clearOne"
-        class="hidden inline-flex items-center gap-2 rounded-full
-               border border-lagavulin-gold/30 bg-black/15
-               px-3 py-1 text-[0.7rem] tracking-[0.22em] uppercase text-[#E8D6A7]/80
-               hover:text-lagavulin-gold hover:border-lagavulin-gold/60 transition"
-      >
-        <span data-bottle-filter-target="chipRatingText"></span>
-        <span class="text-[#E8D6A7]/50">×</span>
-      </button>
+          <div>
+            <p class="mb-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">My rating</p>
+            <select
+              data-bottle-filter-target="rating"
+              data-action="change->bottle-filter#filter"
+              class="w-full bg-transparent border-b border-lagavulin-gold/40
+                     text-[#E8D6A7] uppercase tracking-widest
+                     focus:outline-none focus:border-lagavulin-gold"
+            >
+              <option value="">Any</option>
+              <% (1..5).each do |r| %>
+                <option value="<%= r %>"><%= r %>+</option>
+              <% end %>
+            </select>
+          </div>
 
-      <button
-        type="button"
-        data-bottle-filter-target="chipYear"
-        data-filter-key="year"
-        data-action="click->bottle-filter#clearOne"
-        class="hidden inline-flex items-center gap-2 rounded-full
-               border border-lagavulin-gold/30 bg-black/15
-               px-3 py-1 text-[0.7rem] tracking-[0.22em] uppercase text-[#E8D6A7]/80
-               hover:text-lagavulin-gold hover:border-lagavulin-gold/60 transition"
-      >
-        <span data-bottle-filter-target="chipYearText"></span>
-        <span class="text-[#E8D6A7]/50">×</span>
-      </button>
-
-      <button
-        type="button"
-        data-bottle-filter-target="clearAll"
-        data-action="click->bottle-filter#clearAll"
-        class="ml-1 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60
-               hover:text-lagavulin-gold transition"
-      >
-        Clear all
-      </button>
-    </div>
-
-    <!-- Filters panel -->
-    <div
-      data-bottle-filter-target="refinePanel"
-      class="hidden rounded-2xl border border-lagavulin-gold/20 bg-black/10 p-4 sm:p-5"
-    >
-      <div class="grid gap-4 sm:grid-cols-3">
-        <!-- First filter gets focus when opening -->
-        <div>
-          <p class="mb-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">Distillery</p>
-          <select
-            data-bottle-filter-target="distillery"
-            data-action="change->bottle-filter#filter"
-            class="w-full bg-transparent border-b border-lagavulin-gold/40
-                   text-[#E8D6A7] uppercase tracking-widest
-                   focus:outline-none focus:border-lagavulin-gold"
-          >
-            <option value="">All</option>
-            <% bottles.map(&:distillery).uniq.sort.each do |distillery| %>
-              <option value="<%= distillery %>"><%= distillery %></option>
-            <% end %>
-          </select>
-        </div>
-
-        <div>
-          <p class="mb-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">My Rating</p>
-          <select
-            data-bottle-filter-target="rating"
-            data-action="change->bottle-filter#filter"
-            class="w-full bg-transparent border-b border-lagavulin-gold/40
-                   text-[#E8D6A7] uppercase tracking-widest
-                   focus:outline-none focus:border-lagavulin-gold"
-          >
-            <option value="">Any</option>
-            <% (1..5).each do |r| %>
-              <option value="<%= r %>"><%= r %>+</option>
-            <% end %>
-          </select>
-        </div>
-
-        <div>
-          <p class="mb-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">Year</p>
-          <select
-            data-bottle-filter-target="year"
-            data-action="change->bottle-filter#filter"
-            class="w-full bg-transparent border-b border-lagavulin-gold/40
-                   text-[#E8D6A7] uppercase tracking-widest
-                   focus:outline-none focus:border-lagavulin-gold"
-          >
-            <option value="">All</option>
-            <% bottles.map { |b| b.meeting.date.year }.uniq.sort.reverse.each do |year| %>
-              <option value="<%= year %>"><%= year %></option>
-            <% end %>
-          </select>
+          <div>
+            <p class="mb-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">Year</p>
+            <select
+              data-bottle-filter-target="year"
+              data-action="change->bottle-filter#filter"
+              class="w-full bg-transparent border-b border-lagavulin-gold/40
+                     text-[#E8D6A7] uppercase tracking-widest
+                     focus:outline-none focus:border-lagavulin-gold"
+            >
+              <option value="">All</option>
+              <% bottles_for_list.map { |b| b.meeting.date.year }.uniq.sort.reverse.each do |year| %>
+                <option value="<%= year %>"><%= year %></option>
+              <% end %>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- List -->
-  <ul data-bottle-filter-target="list" class="space-y-4 pl-2 sm:pl-4">
-    <% bottles_for_list.each do |bottle| %>
-      <li
-        data-bottle-filter-target="item"
-        data-name="<%= bottle.name %>"
-        data-distillery="<%= bottle.distillery %>"
-        data-rating="<%= bottle.user_rating(current_user)&.score || "" %>"
-        data-year="<%= bottle.meeting.date.year %>"
-        data-date="<%= bottle.meeting.date.to_time.to_i %>"
-        class="relative"
-      >
-        <%= link_to bottle_path(bottle), class: "block group" do %>
-          <div class="flex">
-            <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+    <!-- List with Turbo Peek -->
+    <div data-controller="archive-peek">
+      <ul data-archive-peek-target="list" data-bottle-filter-target="list" class="space-y-4 pl-2 sm:pl-4">
+        <% bottles_for_list.each do |bottle| %>
+          <li
+            data-bottle-filter-target="item"
+            data-name="<%= bottle.name %>"
+            data-distillery="<%= bottle.distillery %>"
+            data-rating="<%= bottle.user_rating(current_user)&.score || "" %>"
+            data-year="<%= bottle.meeting.date.year %>"
+            data-date="<%= bottle.meeting.date.to_time.to_i %>"
+            class="relative"
+          >
+            <turbo-frame id="bottle_<%= bottle.id %>">
+              <%= link_to bottle_path(bottle, peek: 1),
+                    data: {
+                      turbo_frame: "bottle_#{bottle.id}",
+                      action: "click->archive-peek#open",
+                      archive_peek_frame_id_value: "bottle_#{bottle.id}"
+                    },
+                    class: "block group" do %>
 
-            <div class="flex-1 ml-3 rounded-xl bg-black/20 px-4 py-4 sm:px-5
-                        shadow-sm shadow-black/40 transition group-hover:bg-black/30">
-              <div class="space-y-1">
-                <p class="text-[#E8D6A7] text-sm sm:text-base small-caps tracking-widest">
-                  <%= bottle.distillery %>
-                </p>
-                <p class="text-[#E8D6A7] text-base sm:text-lg font-semibold tracking-wide">
-                  <%= bottle.name %>
-                </p>
-                <p class="text-[#E8D6A7]/70 text-xs small-caps sm:text-sm tracking-widest">
-                  <%= bottle.meeting.date.strftime("%B %Y") %>
-                  · My Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
-                  · Average Club Rating: <%= bottle.average_rating || "—" %>
-                </p>
-              </div>
-            </div>
+                <div class="flex">
+                  <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
 
-            <div class="ml-3 flex items-center text-lagavulin-gold/60 transition group-hover:text-lagavulin-gold">
-              <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
-                   fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-              </svg>
-            </div>
-          </div>
+                  <div class="flex-1 ml-3 rounded-xl bg-black/20 px-4 py-4 sm:px-5
+                              shadow-sm shadow-black/40 transition group-hover:bg-black/30
+                              group-active:scale-[0.985]">
+                    <div class="space-y-1">
+                      <p class="text-[#E8D6A7] text-sm sm:text-base small-caps tracking-widest">
+                        <%= bottle.distillery %>
+                      </p>
+                      <p class="text-[#E8D6A7] text-base sm:text-lg font-semibold tracking-wide">
+                        <%= bottle.name %>
+                      </p>
+                      <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+                        <%= bottle.meeting.date.strftime("%B %Y") %>
+                        · Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="ml-3 flex items-center text-lagavulin-gold/60 transition group-hover:text-lagavulin-gold">
+                    <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                         fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </div>
+                </div>
+
+              <% end %>
+            </turbo-frame>
+          </li>
         <% end %>
-      </li>
-    <% end %>
-  </ul>
+      </ul>
 
-  <!-- Empty state -->
-  <p
-    data-bottle-filter-target="empty"
-    class="hidden pt-10 text-center text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60"
-  >
-    No bottles match your search/filters.
-  </p>
+      <!-- Empty state -->
+      <p data-bottle-filter-target="empty"
+         class="hidden pt-10 text-center text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60">
+        No bottles match your search/filters.
+      </p>
+    </div>
 
+  </div>
 </div>

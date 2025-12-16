@@ -22,7 +22,16 @@ class BottlesController < ApplicationController
   end
 
   def edit; end
-  def show; end
+  
+  def show
+    @bottle = Bottle.includes(:meeting).find(params[:id])
+
+    if params[:peek] == "1"
+      render partial: "bottles/peek", locals: { bottle: @bottle }
+    elsif params[:peek] == "0"
+      render partial: "bottles/row", locals: { bottle: @bottle }
+    end
+  end
 
   def update
     if @bottle.update(bottle_params)

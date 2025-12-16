@@ -1,0 +1,37 @@
+<turbo-frame id="bottle_<%= bottle.id %>">
+  <%= link_to bottle_path(bottle, peek: 1),
+        data: { turbo_frame: "bottle_#{bottle.id}" },
+        class: "block group" do %>
+
+    <div class="flex">
+      <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+
+      <div class="flex-1 ml-3 rounded-xl bg-black/20 px-4 py-4 sm:px-5
+                  shadow-sm shadow-black/40 transition group-hover:bg-black/30
+                  group-active:scale-[0.985]">
+        <div class="space-y-1">
+          <p class="text-[#E8D6A7] text-sm sm:text-base small-caps tracking-widest">
+            <%= bottle.distillery %>
+          </p>
+
+          <p class="text-[#E8D6A7] text-base sm:text-lg font-semibold tracking-wide">
+            <%= bottle.name %>
+          </p>
+
+          <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+            <%= bottle.meeting.date.strftime("%B %Y") %>
+            · Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
+          </p>
+        </div>
+      </div>
+
+      <div class="ml-3 flex items-center text-lagavulin-gold/60 transition group-hover:text-lagavulin-gold">
+        <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </div>
+
+  <% end %>
+</turbo-frame>
