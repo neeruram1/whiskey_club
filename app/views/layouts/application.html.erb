@@ -39,22 +39,38 @@
         <% unless hide_shell %>
           <header class="sticky top-0 z-40 border-b border-lagavulin-gold/30 bg-lagavulin-green/70 supports-[backdrop-filter]:backdrop-blur-md" role="banner">
             <div class="mx-auto max-w-screen-xl px-4 py-3 sm:px-6">
-              <nav class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-label="Main navigation">
-                <!-- Left: wordmark -->
-                <%= link_to root_path, class: "group inline-flex items-baseline gap-2" do %>
-                  <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
-                    Collective Spirits
-                  </span>
-                  <span class="font-of text-base sm:text-lg leading-none text-lagavulin-gold/80 relative -top-[1px]">
-                    of
-                  </span>
-                  <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
-                    Montclair
-                  </span>
-                <% end %>
+              <nav class="sm:flex sm:items-center sm:justify-between" aria-label="Main navigation">
+                <!-- Mobile header with hamburger -->
+                <div class="flex items-center justify-between sm:flex-initial">
+                  <!-- Left: wordmark -->
+                  <%= link_to root_path, class: "group inline-flex items-baseline gap-2" do %>
+                    <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                      Collective Spirits
+                    </span>
+                    <span class="font-of text-base sm:text-lg leading-none text-lagavulin-gold/80 relative -top-[1px]">
+                      of
+                    </span>
+                    <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                      Montclair
+                    </span>
+                  <% end %>
 
-                <!-- Right: nav -->
-                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6">
+                  <!-- Mobile menu button -->
+                  <button type="button" 
+                          class="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
+                          aria-controls="mobile-menu" 
+                          aria-expanded="false"
+                          onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
+                    <span class="sr-only">Open main menu</span>
+                    <!-- Icon when menu is closed -->
+                    <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Desktop nav (hidden on mobile) -->
+                <div class="hidden sm:flex sm:items-center sm:gap-x-6">
                   <%= link_to "Home", root_path, class: "link-mini" %>
                   <%= link_to "Bottle Archive", archives_path, class: "link-mini" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "link-mini" %>
@@ -68,6 +84,28 @@
                           method: :delete,
                           form: { class: "inline" },
                           class: "btn-mini",
+                          data: { turbo: false, turbo_confirm: "Log out of your account?" },
+                          aria: { label: "Log out" } do %>
+                      Log out
+                    <% end %>
+                  <% end %>
+                </div>
+
+                <!-- Mobile menu (hidden by default) -->
+                <div class="hidden sm:hidden mt-3 space-y-1" id="mobile-menu">
+                  <%= link_to "Home", root_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Bottle Archive", archives_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Tasting Archive", meetings_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Stats", stats_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <a href="<%= new_meeting_path %>" class="block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Schedule</a>
+
+                  <% if user_signed_in? %>
+                    <a href="<%= edit_user_registration_path %>" class="block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Edit account</a>
+
+                    <%= button_to destroy_user_session_path,
+                          method: :delete,
+                          form: { class: "block w-full text-left" },
+                          class: "w-full px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition",
                           data: { turbo: false, turbo_confirm: "Log out of your account?" },
                           aria: { label: "Log out" } do %>
                       Log out
