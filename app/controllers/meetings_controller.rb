@@ -2,33 +2,67 @@ class MeetingsController < ApplicationController
   before_action :find_meeting, only: [:show, :edit, :update]
   before_action :find_rating, only: [:show]
 
+  def index
+    @meetings = Meeting.includes(:bottle_bringer, bottles: :ratings)
+                       .order(date: :desc)
+    
+    # Track which bottles user has rated - optimized to avoid N+1
+    bottle_ids = @meetings.flat_map { |m| m.bottles.map(&:id) }.compact
+    @user_ratings = Rating.where(user: current_user, bottle_id: bottle_ids)
+                          .index_by(&:bottle_id)
+  end
+
   def new
     @meeting = Meeting.new
     @users = User.all
+    render layout: !turbo_frame_request?
   end
 
   def create
     @meeting = Meeting.new(meeting_params)
     
     if @meeting.save
-      redirect_to root_path, notice: 'Meeting scheduled successfully.'
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to meeting_path(@meeting), notice: 'Meeting scheduled successfully.' }
+      end
     else
       @users = User.all
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, layout: !turbo_frame_request?
     end
   end
 
   def show
     @bottle = @meeting&.bottle
+    @attendees = @meeting.attendees.includes(:ratings)
+    
+    # Calculate meeting stats and load ratings
+    if @bottle.present?
+      @current_user_rating = current_user ? @bottle.ratings.find { |r| r.user_id == current_user.id } : nil
+      @all_ratings = @bottle.ratings.includes(:user).order(score: :desc, created_at: :desc)
+      @meeting_avg_rating = @bottle.ratings.average(:score)&.round(1)
+      @total_ratings = @bottle.ratings.count
+    end
+
+    # Handle peek parameter for archive partial rendering
+    if params[:peek] == "1"
+      render partial: "bottles/peek", locals: { bottle: @bottle }
+    elsif params[:peek] == "0"
+      render partial: "bottles/row", locals: { bottle: @bottle }
+    end
   end
 
   def edit
     @users = User.all
+    render layout: !turbo_frame_request?
   end
 
   def update
     if @meeting.update(meeting_params)
-      redirect_to meeting_path(@meeting), notice: 'Meeting updated successfully.'
+      respond_to do |format|
+        format.turbo_stream { redirect_to meeting_path(@meeting), notice: 'Meeting updated successfully.' }
+        format.html { redirect_to meeting_path(@meeting), notice: 'Meeting updated successfully.' }
+      end
     else
       @users = User.all
       render :edit, status: :unprocessable_entity
@@ -42,18 +76,18 @@ class MeetingsController < ApplicationController
   end
 
   def find_rating
-    return if @meeting&.bottle&.ratings&.empty?
-    @user_rating = @meeting&.bottle&.ratings&.find_by(user: current_user)&.score
+    return unless @meeting&.bottle&.ratings&.any?
+    @user_rating = @meeting.bottle.ratings.find { |r| r.user_id == current_user.id }&.score
   end
 
 
   private
 
   def meeting_params
-    params.require(:meeting).permit(:bottle_bringer_id, :date)
+    params.require(:meeting).permit(:bottle_bringer_id, :date, :is_flight)
   end
 
   def find_meeting
-    @meeting = Meeting.find(params[:id])
+    @meeting = Meeting.includes({ bottles: { ratings: :user } }, :bottle_bringer).find(params[:id])
   end
 end

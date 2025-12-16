@@ -5,18 +5,10 @@
       <%= link_to meeting_path(meeting),
             class: "block group" do %>
 
-        <div class="flex">
-
-          <!-- Animated gold accent -->
-          <div class="w-1 bg-lagavulin-gold/30 rounded-l-xl
-                      transition-all duration-300
-                      group-hover:bg-lagavulin-gold group-active:bg-lagavulin-gold/80"></div>
-
-          <!-- Card body -->
-          <div class="flex-1 rounded-r-xl bg-black/25 px-4 py-4 shadow-md shadow-black/40
-                      transition-all duration-300
-                      group-hover:bg-black/35 group-hover:shadow-black/60
-                      group-active:scale-[0.98]">
+        <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 px-4 py-4 sm:px-6 shadow-lg shadow-black/40
+                    transition-all duration-200
+                    group-hover:border-lagavulin-gold/50 group-hover:bg-black/35 group-hover:shadow-xl group-hover:shadow-black/50
+                    group-active:scale-[0.98]">
 
             <!-- Inner layout -->
             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -27,9 +19,15 @@
                   <%= meeting.date.strftime("%B %d, %Y") %>
                 </p>
 
-                <p class="mt-1 text-sm sm:text-base small-caps font-medium text-[#E8D6A7]/85 leading-snug">
-                  This month's selection by <%= meeting.bottle_bringer.full_name %>
-                </p>
+                <% if meeting.bottle_bringer.present? %>
+                  <p class="mt-1 text-sm sm:text-base small-caps font-medium text-[#E8D6A7]/85 leading-snug">
+                    This month's selection by <%= meeting.bottle_bringer.full_name %>
+                  </p>
+                <% elsif meeting.flight_night? %>
+                  <p class="mt-1 text-sm sm:text-base small-caps font-medium text-[#E8D6A7]/85 leading-snug">
+                    ✈️ Whiskey Flight Night
+                  </p>
+                <% end %>
               </div>
 
               <!-- Arrow indicator -->
@@ -43,8 +41,6 @@
 
             </div>
           </div>
-
-        </div>
       <% end %>
 
     </li>

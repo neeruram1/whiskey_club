@@ -1,0 +1,14 @@
+<%# Shared background component with image and gradient %>
+<%# Usage: <%= render "shared/page_background" %>
+<%# Or custom opacity: <%= render "shared/page_background", gradient_opacity: 80 %>
+
+<% gradient_opacity = local_assigns.fetch(:gradient_opacity, 70) %>
+
+<!-- Background image -->
+<div
+  class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
+  style="background-image: url(<%= asset_path 'charredoak.png' %>);">
+</div>
+
+<!-- Gradient overlay -->
+<%= render "shared/gradient_overlay", opacity: gradient_opacity %>

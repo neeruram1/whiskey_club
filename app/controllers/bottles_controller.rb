@@ -8,11 +8,13 @@ class BottlesController < ApplicationController
   end
 
   def new
-    @bottle = @meeting.build_bottle
+    @bottle = @meeting.bottles.build(user: current_user)
+    render layout: !turbo_frame_request?
   end
 
   def create
-    @bottle = @meeting.build_bottle(bottle_params)
+    @bottle = @meeting.bottles.build(bottle_params)
+    @bottle.user ||= current_user
 
     if @bottle.save
       redirect_to meeting_path(@meeting), notice: "Bottle added."
@@ -21,11 +23,14 @@ class BottlesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    render layout: !turbo_frame_request?
+  end
   
   def show
-    @bottle = Bottle.includes(:meeting).find(params[:id])
+    # Ratings already loaded via set_bottle and eager loading
     @current_user_rating = current_user ? @bottle.ratings.find { |r| r.user_id == current_user.id } : nil
+    @all_ratings = @bottle.ratings.sort_by { |r| [-r.score, r.created_at] }
 
     if params[:peek] == "1"
       render partial: "bottles/peek", locals: { bottle: @bottle }
@@ -36,7 +41,10 @@ class BottlesController < ApplicationController
 
   def update
     if @bottle.update(bottle_params)
-      redirect_to meeting_path(@meeting), notice: "Bottle updated."
+      respond_to do |format|
+        format.turbo_stream { redirect_to meeting_path(@meeting), notice: "Bottle updated." }
+        format.html { redirect_to meeting_path(@meeting), notice: "Bottle updated." }
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -58,7 +66,7 @@ class BottlesController < ApplicationController
   end
 
   def set_bottle
-    @bottle = Bottle.find(params[:id])
+    @bottle = Bottle.includes(:meeting, ratings: :user).find(params[:id])
   end
 
   def bottle_params

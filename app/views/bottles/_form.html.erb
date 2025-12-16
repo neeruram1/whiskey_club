@@ -1,54 +1,82 @@
 <%= form_with model: [meeting, bottle], local: true do |f| %>
   <div class="space-y-6">
-  <div>
-    This bottle is being added to the <strong><%= link_to meeting.date.strftime("%B %Y"), meeting_path(meeting) %> </strong> meeting.
-  </div>
+    <!-- Context card -->
+    <div class="rounded-xl border border-lagavulin-green/30 bg-lagavulin-green/5 px-4 py-3">
+      <p class="body-sm text-lagavulin-green">
+        Adding bottle to <%= link_to meeting.date.strftime("%B %Y"), meeting_path(meeting), class: "font-semibold hover:underline" %> tasting night
+      </p>
+      <% if meeting.bottle_bringer.present? %>
+        <p class="mt-1 meta-sm text-lagavulin-green/70">
+          Guided by <strong><%= meeting.bottle_bringer.full_name %></strong>
+        </p>
+      <% elsif meeting.flight_night? %>
+        <p class="mt-1 meta-sm text-lagavulin-green/70">
+          ✈️ <strong>Whiskey Flight Night</strong>
+        </p>
+      <% end %>
+    </div>
     <div>
-      <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-        <%= f.label :name, "Bottle Name", class: "sr-only" %>
-        Bottle Name
-      </label>
+      <%= f.label :name, class: form_label_classes %>
       <%= f.text_field :name,
-            placeholder: "Enter bottle name",
-            class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+            placeholder: "e.g., Lagavulin 16",
+            class: form_input_classes(errors_present: bottle.errors[:name].any?) %>
+      <%= form_error_message(bottle, :name) %>
     </div>
+    
     <div>
-      <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-        <%= f.label :distillery, "Distillery", class: "sr-only" %>
-        Distillery
-      </label>
+      <%= f.label :distillery, class: form_label_classes %>
       <%= f.text_field :distillery,
-            placeholder: "Enter distillery name",
-            class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+            placeholder: "e.g., Lagavulin",
+            class: form_input_classes(errors_present: bottle.errors[:distillery].any?) %>
+      <%= form_error_message(bottle, :distillery) %>
     </div>
+    
     <div>
-      <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-        <%= f.label :age, "Age", class: "sr-only" %>
-        Age
-      </label>
-      <%= f.number_field :age, min: 0, max: 100,
-            placeholder: "Enter age if applicable (years)",
-            class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <%= f.label :age, class: form_label_classes do %>
+        Age <span class="meta-xs text-lagavulin-green/60">(optional)</span>
+      <% end %>
+      <%= f.number_field :age, 
+            min: 0, max: 100,
+            placeholder: "Years aged",
+            class: form_input_classes %>
     </div>
+    
     <div>
-      <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-        <%= f.label :bottle_type, "Bottle Type", class: "sr-only" %>
-        Bottle Type
-      </label>
+      <%= f.label :bottle_type, class: form_label_classes do %>
+        Bottle Type <span class="meta-xs text-lagavulin-green/60">(optional)</span>
+      <% end %>
       <%= f.text_field :bottle_type,
-            placeholder: "Enter bottle type (e.g., Bourbon, Scotch, etc...)",
-            class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+            placeholder: "e.g., Single Malt Scotch, Bourbon",
+            class: form_input_classes %>
     </div>
-    <div>
+    
+    <% if meeting.flight_night? %>
+      <div>
+        <%= f.label :user_id, class: form_label_classes do %>
+          Brought by (Spirit Guide)
+        <% end %>
+        <%= f.select :user_id,
+              User.all.map { |user| [user.full_name, user.id] }, 
+              { include_blank: "Select a member" },
+              class: form_input_classes(errors_present: bottle.errors[:user_id].any?) %>
+        <%= form_error_message(bottle, :user_id) %>
+      </div>
+    <% else %>
       <%= f.hidden_field :user_id, value: meeting.bottle_bringer_id %>
-    </div>
+    <% end %>
 
-    <div>
-      This month’s pour comes courtesy of <strong><%= meeting.bottle_bringer.full_name %></strong>
-    </div>
 
-    <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
-      <%= f.submit "Save", class: "form-btn" %>
+    <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between">
+      <% if bottle.persisted? %>
+        <%= link_to "Cancel", meeting_path(meeting), 
+              class: form_cancel_button_classes,
+              data: { turbo_frame: "_top" } %>
+      <% else %>
+        <button type="button" data-action="modal#close" class="<%= form_cancel_button_classes %>">Cancel</button>
+      <% end %>
+      <%= f.submit (bottle.persisted? ? "Update Bottle" : "Add Bottle"), 
+            class: "form-btn order-1 sm:order-2",
+            data: { turbo_submits_with: (bottle.persisted? ? "Updating..." : "Saving...") } %>
     </div>
   </div>
 <% end %>

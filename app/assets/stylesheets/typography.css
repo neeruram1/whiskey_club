@@ -1,0 +1,100 @@
+/* Typography System - Clear visual hierarchy with distinct sizes */
+
+@layer utilities {
+  /* === LABELS === */
+  /* Tiny uppercase labels for specs/metadata */
+  .label-xs {
+    @apply text-[0.7rem] tracking-[0.3em] uppercase;
+  }
+  
+  /* Small uppercase labels for sections */
+  .label-sm {
+    @apply text-xs tracking-[0.28em] uppercase;
+  }
+  
+  /* Medium labels */
+  .label-base {
+    @apply text-sm tracking-widest uppercase;
+  }
+
+  /* === BODY TEXT === */
+  /* Regular paragraph text */
+  .body-xs {
+    @apply text-xs;
+  }
+  
+  .body-sm {
+    @apply text-sm;
+  }
+  
+  .body-base {
+    @apply text-base;
+  }
+
+  /* === HEADINGS === */
+  /* Section headers (small, bold, uppercase) */
+  .heading-section {
+    @apply text-sm font-bold tracking-widest uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Card/bottle titles in lists */
+  .heading-card {
+    @apply text-lg sm:text-xl tracking-wide font-semibold;
+    font-variant-caps: small-caps;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Page subheadings */
+  .heading-sub {
+    @apply text-xl sm:text-2xl tracking-wide font-semibold;
+    font-variant-caps: small-caps;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Page titles */
+  .heading-page {
+    @apply text-2xl sm:text-3xl tracking-[0.22em] font-bold;
+    font-variant-caps: small-caps;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Hero/main titles */
+  .heading-hero {
+    @apply text-3xl sm:text-5xl tracking-wide font-bold;
+    font-variant-caps: small-caps;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* === DATA/STATS === */
+  .stat-label {
+    @apply text-xs tracking-[0.28em] uppercase;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .stat-value {
+    @apply text-3xl font-bold;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .stat-value-sm {
+    @apply text-2xl font-semibold;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  /* === METADATA === */
+  /* Very small secondary info */
+  .meta-xs {
+    @apply text-[0.65rem] tracking-widest uppercase;
+  }
+  
+  /* Small secondary info */
+  .meta-sm {
+    @apply text-xs tracking-wide;
+  }
+  
+  /* Regular secondary info */
+  .meta-base {
+    @apply text-sm;
+  }
+}

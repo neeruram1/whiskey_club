@@ -1,44 +1,28 @@
-<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
-  <!-- Background image -->
-  <div
-    class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
-    style="background-image: url(<%= asset_path 'charredoak.png' %>);">
-  </div>
-
-  <!-- Gradient overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
-
+<div class="relative min-h-screen">
   <!-- Content -->
-
   <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
-  <%= render "shared/nav",
-      nav: nav_config(
-        label: "Bottle profile",
-        back_to: root_path,
-        links: [["Archive", archives_path]]
-      ) %>
-
+    <%= turbo_frame_tag "modal" %>
 
     <!-- Header -->
     <header class="mb-8 max-w-3xl space-y-3">
-      <p class="text-[#E8D6A7]/70 text-[0.7rem] sm:text-xs tracking-[0.32em] uppercase">
+      <p class="label-sm text-lagavulin-gold/80">
         <%= @bottle.distillery.presence || "Distillery" %>
       </p>
 
-      <h1 class="mt-2 text-lagavulin-gold small-caps text-2xl sm:text-3xl tracking-[0.22em] leading-tight">
+      <h1 class="mt-2 heading-page text-lagavulin-gold">
         <%= @bottle.name %>
       </h1>
 
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
-        <p class="text-[#E8D6A7]/65 text-xs sm:text-sm tracking-widest">
-          Tasted <span class="text-[#E8D6A7]/90"><%= @bottle.meeting.date.strftime("%B %d, %Y") %></span>
+        <p class="meta-sm text-lagavulin-gold/80">
+          Tasted <%= link_to date_with_friendly(@bottle.meeting.date), meeting_path(@bottle.meeting), class: "text-lagavulin-gold/90 hover:text-lagavulin-gold transition-colors underline decoration-lagavulin-gold/30 hover:decoration-lagavulin-gold" %>
         </p>
 
-        <span class="hidden sm:block text-[#E8D6A7]/35">•</span>
+        <span class="hidden sm:block text-lagavulin-gold/35">•</span>
 
-        <p class="text-[#E8D6A7]/55 text-[0.7rem] sm:text-xs tracking-[0.32em] uppercase">
-          Host:
-          <span class="text-[#E8D6A7]/80 tracking-widest normal-case sm:uppercase sm:tracking-[0.22em]">
+        <p class="label-sm text-lagavulin-gold/70">
+          Spirit Guide:
+          <span class="text-lagavulin-gold/80">
             <%= @bottle.meeting.bottle_bringer&.full_name || "—" %>
           </span>
         </p>
@@ -46,36 +30,36 @@
     </header>
 
     <!-- Main card -->
-    <section class="rounded-3xl border border-lagavulin-gold/28 bg-black/20 p-5 sm:p-7 md:p-10 shadow-2xl shadow-black/50 backdrop-blur-sm">
+    <section class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-5 sm:p-7 md:p-10 shadow-2xl shadow-black/50 backdrop-blur-sm">
 
       <!-- Specs -->
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">Style</p>
-          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+          <p class="label-xs text-lagavulin-gold/70">Style</p>
+          <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.bottle_type.presence || "—" %>
           </p>
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">Age</p>
-          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+          <p class="label-xs text-lagavulin-gold/70">Age</p>
+          <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.age.present? ? pluralize(@bottle.age, "year") : "—" %>
           </p>
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">Final score</p>
-          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+          <p class="label-xs text-lagavulin-gold/70" title="Average rating from all club members">Final score</p>
+          <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.average_rating.presence || "—" %>
           </p>
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">My rating</p>
-          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+          <p class="label-xs text-lagavulin-gold/70">My rating</p>
+          <p class="mt-2 body-base text-lagavulin-gold">
             <%= @current_user_rating&.score || "—" %>
-            <span class="text-[#E8D6A7]/55 text-[0.7rem] tracking-[0.28em] uppercase">/ 5</span>
+            <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
           </p>
         </div>
       </div>
@@ -91,12 +75,63 @@
       <!-- Divider -->
       <div class="my-8 h-px bg-lagavulin-gold/14"></div>
 
+      <!-- All Member Ratings -->
+      <% if @all_ratings.any? %>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-end justify-between">
+            <h2 class="heading-section text-lagavulin-gold">
+              Member Ratings
+            </h2>
+            <span class="meta-xs text-lagavulin-gold/60">
+              <%= pluralize(@all_ratings.count, 'rating') %>
+            </span>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <% @all_ratings.each do |rating| %>
+              <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-3 transition hover:bg-black/25 hover:border-lagavulin-gold/40">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <p class="body-base font-semibold text-lagavulin-gold">
+                      <%= rating.user.full_name %>
+                      <% if rating.user.id == current_user.id %>
+                        <span class="meta-xs text-lagavulin-gold/60">(You)</span>
+                      <% end %>
+                    </p>
+                  </div>
+                  <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
+                    <p class="text-sm font-bold text-lagavulin-gold">
+                      <%= rating.score %>
+                      <span class="text-lagavulin-gold/60 font-normal">/5</span>
+                    </p>
+                  </div>
+                </div>
+
+                <% if rating.comment.present? %>
+                  <p class="body-sm text-lagavulin-gold/70 leading-relaxed">
+                    "<%= rating.comment %>"
+                  </p>
+                <% else %>
+                  <p class="meta-xs italic text-lagavulin-gold/50">
+                    No comment
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-8 h-px bg-lagavulin-gold/14"></div>
+      <% end %>
+
       <!-- Actions -->
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex flex-wrap gap-x-6 gap-y-2 pt-2">
           <%= link_to "Edit bottle",
                 edit_bottle_path(@bottle),
-                class: "btn-mini" %>
+                class: "btn-mini",
+                data: { turbo_frame: "modal" } %>
         </div>
         <div class="pt-3">
             <%= link_to "Tasting Night", meeting_path(@bottle.meeting), class: "link-mini w-full sm:w-auto" %>

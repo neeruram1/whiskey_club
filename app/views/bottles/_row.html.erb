@@ -1,27 +1,27 @@
 <turbo-frame id="bottle_<%= bottle.id %>">
-  <%= link_to bottle_path(bottle, peek: 1),
+  <%= link_to meeting_path(bottle.meeting, peek: 1),
         data: { turbo_frame: "bottle_#{bottle.id}" },
         class: "block group" do %>
 
     <div class="flex">
       <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
 
-      <div class="flex-1 ml-3 rounded-xl bg-black/20 px-4 py-4 sm:px-5
-                  shadow-sm shadow-black/40 transition group-hover:bg-black/30
+      <div class="flex-1 ml-3 rounded-xl bg-black/35 px-4 py-4 sm:px-5
+                  shadow-sm shadow-black/40 transition group-hover:bg-black/50
                   group-active:scale-[0.985]">
         <div class="space-y-1">
-          <p class="text-[#E8D6A7] text-sm sm:text-base small-caps tracking-widest">
+          <p class="body-base text-lagavulin-gold">
             <%= bottle.distillery %>
           </p>
 
-          <p class="mt-2 text-lagavulin-gold small-caps text-lg sm:text-lg tracking-[0.22em] leading-tight">
+          <p class="mt-2 heading-card text-lagavulin-gold">
             <%= bottle.name %>
           </p>
 
-          <p class="text-[#E8D6A7]/70 text-xs sm:text-sm small-caps tracking-widest">
+          <p class="body-sm text-lagavulin-gold/70">
             <%= bottle.meeting.date.strftime("%B %Y") %>
-            · My Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
-            · Final Score: <%= bottle.average_rating || "—" %>
+            · My Rating: <%= format_rating(user_rating_for(bottle, current_user, @user_ratings)) %>
+            · Final Score: <%= format_rating(average_rating_for(bottle)) %>
           </p>
         </div>
       </div>

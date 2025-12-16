@@ -1,24 +1,15 @@
-<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
-  <div
-    class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
-    style="background-image: url(<%= asset_path 'charredoak.png' %>);">
-  </div>
-
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/60 via-[#0f2a23]/30 to-[#0f2a23]/0"></div>
-
-  <div class="relative z-10 mx-auto w-full max-w-xl px-6 py-12 md:py-16">
-      <%= render "shared/nav",
-      nav: nav_config(
-        label: "Edit Bottle",
-        back_to: meeting_path(@meeting),
-        links: [["Archive", archives_path], ["Bottle Profile", bottle_path(@meeting.bottle)]]
-      ) %>
-
-    <div class="rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
+<%= turbo_frame_tag "modal" do %>
+  <!-- Modal backdrop -->
+  <div class="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-black/60 px-4 pt-24 pb-12" data-controller="modal" data-action="click->modal#closeBackground">
+    <div class="relative w-full max-w-xl">
+      <!-- Close button -->
+      <button type="button" data-action="modal#close" class="absolute -top-2 -right-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-lagavulin-gold text-2xl font-bold text-black hover:bg-lagavulin-gold/90 transition shadow-lg">×</button>
+      
+      <div class="rounded-3xl border border-lagavulin-green/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/50">
       <% if @bottle.errors.any? %>
-        <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
-          <p class="font-semibold mb-1">Please fix the following:</p>
-          <ul class="list-disc list-inside">
+        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+          <p class="label-sm text-red-900 mb-2">Please fix the following:</p>
+          <ul class="list-disc list-inside body-sm text-red-800 space-y-1">
             <% @bottle.errors.full_messages.each do |msg| %>
               <li><%= msg %></li>
             <% end %>
@@ -27,6 +18,7 @@
       <% end %>
 
       <%= render 'form', bottle: @bottle, meeting: @meeting %>
+      </div>
     </div>
   </div>
-</div>
+<% end %>

@@ -1,0 +1,9 @@
+<%# Shared gradient overlay component %>
+<%# Usage: <%= render "shared/gradient_overlay" %>
+<%# Or with custom opacity: <%= render "shared/gradient_overlay", opacity: 80 %>
+
+<% opacity = local_assigns.fetch(:opacity, 70) %>
+<% opacity_mid = (opacity * 0.57).round %>
+<% opacity_low = (opacity * 0.14).round %>
+
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-lagavulin-green/<%= opacity %> via-lagavulin-green/<%= opacity_mid %> to-lagavulin-green/<%= opacity_low %>"></div>

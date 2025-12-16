@@ -1,11 +1,39 @@
 @import "tailwindcss";
+@import "../stylesheets/typography.css";
 
 @theme {
   --font-sans: Cormorant Garamond, serif;
   --font-of: Great Vibes, cursive;
   --color-lagavulin-gold: #C9A968;
-  --color-lagavulin-green: #2B3E38;
+  --color-lagavulin-green: #050f0a;
   --color-lagavulin-green-light: #A3B8B1;
+}
+
+/* Enhanced focus visibility for accessibility */
+*:focus-visible {
+  outline: 2px solid rgba(201, 169, 104, 0.5);
+  outline-offset: 2px;
+  transition: outline 200ms ease;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(201, 169, 104, 0.6);
+  outline-offset: 3px;
+  transition: outline 200ms ease;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(201, 169, 104, 0.7);
+  outline-offset: 2px;
+  transition: outline 200ms ease;
+}
+
+/* Smooth link transitions */
+a {
+  transition: color 200ms ease, opacity 200ms ease, transform 200ms ease;
 }
 
 @layer components {
@@ -77,26 +105,61 @@
       md:w-auto 
       items-center 
       justify-center 
-      rounded-3xl 
-      border 
-      border-lagavulin-green 
-      bg-lagavulin-green 
+      rounded-xl 
+      border-2
+      border-lagavulin-gold/50
+      bg-lagavulin-gold 
       px-6 
       py-3 
       text-sm 
       tracking-widest 
       uppercase 
       font-semibold 
-      text-lagavulin-gold 
-      shadow-md 
-      shadow-black/40 
-      transition-colors 
+      text-lagavulin-green 
+      shadow-lg
+      shadow-black/30
+      transition-all
       duration-200 
-      hover:bg-lagavulin-green-light 
-      hover:text-lagavulin-green 
+      hover:bg-lagavulin-gold/90
+      hover:border-lagavulin-gold
+      hover:shadow-xl
+      hover:shadow-black/40
       focus-visible:outline-none 
       focus-visible:ring-4 
-      focus-visible:ring-lagavulin-gold/30 
+      focus-visible:ring-lagavulin-gold/40 
+      disabled:cursor-not-allowed 
+      disabled:opacity-50;
+  }
+
+  .form-btn-secondary {
+    @apply 
+      inline-flex 
+      w-full 
+      md:w-auto 
+      items-center 
+      justify-center 
+      rounded-xl 
+      border-2
+      border-gray-400
+      bg-white 
+      px-6 
+      py-3 
+      text-sm 
+      tracking-widest 
+      uppercase 
+      font-semibold 
+      text-gray-700 
+      shadow-lg
+      shadow-black/30
+      transition-all
+      duration-200 
+      hover:bg-gray-50
+      hover:border-gray-500
+      hover:shadow-xl
+      hover:shadow-black/40
+      focus-visible:outline-none 
+      focus-visible:ring-4 
+      focus-visible:ring-gray-400/40 
       disabled:cursor-not-allowed 
       disabled:opacity-50;
   }
@@ -125,7 +188,7 @@
     }
 
     .link-mini {
-      @apply text-[0.7rem] sm:text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/65 hover:text-lagavulin-gold transition;
+      @apply text-[0.7rem] sm:text-xs tracking-[0.3em] uppercase text-lagavulin-gold/65 hover:text-lagavulin-gold transition-colors duration-200;
     }
   }
 

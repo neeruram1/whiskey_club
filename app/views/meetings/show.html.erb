@@ -1,27 +1,179 @@
-<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
-  <!-- Background layers -->
-  <div
-    class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
-    style="background-image: url(<%= asset_path 'charredoak.png' %>);">
-  </div>
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
-
+<div class="relative min-h-screen">
   <!-- Content -->
-  <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
-    <%= render "shared/nav",
-      nav: nav_config(
-        label: "Tasting night",
-        title: @meeting.date.strftime("%B %d, %Y"),
-        back_to: (root_path),
-        links: [["Archive", archives_path]]
-      ) %>
+  <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12 md:py-16 space-y-10">
+    <%= turbo_frame_tag "modal" %>
 
-    <div class="mt-10 space-y-10">
+    <!-- Header -->
+    <header class="space-y-3">
+      <div class="flex items-center gap-3">
+        <% if @meeting.meeting_status == :upcoming %>
+          <span class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
+            <p class="meta-xs text-lagavulin-gold font-semibold">Upcoming</p>
+          </span>
+        <% elsif @meeting.meeting_status == :happening_today %>
+          <span class="rounded-full bg-lagavulin-gold/30 border border-lagavulin-gold/50 px-3 py-1">
+            <p class="meta-xs text-lagavulin-gold font-semibold">Today!</p>
+          </span>
+        <% end %>
+      </div>
+
+      <div class="flex items-end justify-between gap-4">
+        <h1 class="heading-page text-lagavulin-gold">
+          <%= @meeting.date.strftime("%B %-d, %Y") %>
+        </h1>
+        <%= link_to "Edit tasting",
+              edit_meeting_path(@meeting),
+              class: "link-mini",
+              data: { turbo_frame: "modal" } %>
+      </div>
+
+      <div class="flex flex-wrap gap-x-6 gap-y-2">
+        <% if @meeting.flight_night? %>
+          <p class="body-base text-lagavulin-gold/80">
+            <span class="font-semibold text-lagavulin-gold">✈️ Whiskey Flight Night</span> — <%= pluralize(@meeting.bottles.count, 'bottle') %>
+          </p>
+        <% elsif @meeting.bottle_bringer.present? %>
+          <p class="body-base text-lagavulin-gold/80">
+            Guided by <span class="font-semibold text-lagavulin-gold"><%= @meeting.bottle_bringer.full_name %></span>
+          </p>
+        <% end %>
+        <% if @attendees.any? %>
+          <p class="body-base text-lagavulin-gold/70">
+            <%= pluralize(@attendees.count, 'attendee') %>
+          </p>
+        <% end %>
+      </div>
+    </header>
+
+    <div class="h-px bg-lagavulin-gold/18"></div>
+
+    <!-- Bottle Section -->
+    <% if @meeting.flight_night? %>
+      <%= render "flight_night_bottles", meeting: @meeting, bottles: @meeting.bottles %>
+    <% elsif @bottle.present? %>
+      <section class="space-y-6">
+        <div class="flex items-end justify-between gap-4">
+          <h2 class="heading-sub text-lagavulin-gold">
+            Featured Whiskey
+          </h2>
+          <%= link_to "Edit bottle",
+                edit_bottle_path(@bottle),
+                class: "link-mini",
+                data: { turbo_frame: "modal" } %>
+        </div>
+
+        <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 md:p-10 shadow-lg shadow-black/40 space-y-8">
+          <!-- Bottle details -->
+          <div class="space-y-3">
+            <p class="label-sm text-lagavulin-gold/80">
+              <%= @bottle.distillery.presence || "Distillery" %>
+            </p>
+
+            <h3 class="heading-section text-lagavulin-gold">
+              <%= @bottle.name %>
+            </h3>
+
+            <!-- Specs -->
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+                <p class="label-xs text-lagavulin-gold/70">Style</p>
+                <p class="mt-2 body-base text-lagavulin-gold">
+                  <%= @bottle.bottle_type.presence || "—" %>
+                </p>
+              </div>
+
+              <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+                <p class="label-xs text-lagavulin-gold/70">Age</p>
+                <p class="mt-2 body-base text-lagavulin-gold">
+                  <%= @bottle.age.present? ? pluralize(@bottle.age, "year") : "—" %>
+                </p>
+              </div>
+
+              <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+                <p class="label-xs text-lagavulin-gold/70">Club Average</p>
+                <p class="mt-2 body-base text-lagavulin-gold">
+                  <%= @bottle.average_rating.presence || "—" %>
+                  <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
+                </p>
+              </div>
+
+              <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+                <p class="label-xs text-lagavulin-gold/70">My Rating</p>
+                <p class="mt-2 body-base text-lagavulin-gold">
+                  <%= @current_user_rating&.score || "—" %>
+                  <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-px bg-lagavulin-gold/18"></div>
+
+          <!-- Rating module -->
+          <div class="max-w-2xl">
+            <%= render "ratings/module", bottle: @bottle, current_user_rating: @current_user_rating %>
+          </div>
+        </div>
+      </section>
+
+      <% if @all_ratings.any? %>
+        <div class="h-px bg-lagavulin-gold/18"></div>
+
+        <!-- All Member Ratings -->
+        <section class="space-y-6">
+          <div class="flex items-end justify-between">
+            <h2 class="heading-sub text-lagavulin-gold">
+              Member Ratings
+            </h2>
+            <span class="meta-xs text-lagavulin-gold/60">
+              <%= pluralize(@all_ratings.count, 'rating') %>
+            </span>
+          </div>
+
+          <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40">
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <% @all_ratings.each do |rating| %>
+                <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-3">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <p class="body-base font-semibold text-lagavulin-gold">
+                        <%= rating.user.full_name %>
+                        <% if rating.user.id == current_user.id %>
+                          <span class="meta-xs text-lagavulin-gold/60">(You)</span>
+                        <% end %>
+                      </p>
+                    </div>
+                    <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
+                      <p class="text-sm font-bold text-lagavulin-gold">
+                        <%= rating.score %>
+                        <span class="text-lagavulin-gold/60 font-normal">/5</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <% if rating.comment.present? %>
+                    <p class="body-sm text-lagavulin-gold/70 leading-relaxed">
+                      "<%= rating.comment %>"
+                    </p>
+                  <% else %>
+                    <p class="meta-xs italic text-lagavulin-gold/50">
+                      No comment
+                    </p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </section>
+      <% end %>
+    <% else %>
       <%= render "bottle_section", meeting: @meeting, bottle: @bottle %>
+    <% end %>
 
-      <div class="h-px bg-lagavulin-gold/18"></div>
+    <div class="h-px bg-lagavulin-gold/18"></div>
 
-      <%= render "actions", meeting: @meeting, bottle: @bottle %>
-    </div>
+    <!-- Actions -->
+    <%= render "actions", meeting: @meeting, bottle: @bottle %>
   </div>
 </div>

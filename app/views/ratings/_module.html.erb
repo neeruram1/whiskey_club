@@ -5,64 +5,166 @@
 
     <!-- Status -->
     <div class="space-y-1">
-      <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">
+      <p class="label-xs text-lagavulin-gold/70">
         Rating
       </p>
 
       <% if current_user_rating&.score.present? %>
-        <p class="text-sm sm:text-base tracking-widest text-[#E8D6A7]">
-          <span class="text-[#E8D6A7]/70">Your rating:</span>
+        <p class="body-sm text-lagavulin-gold">
+          <span class="text-lagavulin-gold/70">Your rating:</span>
           <span class="font-semibold"><%= number_with_precision(current_user_rating.score, precision: 1) %></span>
-          <span class="text-[#E8D6A7]/60">/ 5</span>
+          <span class="text-lagavulin-gold/60">/ 5</span>
         </p>
       <% else %>
-        <p class="text-sm sm:text-base tracking-widest text-[#E8D6A7]/75">
-          <span class="text-[#E8D6A7]/70">Your rating:</span>
-          <span class="text-[#E8D6A7]/55">—</span>
-          <span class="text-[#E8D6A7]/60">/ 5</span>
+        <p class="body-sm text-lagavulin-gold/75">
+          <span class="text-lagavulin-gold/70">Your rating:</span>
+          <span class="text-lagavulin-gold/55">—</span>
+          <span class="text-lagavulin-gold/60">/ 5</span>
         </p>
       <% end %>
 
-      <p class="text-[0.7rem] tracking-widest text-[#E8D6A7]/45">
+      <p class="meta-xs text-lagavulin-gold/45">
         0.1 increments allowed
       </p>
     </div>
 
     <!-- (Optional) small hint on the right; remove if you want even cleaner -->
-    <div class="text-[0.7rem] tracking-[0.32em] uppercase text-[#E8D6A7]/45">
+    <div class="label-sm text-lagavulin-gold/65">
       1.0–5.0
     </div>
   </div>
 
   <div class="mt-4">
-    <%= form_with url: ratings_path, method: :post, local: true,
-          class: "flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4" do %>
+    <%= form_with url: current_user_rating.present? ? rating_path(current_user_rating) : ratings_path, 
+                  method: current_user_rating.present? ? :patch : :post, 
+                  local: true,
+                  class: "space-y-4" do %>
 
       <%= hidden_field_tag "rating[bottle_id]", bottle.id %>
+      <%= hidden_field_tag "rating[score]", current_user_rating&.score || 0, id: "rating_score_field_#{bottle.id}" %>
 
-      <div class="w-full sm:w-auto">
-        <label class="block text-[0.7rem] tracking-[0.32em] uppercase text-[#E8D6A7]/55 mb-2">
-          Score
+      <div>
+        <label class="block label-sm text-lagavulin-gold/70 mb-3">
+          Select Rating
         </label>
 
-        <%= number_field_tag "rating[score]",
-              current_user_rating&.score,
-              in: 1..5,
-              step: 0.1,
-              required: true,
-              inputmode: "decimal",
-              placeholder: "4.2",
-              class: "w-full sm:w-28 rounded-xl border border-lagavulin-gold/28 bg-[#0b201b]/60
-                      px-3 py-2.5 text-sm sm:text-base text-[#E8D6A7] placeholder:text-[#E8D6A7]/30
-                      shadow-sm shadow-black/25
-                      focus:border-lagavulin-gold focus:outline-none focus:ring-4 focus:ring-lagavulin-gold/12" %>
+        <!-- Star Rating Slider -->
+        <div class="space-y-3">
+          <!-- Visual stars -->
+          <div class="flex items-center gap-2" id="star-rating-<%= bottle.id %>">
+            <% 5.times do |i| %>
+              <button type="button" 
+                      data-value="<%= i + 1 %>"
+                      class="star-btn text-3xl sm:text-4xl transition-all duration-150 focus:outline-none focus:scale-110"
+                      onclick="setRating_<%= bottle.id %>(<%= i + 1 %>)">
+                <span class="star-empty">☆</span>
+                <span class="star-filled hidden">★</span>
+              </button>
+            <% end %>
+          </div>
+
+          <!-- Slider for fine-tuning -->
+          <div class="flex items-center gap-3">
+            <input type="range" 
+                   id="rating_slider_<%= bottle.id %>"
+                   min="1" 
+                   max="5" 
+                   step="0.1" 
+                   value="<%= current_user_rating&.score || 3 %>"
+                   oninput="updateRatingFromSlider_<%= bottle.id %>(this.value)"
+                   class="flex-1 h-2 bg-black/30 rounded-full appearance-none cursor-pointer
+                          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 
+                          [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-lagavulin-gold 
+                          [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg
+                          [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full 
+                          [&::-moz-range-thumb]:bg-lagavulin-gold [&::-moz-range-thumb]:cursor-pointer 
+                          [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-lg" />
+            
+            <span id="rating_display_<%= bottle.id %>" class="text-2xl font-semibold text-lagavulin-gold tracking-wider min-w-[3rem] text-center">
+              <%= current_user_rating&.score || 3.0 %>
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div class="w-full sm:w-auto sm:pb-[1px]">
-        <%= submit_tag(current_user_rating.present? ? "Save" : "Add",
-              class: "btn-mini w-full sm:w-auto") %>
+      <div class="mt-4">
+        <label class="block label-sm text-lagavulin-gold/70 mb-2">
+          Comment <span class="meta-xs text-lagavulin-gold/50">(optional)</span>
+        </label>
+        <%= text_area_tag "rating[comment]", current_user_rating&.comment, 
+              placeholder: "Share your tasting notes...",
+              maxlength: 500,
+              class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20",
+              rows: 3 %>
+        <p class="mt-1 meta-xs text-lagavulin-gold/50">
+          Max 500 characters
+        </p>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <p class="meta-xs text-lagavulin-gold/65">
+          Tap stars or slide for precision
+        </p>
+        <%= submit_tag(current_user_rating.present? ? "Update Rating" : "Submit Rating",
+              class: "btn-mini") %>
       </div>
     <% end %>
   </div>
+
+  <script>
+    function setRating_<%= bottle.id %>(value) {
+      updateRating_<%= bottle.id %>(value);
+      document.getElementById('rating_slider_<%= bottle.id %>').value = value;
+    }
+
+    function updateRatingFromSlider_<%= bottle.id %>(value) {
+      updateRating_<%= bottle.id %>(parseFloat(value));
+    }
+
+    function updateRating_<%= bottle.id %>(value) {
+      const rounded = Math.round(value * 10) / 10;
+      document.getElementById('rating_score_field_<%= bottle.id %>').value = rounded;
+      document.getElementById('rating_display_<%= bottle.id %>').textContent = rounded.toFixed(1);
+      
+      // Update stars
+      const stars = document.querySelectorAll('#star-rating-<%= bottle.id %> .star-btn');
+      stars.forEach((star, index) => {
+        const starValue = index + 1;
+        const empty = star.querySelector('.star-empty');
+        const filled = star.querySelector('.star-filled');
+        
+        if (starValue <= Math.floor(value)) {
+          empty.classList.add('hidden');
+          filled.classList.remove('hidden');
+          filled.style.color = '#C9A968';
+        } else if (starValue === Math.ceil(value) && value % 1 !== 0) {
+          // Partial star
+          empty.classList.add('hidden');
+          filled.classList.remove('hidden');
+          filled.style.color = `rgba(201, 169, 104, ${value % 1})`;
+        } else {
+          empty.classList.remove('hidden');
+          filled.classList.add('hidden');
+        }
+      });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const slider = document.getElementById('rating_slider_<%= bottle.id %>');
+      if (slider) {
+        const initialValue = parseFloat(slider.value);
+        updateRating_<%= bottle.id %>(initialValue);
+      }
+    });
+
+    document.addEventListener('turbo:load', function() {
+      const slider = document.getElementById('rating_slider_<%= bottle.id %>');
+      if (slider) {
+        const initialValue = parseFloat(slider.value);
+        updateRating_<%= bottle.id %>(initialValue);
+      }
+    });
+  </script>
 </section>
 

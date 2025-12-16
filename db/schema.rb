@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_05_203012) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_16_221249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,7 +25,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_05_203012) do
     t.bigint "meeting_id"
     t.datetime "revealed_at"
     t.string "bottle_type"
-    t.index ["meeting_id"], name: "index_bottles_on_meeting_id_unique_when_present", unique: true, where: "(meeting_id IS NOT NULL)"
+    t.decimal "cached_average_rating", precision: 3, scale: 2
+    t.integer "ratings_count", default: 0, null: false
+    t.index ["cached_average_rating"], name: "index_bottles_on_cached_average_rating"
+    t.index ["meeting_id"], name: "index_bottles_on_meeting_id"
     t.index ["user_id"], name: "index_bottles_on_user_id"
   end
 
@@ -41,11 +44,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_05_203012) do
 
   create_table "meetings", force: :cascade do |t|
     t.date "date", null: false
-    t.bigint "bottle_bringer_id", null: false
+    t.bigint "bottle_bringer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
+    t.integer "attendees_count", default: 0, null: false
+    t.boolean "is_flight", default: false, null: false
     t.index ["bottle_bringer_id"], name: "index_meetings_on_bottle_bringer_id"
+    t.index ["date"], name: "index_meetings_on_date"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -56,6 +62,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_05_203012) do
     t.datetime "updated_at", null: false
     t.bigint "bottle_id", null: false
     t.index ["bottle_id"], name: "index_ratings_on_bottle_id"
+    t.index ["user_id", "bottle_id"], name: "index_ratings_on_user_id_and_bottle_id", unique: true
     t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 

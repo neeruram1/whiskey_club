@@ -1,27 +1,27 @@
-<div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
+<div class="relative min-h-screen">
   <!-- Background image -->
   <div
     class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
     style="background-image: url(<%= asset_path 'charredoak.png' %>);">
   </div>
 
-  <!-- Gradient overlay (stronger for login readability) -->
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/70 via-[#0f2a23]/40 to-[#0f2a23]/10"></div>
+  <!-- Gradient overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-lagavulin-green/60 via-lagavulin-green/40 to-lagavulin-green/20"></div>
 
   <!-- Centered content -->
-  <div class="relative z-10 mx-auto flex min-h-screen max-w-5xl items-start px-4 py-10 sm:px-6 sm:py-12 md:items-center md:py-16">
-    <div class="grid w-full gap-10 md:gap-16 md:grid-cols-2 md:items-start">
+  <div class="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center px-4 py-12 sm:px-6 sm:py-16">
+    <div class="grid w-full gap-8 sm:gap-12 md:gap-16 md:grid-cols-2 md:items-center">
 
       <!-- Left side: Hero branding -->
       <div class="flex items-center justify-center md:justify-end">
         <%= image_tag "transparent_green_seal.png",
           alt: "Collective Spirits Wax Seal",
-          class: "h-40 w-auto sm:h-56 md:h-96 -mt-2 md:-mt-8 opacity-90 drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]" %>
+          class: "h-48 w-auto sm:h-64 md:h-80 lg:h-96 opacity-90 drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]" %>
       </div>
 
       <!-- Right side: Login form -->
-      <div class="mt-8 md:mt-0 flex items-center justify-center py-4">
-        <div class="w-full max-w-md rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-4 py-6 shadow-2xl shadow-black/40 sm:px-6 sm:py-8 md:px-8 md:py-10">
+      <div class="flex items-center justify-center md:justify-start">
+        <div class="w-full max-w-md rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 shadow-2xl shadow-black/40 sm:px-8 sm:py-10 md:px-10 md:py-12">
 
           <% if flash[:alert].present? || flash[:notice].present? %>
             <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-xs sm:text-sm text-yellow-900">

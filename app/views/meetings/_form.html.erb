@@ -1,24 +1,44 @@
-      <%= form_with model: @meeting, local: true do |f| %>
+      <%= form_with model: @meeting, data: { controller: "form-errors" } do |f| %>
         <div class="space-y-6">
+          <div class="flex items-center gap-3 p-4 rounded-xl bg-lagavulin-gold/5 border border-lagavulin-gold/20">
+            <%= f.check_box :is_flight, class: "h-5 w-5 rounded border-lagavulin-green/50 text-lagavulin-green focus:ring-lagavulin-green/20" %>
+            <%= f.label :is_flight, class: "label-sm text-lagavulin-green" do %>
+              ✈️ This is a Whiskey Flight Night <span class="font-normal text-lagavulin-green/70">(multiple bottles from different members)</span>
+            <% end %>
+          </div>
+          
           <div>
-            <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-              <%= f.label :bottle_bringer_id, "Bottle Master", class: "sr-only" %>
-              Bottle Master
-            </label>
+            <%= f.label :bottle_bringer_id, class: form_label_classes do %>
+              Spirit Guide <span class="font-normal text-lagavulin-green/70">(optional for flight nights)</span>
+            <% end %>
             <%= f.select :bottle_bringer_id,
-                  @users.map { |user| [user.full_name, user.id] }, { include_blank: "Select a member" },
-                  class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+                  @users.map { |user| [user.full_name, user.id] }, 
+                  { include_blank: "Select a member" },
+                  class: form_input_classes(errors_present: @meeting.errors[:bottle_bringer_id].any?),
+                  data: { action: "change->form-errors#clearError", form_errors_error_id_param: "bottle-bringer-error" } %>
+            <%= form_error_message(@meeting, :bottle_bringer_id, id: "bottle-bringer-error") %>
           </div>
+          
           <div>
-            <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
-              <%= f.label :date, "Date", class: "sr-only" %>
-              Date
-            </label>
+            <%= f.label :date, class: form_label_classes do %>
+              Tasting Date
+            <% end %>
             <%= f.date_field :date,
-                  class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+                  class: form_input_classes(errors_present: @meeting.errors[:date].any?),
+                  data: { action: "change->form-errors#clearError", form_errors_error_id_param: "date-error" } %>
+            <%= form_error_message(@meeting, :date, id: "date-error") %>
           </div>
-          <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
-            <%= f.submit "Schedule", class: "form-btn" %>
+          <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between">
+            <% if @meeting.persisted? %>
+              <%= link_to "Cancel", meeting_path(@meeting), 
+                    class: form_cancel_button_classes,
+                    data: { turbo_frame: "_top" } %>
+            <% else %>
+              <button type="button" data-action="click->modal#close" class="<%= form_cancel_button_classes %>">Cancel</button>
+            <% end %>
+            <%= f.submit (@meeting.persisted? ? "Update Tasting" : "Schedule Tasting"), 
+                  class: "form-btn order-1 sm:order-2",
+                  data: { turbo_submits_with: (@meeting.persisted? ? "Updating..." : "Scheduling...") } %>
           </div>
         </div>
       <% end %>

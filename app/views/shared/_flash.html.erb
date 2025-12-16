@@ -11,7 +11,36 @@
     end
   %>
 
-  <div class="flash-message <%= css %>">
-    <p class="tracking-[0.18em] uppercase"><%= message %></p>
+  <% icon_svg = case type.to_sym
+    when :notice
+      '<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>'.html_safe
+    when :alert, :error
+      '<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>'.html_safe
+    else
+      '<svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>'.html_safe
+    end
+  %>
+
+  <div class="flash-message <%= css %>" data-controller="flash-dismiss">
+    <div class="flex items-center gap-3">
+      <%= icon_svg %>
+      <p class="flex-1 tracking-[0.18em] uppercase text-xs sm:text-sm"><%= message %></p>
+      <button 
+        type="button"
+        data-action="click->flash-dismiss#dismiss"
+        class="shrink-0 text-current/60 hover:text-current transition"
+        aria-label="Dismiss notification"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
   </div>
 <% end %>

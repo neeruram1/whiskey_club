@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Collective Spirits of Montclair</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,63 +11,165 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-lagavulin-green min-h-screen flex flex-col">
-    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
-      <header class="border-b border-lagavulin-gold bg-[#0f2a23]/95 backdrop-blur">
-        <div class="mx-auto flex max-w-screen-xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          
-          <!-- Left: logo + wordmark + user -->
-          <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
-            <%= link_to root_path, class: "flex items-center" do %>
-              <span class="text-[0.7rem] tracking-[0.25em] uppercase text-lagavulin-gold sm:text-sm sm:tracking-[0.3em] md:text-base">
-                Collective Spirits
-                <span class="font-of text-[0.9em] align-middle">of</span>
-                Montclair
-              </span>
-            <% end %>
+  <body class="min-h-screen" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" 
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 
+              focus:rounded-lg focus:bg-lagavulin-gold focus:px-4 focus:py-2 
+              focus:text-lagavulin-green focus:font-semibold focus:tracking-widest">
+      Skip to main content
+    </a>
+    
+    <!-- Global background wrapper -->
+    <div class="fixed inset-0 z-0">
+      <!-- Background image -->
+      <div
+        class="absolute inset-0 bg-cover bg-center opacity-90 bg-[#0f2a23]"
+        style="background-image: url(<%= asset_path 'charredoak.png' %>);">
+      </div>
+
+      <!-- Gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-lagavulin-green/60 via-lagavulin-green/40 to-lagavulin-green/20"></div>
+    </div>
+
+      <!-- App shell -->
+      <div class="relative z-10 flex min-h-screen flex-col">
+        <% hide_shell = current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+
+        <% unless hide_shell %>
+          <header class="sticky top-0 z-40 border-b border-lagavulin-gold/30 bg-lagavulin-green/70 supports-[backdrop-filter]:backdrop-blur-md" role="banner">
+            <div class="mx-auto max-w-screen-xl px-4 py-3 sm:px-6">
+              <nav class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-label="Main navigation">
+                <!-- Left: wordmark -->
+                <%= link_to root_path, class: "group inline-flex items-baseline gap-2" do %>
+                  <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                    Collective Spirits
+                  </span>
+                  <span class="font-of text-base sm:text-lg leading-none text-lagavulin-gold/80 relative -top-[1px]">
+                    of
+                  </span>
+                  <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                    Montclair
+                  </span>
+                <% end %>
+
+                <!-- Right: nav -->
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6">
+                  <%= link_to "Home", root_path, class: "link-mini" %>
+                  <%= link_to "Bottle Archive", archives_path, class: "link-mini" %>
+                  <%= link_to "Tasting Archive", meetings_path, class: "link-mini" %>
+                  <%= link_to "Stats", stats_path, class: "link-mini" %>
+                  <a href="<%= new_meeting_path %>" class="link-mini" data-turbo-frame="modal">Schedule</a>
+
+                  <% if user_signed_in? %>
+                    <a href="<%= edit_user_registration_path %>" class="link-mini" data-turbo-frame="modal">Edit account</a>
+
+                    <%= button_to destroy_user_session_path,
+                          method: :delete,
+                          form: { class: "inline" },
+                          class: "btn-mini",
+                          data: { turbo: false, turbo_confirm: "Log out of your account?" },
+                          aria: { label: "Log out" } do %>
+                      Log out
+                    <% end %>
+                  <% end %>
+                </div>
+              </nav>
+
+              <% if user_signed_in? %>
+                <p class="mt-2 meta-xs text-lagavulin-gold/70">
+                  Signed in as <span class="text-lagavulin-gold/90"><%= current_user.full_name %></span>
+                </p>
+              <% end %>
+            </div>
+          </header>
+        <% end %>
+
+        <main id="main-content" class="flex-1" role="main" aria-label="Main content">
+          <!-- Flash messages (centered; mobile safe) -->
+          <div class="pointer-events-none fixed top-4 left-1/2 z-50 w-full max-w-sm -translate-x-1/2 px-4 sm:top-6">
+            <div id="flash-messages" class="pointer-events-auto">
+              <%= render "shared/flash" %>
+            </div>
           </div>
 
-          <!-- Right: logout -->
-          <% if user_signed_in? %>
-            <div class="flex justify-start sm:justify-end">
-                <%= link_to "Edit Account", edit_user_registration_path, class: "link-mini" %>
+          <%= yield %>
+        </main>
+
+        <% unless hide_shell %>
+          <footer class="border-t border-lagavulin-gold/25 bg-lagavulin-green/40 supports-[backdrop-filter]:backdrop-blur-md py-8 sm:py-10" role="contentinfo" aria-label="Footer">
+            <div class="mx-auto max-w-screen-xl px-4 text-center space-y-3 sm:px-6 sm:space-y-4">
+              <p class="label-xs text-lagavulin-gold/65">
+                Collective Spirits of Montclair · Est. 2023
+              </p>
+
+              <p class="meta-xs text-lagavulin-gold/65">
+                A private whiskey club for friends with good taste.
+              </p>
             </div>
-            <div class="text-sm text-lagavulin-gold/70 sm:right-6">
-              <span class="font-semibold text-lagavulin-gold/90">
-                  <%= button_to "Log Out",
-                    destroy_user_session_path,
-                    method: :delete,
-                    class: "btn-mini" %>
-              </span>
-          <% end %>
-        </div>
-      </header>
-    <% end %>
-
-    <main class="flex-1">
-      <!-- Flash messages, centered and mobile-friendly -->
-      <div class="fixed top-4 left-1/2 z-50 w-full max-w-sm -translate-x-1/2 px-4 sm:top-6">
-        <div id="flash-messages">
-          <%= render "shared/flash" %>
-        </div>
+          </footer>
+        <% end %>
       </div>
 
-      <%= yield %>
-    </main>
-
-    <footer class="relative border-t border-lagavulin-gold bg-[#0f2a23]/95 py-8 sm:py-10">
-      <div class="mx-auto max-w-screen-xl px-4 text-center space-y-3 sm:px-6 sm:space-y-4">
-        <p class="mt-1 text-[0.65rem] tracking-[0.3em] uppercase text-lagavulin-gold/70 sm:text-xs">
-          Collective Spirits of Montclair · Est. 2023
-        </p>
-
-        <p class="text-[0.6rem] tracking-widest text-[#E8D6A7]/40 sm:text-[0.65rem]">
-          A private whiskey club for friends with good taste.
-        </p>
-      </div>
-    </footer>
+    <%= turbo_frame_tag "modal" %>
 
     <script>
+      // Keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        // Only activate if not in an input field
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+          return;
+        }
+        
+        // CMD/CTRL + K: Focus search (if exists)
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          const searchInput = document.querySelector('[type="search"]');
+          if (searchInput) {
+            searchInput.focus();
+            searchInput.select();
+          }
+        }
+        
+        // G + H: Go to home
+        if (e.key === 'g') {
+          const nextKey = new Promise(resolve => {
+            const handler = (ev) => {
+              document.removeEventListener('keydown', handler);
+              resolve(ev.key);
+            };
+            document.addEventListener('keydown', handler);
+            setTimeout(() => {
+              document.removeEventListener('keydown', handler);
+              resolve(null);
+            }, 1000);
+          });
+          
+          nextKey.then(key => {
+            if (key === 'h') window.location.href = '/';
+            if (key === 'a') {
+              const archiveLink = document.querySelector('a[href*=\"archives\"]');
+              if (archiveLink) window.location.href = archiveLink.href;
+            }
+            if (key === 'n') {
+              const newMeetingLink = document.querySelector('a[href*=\"meetings/new\"]');
+              if (newMeetingLink) window.location.href = newMeetingLink.href;
+            }
+          });
+        }
+        
+        // ?: Show keyboard shortcuts help
+        if (e.shiftKey && e.key === '?') {
+          e.preventDefault();
+          alert('Keyboard Shortcuts:\\n\\n' +
+                'g + h: Go to Home\\n' +
+                'g + a: Go to Browse\n' +
+                'g + n: New Tasting\\n' +
+                '⌘/Ctrl + K: Focus search\\n' +
+                '?: Show this help');
+        }
+      });
+
       function setupFlashFade() {
         const flashContainer = document.getElementById("flash-messages");
         if (!flashContainer) return;
@@ -75,19 +177,18 @@
         const messages = flashContainer.querySelectorAll(".flash-message");
         if (!messages.length) return;
 
-        // Start fade after 1.5s
+        // Start fade after 1.6s (slightly calmer)
         setTimeout(() => {
           messages.forEach((el) => {
             el.style.opacity = "0";
             el.style.transform = "translateY(-6px)";
-            el.style.boxShadow = "0 0 0 rgba(201,169,104,0)";
           });
 
           // Remove from DOM after transition
           setTimeout(() => {
             flashContainer.innerHTML = "";
-          }, 800);
-        }, 1500);
+          }, 900);
+        }, 1600);
       }
 
       document.addEventListener("turbo:load", setupFlashFade);
@@ -95,3 +196,5 @@
     </script>
   </body>
 </html>
+
+

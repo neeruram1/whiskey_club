@@ -1,0 +1,99 @@
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, data: { turbo_frame: "_top" }) do |f| %>
+  <div class="space-y-6">
+    <!-- First Name -->
+    <div>
+      <%= f.label :first_name, class: "mb-2 block label-sm text-lagavulin-green" do %>
+        First Name
+      <% end %>
+      <%= f.text_field :first_name,
+            class: "block w-full rounded-xl border #{resource.errors[:first_name].any? ? 'border-red-500 bg-red-50' : 'border-lagavulin-green/30 bg-white'} px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <% if resource.errors[:first_name].any? %>
+        <p class="mt-1 meta-xs text-red-600"><%= resource.errors[:first_name].first %></p>
+      <% end %>
+    </div>
+
+    <!-- Last Name -->
+    <div>
+      <%= f.label :last_name, class: "mb-2 block label-sm text-lagavulin-green" do %>
+        Last Name
+      <% end %>
+      <%= f.text_field :last_name,
+            class: "block w-full rounded-xl border #{resource.errors[:last_name].any? ? 'border-red-500 bg-red-50' : 'border-lagavulin-green/30 bg-white'} px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <% if resource.errors[:last_name].any? %>
+        <p class="mt-1 meta-xs text-red-600"><%= resource.errors[:last_name].first %></p>
+      <% end %>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <%= f.label :email, class: "mb-2 block label-sm text-lagavulin-green" do %>
+        Email
+      <% end %>
+      <%= f.email_field :email,
+            autofocus: true,
+            autocomplete: "email",
+            class: "block w-full rounded-xl border #{resource.errors[:email].any? ? 'border-red-500 bg-red-50' : 'border-lagavulin-green/30 bg-white'} px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p class="mt-1 meta-xs text-lagavulin-green/70">
+          Waiting confirmation for: <%= resource.unconfirmed_email %>
+        </p>
+      <% end %>
+      <% if resource.errors[:email].any? %>
+        <p class="mt-1 meta-xs text-red-600"><%= resource.errors[:email].first %></p>
+      <% end %>
+    </div>
+
+    <!-- Password -->
+    <div>
+      <%= f.label :password, class: "mb-2 block label-sm text-lagavulin-green" do %>
+        New Password <span class="meta-xs text-gray-500 normal-case">(optional)</span>
+      <% end %>
+      <%= f.password_field :password,
+            autocomplete: "new-password",
+            placeholder: "Leave blank to keep current password",
+            class: "block w-full rounded-xl border #{resource.errors[:password].any? ? 'border-red-500 bg-red-50' : 'border-lagavulin-green/30 bg-white'} px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <% if @minimum_password_length %>
+        <p class="mt-1 meta-xs text-gray-500"><%= @minimum_password_length %> characters minimum</p>
+      <% end %>
+      <% if resource.errors[:password].any? %>
+        <p class="mt-1 meta-xs text-red-600"><%= resource.errors[:password].first %></p>
+      <% end %>
+    </div>
+
+    <!-- Password Confirmation -->
+    <div>
+      <%= f.label :password_confirmation, class: "mb-2 block label-sm text-lagavulin-green" do %>
+        Confirm New Password
+      <% end %>
+      <%= f.password_field :password_confirmation,
+            autocomplete: "new-password",
+            placeholder: "Repeat new password",
+            class: "block w-full rounded-xl border #{resource.errors[:password_confirmation].any? ? 'border-red-500 bg-red-50' : 'border-lagavulin-green/30 bg-white'} px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <% if resource.errors[:password_confirmation].any? %>
+        <p class="mt-1 meta-xs text-red-600"><%= resource.errors[:password_confirmation].first %></p>
+      <% end %>
+    </div>
+
+    <!-- Current Password -->
+    <div>
+      <%= f.label :current_password, class: "mb-2 block label-sm text-lagavulin-green" do %>
+        Current Password <span class="meta-xs text-gray-500 normal-case">(required)</span>
+      <% end %>
+      <%= f.password_field :current_password,
+            autocomplete: "current-password",
+            placeholder: "Enter your current password to confirm changes",
+            class: "block w-full rounded-xl border #{resource.errors[:current_password].any? ? 'border-red-500 bg-red-50' : 'border-lagavulin-green/30 bg-white'} px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+      <% if resource.errors[:current_password].any? %>
+        <p class="mt-1 meta-xs text-red-600"><%= resource.errors[:current_password].first %></p>
+      <% end %>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between">
+      <button type="button" data-action="modal#close" class="inline-flex w-full md:w-auto items-center justify-center rounded-xl border-2 border-gray-400 bg-white px-6 py-3 text-sm tracking-widest uppercase font-semibold text-gray-700 shadow-lg shadow-black/50 transition-all duration-200 hover:bg-gray-50 hover:border-gray-500 hover:shadow-xl hover:shadow-black/60 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gray-400/40 disabled:cursor-not-allowed disabled:opacity-50 order-2 sm:order-1">
+        Cancel
+      </button>
+      <%= f.submit "Update Account", class: "form-btn order-1 sm:order-2" %>
+    </div>
+  </div>
+<% end %>
