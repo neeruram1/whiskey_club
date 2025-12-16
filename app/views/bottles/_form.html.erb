@@ -1,5 +1,8 @@
 <%= form_with model: [meeting, bottle], local: true do |f| %>
   <div class="space-y-6">
+  <div>
+    This bottle is being added to the <strong><%= link_to meeting.date.strftime("%B %Y"), meeting_path(meeting) %> </strong> meeting.
+  </div>
     <div>
       <label class="mb-2 block text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
         <%= f.label :name, "Bottle Name", class: "sr-only" %>
@@ -46,11 +49,6 @@
 
     <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
       <%= f.submit "Save", class: "form-btn" %>
-
-      <%= link_to 'Tasting Night', meeting_path(meeting),
-            class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
-      <%= link_to "Bottle Profile", bottle_path(bottle),
-            class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
     </div>
   </div>
 <% end %>

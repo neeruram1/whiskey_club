@@ -8,18 +8,13 @@
 
   <!-- Content -->
   <div class="relative z-10 mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12 md:py-16 space-y-12">
-
-    <!-- Top bar -->
-    <header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <h2 class="text-2xl sm:text-3xl font-semibold small-caps text-[#E8D6A7]">
-        Welcome back, <%= current_user.full_name %>
-      </h2>
-
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-        <%= link_to "Archive", archives_path, class: "link-mini" %>
-        <%= link_to "Schedule a tasting", new_meeting_path, class: "btn-mini" %>
-      </div>
-    </header>
+  <%= render "shared/nav",
+      nav: nav_config(
+        label: "Collective Spirits",
+        title: "Welcome back, #{current_user.full_name}",
+        links: [["Archive", archives_path]],
+        primary: ["Schedule a tasting", new_meeting_path]
+      ) %>
 
     <!-- Hero: Next meeting -->
     <section class="space-y-5">

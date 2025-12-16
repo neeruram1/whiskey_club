@@ -1,0 +1,35 @@
+<%# locals: nav: (hash from nav_config) %>
+
+<nav class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+  <div class="min-w-0">
+    <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/70">
+      <%= nav[:label] %>
+    </p>
+
+    <% if nav[:title].present? %>
+      <h1 class="mt-2 text-[#E8D6A7] text-2xl sm:text-3xl font-semibold tracking-wide leading-tight">
+        <%= nav[:title] %>
+      </h1>
+    <% end %>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+    <% if nav[:back_to].present? %>
+      <%= link_to(nav[:back_to], class: "link-mini inline-flex items-center gap-2") do %>
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span><%= nav[:back_label].presence || "Back" %></span>
+      <% end %>
+    <% end %>
+
+    <% nav[:links].each do |(text, path)| %>
+      <%= link_to text, path, class: "link-mini" %>
+    <% end %>
+
+    <% if nav[:primary].present? %>
+      <% text, path = nav[:primary] %>
+      <%= link_to text, path, class: "btn-mini" %>
+    <% end %>
+  </div>
+</nav>

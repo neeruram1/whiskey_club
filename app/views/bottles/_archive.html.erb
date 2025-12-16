@@ -22,7 +22,7 @@
                 </span>
               </div>
               <div class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/70">
-                <%= bottle_of_month.meeting.date.strftime("%B %Y") %>
+                <%= bottle_of_month.meeting.date.strftime("%B %Y") %> meeting
               </div>
 
               <p class="text-[#E8D6A7]/90 text-sm sm:text-base small-caps tracking-widest">
@@ -270,8 +270,9 @@
                         <%= bottle.name %>
                       </p>
                       <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
-                        <%= bottle.meeting.date.strftime("%B %Y") %>
-                        · Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
+                        <%= bottle.meeting.date.strftime("%B %Y") %> Meeting
+                        · My Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
+                        · Final Score: <%= bottle.average_rating || "—" %>
                       </p>
                     </div>
                   </div>

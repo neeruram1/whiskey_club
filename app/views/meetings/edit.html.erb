@@ -5,11 +5,12 @@
   </div>
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/60 via-[#0f2a23]/30 to-[#0f2a23]/0"></div>
   <div class="relative z-10 mx-auto w-full max-w-xl px-6 py-12 md:py-16">
-    <header class="mb-8 space-y-2 text-center">
-      <h1 class="text-3xl md:text-4xl uppercase tracking-widest text-lagavulin-gold">
-        Edit Tasting Night
-      </h1>
-    </header>
+      <%= render "shared/nav",
+      nav: nav_config(
+        label: "Edit Tasting Night",
+        back_to: (root_path),
+        links: [["Archive", archives_path], ["Tasting Night", meeting_path(@meeting)]]
+      ) %>
     <div class="rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
       <% if @meeting.errors.any? %>
         <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">

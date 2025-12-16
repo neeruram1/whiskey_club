@@ -81,6 +81,15 @@
                   This month’s selection by
                   <span class="text-[#E8D6A7]/90"><%= meeting.bottle_bringer&.full_name || "—" %></span>
                 </p>
+                <p class="text-[#E8D6A7]/55 text-xs sm:text-sm tracking-widest">
+                  <% if meeting.bottle.present? %>
+                    Featured bottle:
+                    <span class="text-[#E8D6A7]/80 tracking-widest normal-case sm:uppercase sm:tracking-widest">
+                      <%= meeting.bottle.name %> (<%= meeting.bottle.distillery %>)
+                    </span>
+                  <% else %>
+                    No bottle added yet
+                  <% end %>
               </div>
             </div>
 
