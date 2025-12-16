@@ -29,11 +29,11 @@
                 <%= bottle_of_month.distillery %>
               </p>
 
-              <h3 class="text-[#E8D6A7] text-2xl sm:text-3xl font-semibold tracking-wide leading-tight">
+              <h3 class="mt-2 text-lagavulin-gold small-caps text-3xl sm:text-3xl tracking-[0.22em] leading-tight">
                 <%= bottle_of_month.name %>
               </h3>
 
-              <p class="mt-2 text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+              <p class="mt-2 text-[#E8D6A7]/70 text-xs sm:text-sm small-caps tracking-widest">
                 My Rating: <%= bottle_of_month.user_rating(current_user)&.score || "—" %>
                 · Final Score: <%= bottle_of_month.average_rating || "—" %>
               </p>
@@ -83,7 +83,7 @@
           </div>
 
           <!-- Sort -->
-          <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm tracking-widest uppercase">
+          <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm tracking-widest small-caps">
             <% [
               ["Newest", "date_desc"],
               ["Highest Rated", "rating_desc"],
@@ -189,7 +189,7 @@
               data-bottle-filter-target="distillery"
               data-action="change->bottle-filter#filter"
               class="w-full bg-transparent border-b border-lagavulin-gold/40
-                     text-[#E8D6A7] uppercase tracking-widest
+                     text-[#E8D6A7] small-caps tracking-widest
                      focus:outline-none focus:border-lagavulin-gold"
             >
               <option value="">All</option>
@@ -205,7 +205,7 @@
               data-bottle-filter-target="rating"
               data-action="change->bottle-filter#filter"
               class="w-full bg-transparent border-b border-lagavulin-gold/40
-                     text-[#E8D6A7] uppercase tracking-widest
+                     text-[#E8D6A7] small-caps tracking-widest
                      focus:outline-none focus:border-lagavulin-gold"
             >
               <option value="">Any</option>
@@ -221,7 +221,7 @@
               data-bottle-filter-target="year"
               data-action="change->bottle-filter#filter"
               class="w-full bg-transparent border-b border-lagavulin-gold/40
-                     text-[#E8D6A7] uppercase tracking-widest
+                     text-[#E8D6A7] small-caps tracking-widest
                      focus:outline-none focus:border-lagavulin-gold"
             >
               <option value="">All</option>
@@ -266,10 +266,10 @@
                       <p class="text-[#E8D6A7] text-sm sm:text-base small-caps tracking-widest">
                         <%= bottle.distillery %>
                       </p>
-                      <p class="text-[#E8D6A7] text-base sm:text-lg font-semibold tracking-wide">
+                      <p class="mt-2 text-lagavulin-gold small-caps text-lg sm:text-lg tracking-[0.22em] leading-tight">
                         <%= bottle.name %>
                       </p>
-                      <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+                      <p class="text-[#E8D6A7]/70 text-xs sm:text-sm small-caps tracking-widest">
                         <%= bottle.meeting.date.strftime("%B %Y") %> Meeting
                         · My Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
                         · Final Score: <%= bottle.average_rating || "—" %>

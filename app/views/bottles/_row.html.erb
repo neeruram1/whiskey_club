@@ -14,13 +14,14 @@
             <%= bottle.distillery %>
           </p>
 
-          <p class="text-[#E8D6A7] text-base sm:text-lg font-semibold tracking-wide">
+          <p class="mt-2 text-lagavulin-gold small-caps text-lg sm:text-lg tracking-[0.22em] leading-tight">
             <%= bottle.name %>
           </p>
 
-          <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+          <p class="text-[#E8D6A7]/70 text-xs sm:text-sm small-caps tracking-widest">
             <%= bottle.meeting.date.strftime("%B %Y") %>
-            · Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
+            · My Rating: <%= bottle.user_rating(current_user)&.score || "—" %>
+            · Final Score: <%= bottle.average_rating || "—" %>
           </p>
         </div>
       </div>
