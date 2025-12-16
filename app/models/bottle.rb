@@ -10,8 +10,17 @@ class Bottle < ApplicationRecord
 
   scope :revealed, -> { where.not(revealed_at: nil) }
   scope :unrevealed, -> { where(revealed_at: nil) }
+  scope :past_bottles, -> { joins(:meeting).where("meetings.date < ?", Date.today).order("meetings.date DESC") }
 
   def reveal!
     update(revealed_at: Time.current) unless revealed_at
+  end
+
+  def user_rating(user)
+    ratings.find_by(user: user)
+  end
+
+  def average_rating
+    ratings.average(:score)
   end
 end

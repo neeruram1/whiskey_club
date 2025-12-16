@@ -1,0 +1,107 @@
+<div data-controller="meeting-filter" class="space-y-6">
+
+  <div class="space-y-2">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <h2 class="text-[#E8D6A7] text-xl sm:text-2xl font-semibold tracking-wide">Meetings</h2>
+        <p class="mt-1 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60">
+          <span data-meeting-filter-target="count"><%= meetings.count %></span> shown
+        </p>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <!-- Search -->
+      <div class="w-full sm:w-[18rem]">
+        <input
+          type="search"
+          placeholder="Search host…"
+          data-meeting-filter-target="query"
+          data-action="input->meeting-filter#filter"
+          class="w-full rounded-xl border border-lagavulin-gold/25 bg-black/20
+                 px-3 py-2 text-sm text-[#E8D6A7] placeholder:text-[#E8D6A7]/40
+                 focus:outline-none focus:ring-4 focus:ring-lagavulin-gold/15 focus:border-lagavulin-gold/50"
+        />
+      </div>
+
+      <!-- Year -->
+      <div class="flex items-center gap-3">
+        <p class="text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/55">Year</p>
+        <select
+          data-meeting-filter-target="year"
+          data-action="change->meeting-filter#filter"
+          class="bg-transparent border-b border-lagavulin-gold/40
+                 text-[#E8D6A7] uppercase tracking-widest
+                 focus:outline-none focus:border-lagavulin-gold"
+        >
+          <option value="">All</option>
+          <% meetings.map { |m| m.date.year }.uniq.sort.reverse.each do |y| %>
+            <option value="<%= y %>"><%= y %></option>
+          <% end %>
+        </select>
+
+        <button
+          type="button"
+          data-action="click->meeting-filter#clearAll"
+          data-meeting-filter-target="clearAll"
+          class="hidden ml-2 text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60
+                 hover:text-lagavulin-gold transition"
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <div class="h-px bg-lagavulin-gold/20"></div>
+  </div>
+
+  <!-- List -->
+  <ul data-meeting-filter-target="list" class="space-y-4 pl-2 sm:pl-4">
+    <% meetings.each do |meeting| %>
+      <li
+        data-meeting-filter-target="item"
+        data-date="<%= meeting.date.to_time.to_i %>"
+        data-year="<%= meeting.date.year %>"
+        data-host="<%= meeting.bottle_bringer&.full_name.to_s %>"
+        class="relative"
+      >
+        <%= link_to meeting_path(meeting), class: "block group" do %>
+          <div class="flex">
+            <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+
+            <div class="flex-1 ml-3 rounded-xl bg-black/20 px-4 py-4 sm:px-5
+                        shadow-sm shadow-black/40 transition group-hover:bg-black/30
+                        group-active:scale-[0.985]">
+              <div class="space-y-1">
+                <p class="text-[#E8D6A7] text-base sm:text-lg font-semibold tracking-wide">
+                  <%= meeting.date.strftime("%B %d, %Y") %>
+                </p>
+
+                <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-widest">
+                  This month’s selection by
+                  <span class="text-[#E8D6A7]/90"><%= meeting.bottle_bringer&.full_name || "—" %></span>
+                </p>
+              </div>
+            </div>
+
+            <div class="ml-3 flex items-center text-lagavulin-gold/60 transition group-hover:text-lagavulin-gold">
+              <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                   fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <!-- Empty state -->
+  <p
+    data-meeting-filter-target="empty"
+    class="hidden pt-10 text-center text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/60"
+  >
+    No meetings match your search.
+  </p>
+</div>

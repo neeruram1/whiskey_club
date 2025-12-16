@@ -116,6 +116,9 @@
   .flash-red {
     @apply border-red-400 bg-red-50 text-red-900;
   }
+  .transition-filter {
+    transition: opacity 200ms ease;
+  }
 
   @keyframes goldShimmer {
     0% {
