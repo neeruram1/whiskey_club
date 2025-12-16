@@ -1,34 +1,61 @@
 <div class="relative min-h-screen bg-[#0f2a23] overflow-hidden">
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
+  <!-- Background image -->
   <div
     class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
     style="background-image: url(<%= asset_path 'charredoak.png' %>);">
   </div>
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/70 via-[#0f2a23]/40 to-[#0f2a23]/10"></div>
 
+  <!-- Gradient overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b201b]/80 via-[#0b201b]/50 to-[#0b201b]/10"></div>
 
-  <div class="relative z-10 mx-auto w-full max-w-4xl px-16 py-16">
-    <div class="mb-6 flex items-center justify-between text-lg font-medium uppercase tracking-[0.22em] text-lagavulin-gold/80">
-      <span>Bottle Profile</span>
+  <!-- Content -->
+  <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
+    <!-- Top bar -->
+    <div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">
+        Bottle profile
+      </div>
 
-      <%= link_to "Back to Archive",
-            archives_path,
-            class: "hover:text-lagavulin-gold" %>
+      <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs tracking-[0.3em] uppercase">
+        <%= link_to meeting_path(@bottle.meeting),
+              class: "inline-flex items-center gap-2 text-[#E8D6A7]/70 hover:text-lagavulin-gold transition" do %>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Back to meeting
+        <% end %>
+
+        <%= link_to archives_path,
+              class: "text-[#E8D6A7]/70 hover:text-lagavulin-gold transition" do %>
+          Back to archive
+        <% end %>
+      </div>
     </div>
-    <header class="mb-8">
-      <h1 class="text-4xl font-semibold tracking-[0.12em] uppercase text-lagavulin-gold">
+
+    <!-- Header -->
+    <header class="mb-8 space-y-2">
+      <p class="text-[#E8D6A7]/70 text-xs sm:text-sm tracking-[0.3em] uppercase">
+        <%= @bottle.distillery.presence || "Distillery" %>
+      </p>
+
+      <h1 class="text-[#E8D6A7] text-2xl sm:text-4xl md:text-5xl font-semibold tracking-wide leading-tight">
         <%= @bottle.name %>
       </h1>
+
+      <p class="text-[#E8D6A7]/65 text-xs sm:text-sm tracking-widest">
+        Tasted <span class="text-[#E8D6A7]/90"><%= @bottle.meeting.date.strftime("%B %d, %Y") %></span>
+      </p>
     </header>
-    <section class="mx-auto max-w-xl rounded-3xl border border-lagavulin-gold/35 bg-black/55 px-10 py-10 shadow-2xl shadow-black/70 backdrop-blur-sm">
-      <div class="grid gap-8 border-b border-lagavulin-gold/25 pb-4 md:grid-cols-2">
-        <div class="space-y-4">
+
+    <!-- Card -->
+    <section class="rounded-3xl border border-lagavulin-gold/30 bg-black/25 p-5 sm:p-7 md:p-10 shadow-2xl shadow-black/50 backdrop-blur-sm">
+      <div class="grid gap-6 md:grid-cols-2 md:gap-10">
+        <!-- Left: attributes -->
+        <div class="space-y-5">
           <% if @bottle.distillery.present? %>
             <div>
-              <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
-                Distillery
-              </p>
-              <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+              <p class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">Distillery</p>
+              <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
                 <%= @bottle.distillery %>
               </p>
             </div>
@@ -36,10 +63,8 @@
 
           <% if @bottle.bottle_type.present? %>
             <div>
-              <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
-                Style
-              </p>
-              <p class="mt-1 text-sm md:text-base text-[#E8D6A7]">
+              <p class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">Style</p>
+              <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
                 <%= @bottle.bottle_type %>
               </p>
             </div>
@@ -47,51 +72,57 @@
 
           <% if @bottle.age.present? %>
             <div>
-              <p class="text-md font-semibold tracking-widest text-lagavulin-gold/80">
-                Age
-              </p>
-              <p class="mt-1 uppercase text-sm md:text-base text-[#E8D6A7]">
+              <p class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">Age</p>
+              <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
                 <%= pluralize(@bottle.age, "year") %>
               </p>
             </div>
           <% end %>
         </div>
-        <div class="space-y-5 text-right">
+
+        <!-- Right: scores -->
+        <div class="space-y-5 md:text-right">
           <div>
-            <p class="text-md font-semibold uppercase tracking-widest text-lagavulin-gold/80">
-              Date of Tasting
-            </p>
-            <p class="mt-1 text-sm uppercase md:text-base text-[#E8D6A7]">
-              <span class="font-semibold">
-                <%= @bottle.meeting.date.strftime("%B %d, %Y") %>
-              </span>
+            <p class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">Date of tasting</p>
+            <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
+              <%= @bottle.meeting.date.strftime("%B %d, %Y") %>
             </p>
           </div>
 
           <div>
-            <p class="text-lg font-semibold uppercase tracking-widest text-lagavulin-gold/80">
-              Final Score
+            <p class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">Final score</p>
+            <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
+              <%= @bottle.final_score.presence || "—" %>
             </p>
-            <p class="mt-1 text-sm uppercase md:text-base text-[#E8D6A7]">
-            <% if @bottle.ratings.present? %>
-              <%= @bottle.average_rating %>
-            <% else %>
-              0.0
-            <% end %>
+          </div>
+
+          <div>
+            <p class="text-xs tracking-[0.3em] uppercase text-lagavulin-gold/70">My rating</p>
+            <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
+              <%= @bottle.user_rating(current_user)&.score || "—" %>
             </p>
           </div>
         </div>
       </div>
+      <%= render "ratings/module", bottle: @bottle, current_user_rating: @current_user_rating %>
 
-      <div class="mt-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <%= link_to "Edit Bottle",
-              edit_meeting_bottle_path(@bottle.meeting),
-              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
-        <%= link_to "Rate Bottle",
-              edit_meeting_bottle_path(@bottle.meeting),
-              class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+
+      <!-- Actions -->
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-wrap gap-3">
+          <%= link_to "Rate bottle",
+                meeting_path(@bottle.meeting),
+                class: "inline-flex items-center justify-center form-btn w-full sm:w-auto" %>
+
+          <%= link_to "Edit bottle",
+                edit_meeting_bottle_path(@bottle.meeting),
+                class: "inline-flex items-center justify-center btn w-full sm:w-auto" %>
+        </div>
+
+        <%= link_to "Back",
+              request.referer || archives_path,
+              class: "text-xs tracking-[0.3em] uppercase text-[#E8D6A7]/70 hover:text-lagavulin-gold transition" %>
       </div>
     </section>
   </div>
 </div>
-

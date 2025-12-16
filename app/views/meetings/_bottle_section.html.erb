@@ -59,7 +59,15 @@
           <% end %>
         </p>
 
-        <%= render "rating_section", bottle: bottle %>
+        <div class="mt-6">
+        <%= link_to "Rate this bottle",
+        bottle_path(bottle),
+        class: "inline-flex items-center justify-center form-btn w-full sm:w-auto" %>
+
+  <p class="mt-2 text-[0.7rem] tracking-[0.28em] uppercase text-[#E8D6A7]/55">
+    Ratings live on the bottle page.
+  </p>
+</div>
 
         <%= link_to "Edit Bottle",
               edit_meeting_bottle_path(bottle.meeting, bottle),

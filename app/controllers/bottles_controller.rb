@@ -25,6 +25,7 @@ class BottlesController < ApplicationController
   
   def show
     @bottle = Bottle.includes(:meeting).find(params[:id])
+    @current_user_rating = current_user ? @bottle.ratings.find { |r| r.user_id == current_user.id } : nil
 
     if params[:peek] == "1"
       render partial: "bottles/peek", locals: { bottle: @bottle }
