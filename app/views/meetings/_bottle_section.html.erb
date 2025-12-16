@@ -1,84 +1,69 @@
 <% if bottle.present? %>
-  <section class="mt-10">
-    <div class="grid gap-10 md:gap-12 md:grid-cols-2 items-start">
-      <!-- Left: Feature title / hero text -->
-      <div class="space-y-4 md:space-y-6">
+  <section class="space-y-4">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+      <div>
         <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/60">
-          Featured Bottle
+          Featured bottle
         </p>
-
-        <% tracking = bottle.distillery.length > 12 ? "tracking-[0.16em]" : "tracking-[0.22em] md:tracking-[0.28em]" %>
-        <p class="text-2xl sm:text-3xl md:text-4xl font-semibold <%= tracking %> uppercase text-lagavulin-gold">
-          <%= bottle.distillery %>
-        </p>
-
-        <p class="text-2xl sm:text-3xl small-caps tracking-wide text-[#E8D6A7]">
-          <%= bottle.name %>
-        </p>
-
-        <!-- optional: space for description / tasting notes later -->
-        <%# <p class="max-w-md text-sm leading-relaxed text-[#E8D6A7]/85">
-          Add a short description or tasting notes here to really lean into the magazine feel.
-        </p> %>
-      </div>
-
-      <!-- Right: Specs + ratings with vertical divider -->
-      <div class="md:border-l md:border-lagavulin-gold/20 md:pl-8 space-y-6 sm:space-y-8">
-        <p>
-          <span class="uppercase text-xs sm:text-sm tracking-[0.24em] text-lagavulin-gold/80">
-            Style
-          </span>
-          <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
-            <%= bottle.bottle_type %>
-          </span>
-        </p>
-
-        <% if bottle.age.present? %>
-          <p>
-            <span class="uppercase text-xs sm:text-sm tracking-[0.24em] text-lagavulin-gold/80">
-              Age
-            </span>
-            <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
-              <%= pluralize(bottle.age, "year") %>
-            </span>
-          </p>
-        <% end %>
-
-        <p>
-          <span class="uppercase text-xs sm:text-sm tracking-[0.24em] text-lagavulin-gold/80">
-            Average Rating
-          </span>
-          <% if bottle.ratings.any? %>
-            <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
-              <%= bottle.ratings.average(:score).round(1) %> / 10
-            </span>
-          <% else %>
-            <span class="ml-2 text-base sm:text-lg small-caps text-[#E8D6A7]">
-              n/a
-            </span>
-          <% end %>
-        </p>
-
-        <div class="mt-6">
-        <%= link_to "Rate this bottle",
-        bottle_path(bottle),
-        class: "inline-flex items-center justify-center form-btn w-full sm:w-auto" %>
-
-  <p class="mt-2 text-[0.7rem] tracking-[0.28em] uppercase text-[#E8D6A7]/55">
-    Ratings live on the bottle page.
-  </p>
-</div>
-
-        <%= link_to "Edit Bottle",
-              edit_meeting_bottle_path(bottle.meeting, bottle),
-              class: "block text-xs sm:text-sm uppercase tracking-wide text-lagavulin-gold/60 hover:text-lagavulin-gold hover:underline" %>
       </div>
     </div>
+
+    <%= link_to bottle_path(bottle), class: "block group" do %>
+      <div class="flex">
+        <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+
+        <div class="flex-1 ml-3 rounded-2xl border border-lagavulin-gold/18 bg-black/15 p-5 sm:p-6
+                    shadow-sm shadow-black/40 transition group-hover:bg-black/22 group-active:scale-[0.99]">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div class="space-y-2">
+              <p class="text-[#E8D6A7]/70 text-[0.7rem] tracking-[0.32em] uppercase">
+                <%= bottle.distillery.presence || "Distillery" %>
+              </p>
+
+              <p class="text-[#E8D6A7] text-xl sm:text-2xl font-semibold tracking-wide leading-tight">
+                <%= bottle.name %>
+              </p>
+
+              <div class="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-[0.7rem] sm:text-xs tracking-[0.32em] uppercase text-[#E8D6A7]/55">
+                <span>
+                  Style: <span class="text-[#E8D6A7]/75 tracking-widest normal-case sm:uppercase sm:tracking-[0.22em]"><%= bottle.bottle_type.presence || "—" %></span>
+                </span>
+
+                <% if bottle.age.present? %>
+                  <span>
+                    Age: <span class="text-[#E8D6A7]/75 tracking-widest normal-case sm:uppercase sm:tracking-[0.22em]"><%= pluralize(bottle.age, "year") %></span>
+                  </span>
+                <% end %>
+
+                <span>
+                  Avg: <span class="text-[#E8D6A7]/75 tracking-widest"><%= bottle.ratings.any? ? bottle.ratings.average(:score).round(1) : "—" %></span>
+                  <span class="text-[#E8D6A7]/45">/ 5</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-lagavulin-gold/70 transition group-hover:text-lagavulin-gold">
+              <span class="text-[0.7rem] tracking-[0.32em] uppercase">Open Bottle Profile</span>
+              <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                   fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </section>
 <% else %>
-  <p class="mt-8 text-sm sm:text-lg tracking-[0.18em] text-[#E8D6A7]/80 uppercase">
-    No bottle has been added for this meeting yet.
-  </p>
+  <section class="space-y-4">
+    <p class="text-[#E8D6A7]/80 text-sm sm:text-base tracking-widest">
+      No bottle has been added for this meeting yet.
+    </p>
+
+    <% if meeting.meeting_status != :upcoming %>
+      <%= link_to "Add bottle",
+            new_meeting_bottle_path(meeting),
+            class: "btn-mini w-full sm:w-auto" %>
+    <% end %>
+  </section>
 <% end %>
-
-

@@ -1,21 +1,22 @@
-<section class="mt-8">
-  <div class="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-center md:justify-between">
-    <div class="flex flex-col gap-2 sm:flex-row sm:gap-6">
-      <%= link_to "Edit Meeting",
+<section class="pt-2">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <%= link_to "Edit meeting",
             edit_meeting_path(meeting),
-            class: "text-xs sm:text-sm md:text-base uppercase tracking-wide text-lagavulin-gold/80 hover:text-lagavulin-gold" %>
+            class: "btn-mini w-full sm:w-auto" %>
 
       <% if meeting.bottle.blank? && meeting.meeting_status != :upcoming %>
-        <%= link_to "Add Bottle",
+        <%= link_to "Add bottle",
               new_meeting_bottle_path(meeting),
-              class: "text-xs sm:text-sm md:text-base uppercase tracking-wide text-lagavulin-gold/80 hover:text-lagavulin-gold" %>
+              class: "link-mini" %>
       <% end %>
     </div>
 
-    <%= link_to "Delete Meeting",
+    <%= link_to "Delete",
           meeting_path(meeting),
           data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-          class: "text-xs sm:text-sm md:text-base uppercase tracking-wide text-lagavulin-gold/60 hover:text-lagavulin-gold" %>
+          class: "link-mini text-[#E8D6A7]/50 hover:text-lagavulin-gold" %>
   </div>
 </section>
+
 

@@ -2,10 +2,6 @@ class MeetingsController < ApplicationController
   before_action :find_meeting, only: [:show, :edit, :update]
   before_action :find_rating, only: [:show]
 
-  def index
-    @past_meetings = Meeting.past_meetings
-  end
-
   def new
     @meeting = Meeting.new
     @users = User.all

@@ -47,7 +47,9 @@
     <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
       <%= f.submit "Save Bottle", class: "form-btn" %>
 
-      <%= link_to 'Back to Meeting', meeting_path(meeting),
+      <%= link_to 'Tasting Night', meeting_path(meeting),
+            class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
+      <%= link_to "Bottle Profile", bottle_path(bottle),
             class: "inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-[0.18em] uppercase text-lagavulin-green hover:text-lagavulin-green/80" %>
     </div>
   </div>
