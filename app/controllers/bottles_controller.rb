@@ -61,7 +61,7 @@ class BottlesController < ApplicationController
   end
 
   def bottle_params
-    params.require(:bottle).permit(:name, :user_id, :distillery, :age, :final_score)
+    params.require(:bottle).permit(:name, :user_id, :distillery, :age, :final_score, :bottle_type)
   end
 end
 

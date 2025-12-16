@@ -73,8 +73,8 @@
               Final Score
             </p>
             <p class="mt-1 text-sm uppercase md:text-base text-[#E8D6A7]">
-            <% if @bottle.final_score.present? %>
-              <%= @bottle.final_score %>
+            <% if @bottle.ratings.present? %>
+              <%= @bottle.average_rating %>
             <% else %>
               0.0
             <% end %>
