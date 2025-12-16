@@ -23,9 +23,9 @@
     <section class="space-y-4">
       <div class="flex items-end justify-between gap-4">
         <div>
-          <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/60">
-            Next meeting
-          </p>
+        <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/60">
+          Next meeting
+        </p>
           <h1 class="mt-2 text-[#E8D6A7] text-2xl sm:text-4xl small-caps font-semibold tracking-wide leading-tight">
             <% if @next_meeting.present? %>
               <%= @next_meeting.date.strftime("%B %d, %Y") %>
