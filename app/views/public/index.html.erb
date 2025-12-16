@@ -6,34 +6,212 @@
   </div>
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0f2a23]/70 via-[#0f2a23]/40 to-[#0f2a23]/10"></div>
 
-  <!-- Content -->
-  <div class="relative mx-auto w-full max-w-5xl px-4 py-10 space-y-8 sm:px-6 sm:py-12 md:py-16 md:space-y-10">
-    <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <span>
+  <div class="relative z-10 mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
+    <!-- Top bar -->
+    <div class="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <h2 class="text-2xl sm:text-3xl font-semibold small-caps text-[#E8D6A7]">
+        Welcome back, <%= current_user.full_name %>
+      </h2>
+
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <%= link_to "Archive", archives_path, class: "link-mini" %>
+        <%= link_to "Schedule a tasting", new_meeting_path, class: "btn-mini" %>
+      </div>
+    </div>
+
+    <!-- Hero: Next Meeting -->
+    <section class="space-y-4">
+      <div class="flex items-end justify-between gap-4">
         <div>
-          <%= link_to "Archive", archives_path, class: "text-md font-medium uppercase tracking-[0.2em] text-lagavulin-gold/80 hover:text-lagavulin-gold text-right" %>
+          <p class="text-[0.7rem] tracking-[0.32em] uppercase text-lagavulin-gold/60">
+            Next meeting
+          </p>
+          <h1 class="mt-2 text-[#E8D6A7] text-2xl sm:text-4xl small-caps font-semibold tracking-wide leading-tight">
+            <% if @next_meeting.present? %>
+              <%= @next_meeting.date.strftime("%B %d, %Y") %>
+            <% else %>
+              No meeting scheduled
+            <% end %>
+          </h1>
         </div>
-      </span>
-    </div>
-    <div class="sm:px-0">
-      <%= link_to "Schedule a Meeting",
-            new_meeting_path,
-            class: "btn-sm sm:btn" %>
-    </div>
+      </div>
 
-    <!-- Upcoming section -->
-    <section class="space-y-4 pt-6 sm:pt-8">
-      <h3 class="text-2xl sm:text-3xl uppercase tracking-[0.22em] sm:tracking-[0.28em] text-lagavulin-gold">
-        Next Meeting
-      </h3>
-
-      <% if @upcoming_meetings.any? %>
-        <%= render partial: "upcoming_meeting_list", locals: { meetings: @upcoming_meetings } %>
+      <% if @next_meeting.present? %>
+        <%= render "next_meeting_card", meeting: @next_meeting %>
       <% else %>
-        <p class="text-xs sm:text-sm small-caps text-zinc-200">
-          No upcoming meetings.
-        </p>
+        <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-6 shadow-sm shadow-black/30">
+          <p class="text-sm tracking-widest text-[#E8D6A7]/75">
+            Nothing on the calendar yet.
+          </p>
+          <p class="mt-2 text-sm tracking-[0.32em] uppercase text-[#E8D6A7]/55">
+            Schedule the next tasting when you’re ready.
+          </p>
+
+          <div class="mt-4">
+            <%= link_to "Schedule a tasting", new_meeting_path, class: "btn-mini w-full sm:w-auto" %>
+          </div>
+        </div>
       <% end %>
+    </section>
+
+    <div class="my-10 h-px bg-lagavulin-gold/18"></div>
+
+    <!-- Member ledger -->
+    <section class="space-y-6">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-sm tracking-[0.32em] uppercase text-lagavulin-gold/60">
+            Member ledger
+          </p>
+        </div>
+      </div>
+
+      <!-- Stat tiles -->
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+          <p class="text-sm tracking-[0.32em] uppercase text-lagavulin-gold/70">Ratings</p>
+          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+            <%= @ratings_count || 0 %>
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+          <p class="text-sm tracking-[0.32em] uppercase text-lagavulin-gold/70">Avg score</p>
+          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+            <%= @avg_rating.present? ? number_with_precision(@avg_rating, precision: 2) : "—" %>
+            <span class="text-[#E8D6A7]/55 text-sm tracking-[0.28em] uppercase">/ 5</span>
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+          <p class="text-sm tracking-[0.32em] uppercase text-lagavulin-gold/70">Bottles brought</p>
+          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+            <%= @bottles_brought_count || 0 %>
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+          <p class="text-sm tracking-[0.32em] uppercase text-lagavulin-gold/70">Top pick</p>
+          <p class="mt-2 text-sm sm:text-base text-[#E8D6A7] tracking-widest">
+            <%= @top_rated&.first&.name || "—" %>
+          </p>
+        </div>
+      </div>
+
+      <!-- Top rated list -->
+      <div class="grid gap-6 lg:grid-cols-2 lg:items-start">
+        <div class="space-y-3">
+          <div class="flex items-end justify-between gap-4">
+            <h3 class="text-[#E8D6A7] uppercase text-base sm:text-lg font-semibold tracking-wide">
+              Your top three
+            </h3>
+            <span class="text-sm tracking-widest uppercase text-[#E8D6A7]/45">
+              By your rating
+            </span>
+          </div>
+
+          <% if @top_rated.present? %>
+            <ul class="space-y-3">
+              <% @top_rated.each_with_index do |bottle, idx| %>
+                <li>
+                  <%= link_to bottle_path(bottle), class: "block group" do %>
+                    <div class="flex">
+                      <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+
+                      <div class="flex-1 ml-3 rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4
+                                  shadow-sm shadow-black/30 transition group-hover:bg-black/18">
+                        <p class="text-sm tracking-widest uppercase text-[#E8D6A7]/55">
+                          #<%= idx + 1 %> · <%= bottle.distillery.presence || "Distillery" %>
+                        </p>
+                        <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
+                          <%= bottle.name %>
+                        </p>
+                      </div>
+
+                      <div class="ml-3 flex items-center text-lagavulin-gold/60 transition group-hover:text-lagavulin-gold">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </div>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/10 p-4">
+              <p class="text-sm tracking-widest text-[#E8D6A7]/70">
+                No ratings yet.
+              </p>
+              <p class="mt-2 text-sm tracking-[0.32em] uppercase text-[#E8D6A7]/50">
+                Rate a bottle to start your ledger.
+              </p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Bottles brought -->
+        <div class="space-y-3">
+          <div class="flex items-end justify-between gap-4">
+            <h3 class="text-[#E8D6A7] text-base uppercase sm:text-lg font-semibold tracking-wide">
+              Bottles you’ve brought
+            </h3>
+
+            <span class="text-sm tracking-[0.32em] uppercase text-[#E8D6A7]/45">
+              <%= @bottles_brought_count || 0 %> total
+            </span>
+          </div>
+
+          <% if @bottles_brought.present? && @bottles_brought.any? %>
+            <ul class="space-y-3">
+              <% @bottles_brought.order("meetings.date desc").limit(3).each do |bottle| %>
+                <li>
+                  <%= link_to bottle_path(bottle), class: "block group" do %>
+                    <div class="flex">
+                      <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+
+                      <div class="flex-1 ml-3 rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4
+                                  shadow-sm shadow-black/30 transition group-hover:bg-black/18">
+                        <p class="text-sm tracking-[0.32em] uppercase text-[#E8D6A7]/55">
+                          <%= bottle.meeting.date.strftime("%b %Y") %>
+                        </p>
+                        <p class="mt-1 text-[#E8D6A7] text-sm sm:text-base tracking-widest">
+                          <%= bottle.name %>
+                        </p>
+                      </div>
+
+                      <div class="ml-3 flex items-center text-lagavulin-gold/60 transition group-hover:text-lagavulin-gold">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </div>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+
+            <% if (@bottles_brought_count || 0) > 3 %>
+              <div class="pt-2">
+                <%= link_to "View all",
+                      archives_path,
+                      class: "link-mini" %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/10 p-4">
+              <p class="text-sm tracking-widest text-[#E8D6A7]/70">
+                None yet.
+              </p>
+              <p class="mt-2 text-sm tracking-[0.32em] uppercase text-[#E8D6A7]/50">
+                Your first pick will show up here.
+              </p>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </section>
   </div>
 </div>

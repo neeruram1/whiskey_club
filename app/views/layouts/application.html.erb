@@ -25,25 +25,20 @@
                 Montclair
               </span>
             <% end %>
-
-            <% if user_signed_in? %>
-              <span class="text-[0.7rem] tracking-[0.22em] uppercase text-lagavulin-gold/80 sm:text-xs md:text-sm">
-                Logged in as
-                <strong class="text-lagavulin-gold"><%= current_user.full_name %></strong>
-                <span class="mx-1">|</span>
-                <%= link_to "Account Settings", edit_user_registration_path, class: "underline" %>
-              </span>
-            <% end %>
           </div>
 
           <!-- Right: logout -->
           <% if user_signed_in? %>
             <div class="flex justify-start sm:justify-end">
-              <%= button_to "Log Out",
+                <%= link_to "Account Settings", edit_user_registration_path, class: "link-mini" %>
+            </div>
+            <div class="text-sm text-lagavulin-gold/70 sm:right-6">
+              <span class="font-semibold text-lagavulin-gold/90">
+                  <%= button_to "Log Out",
                     destroy_user_session_path,
                     method: :delete,
-                    class: "btn-sm sm:btn" %>
-            </div>
+                    class: "btn-mini" %>
+              </span>
           <% end %>
         </div>
       </header>
