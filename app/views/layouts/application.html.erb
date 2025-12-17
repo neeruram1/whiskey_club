@@ -61,7 +61,7 @@
                         aria-controls="mobile-menu" 
                         aria-expanded="false"
                         onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
-                  <span class="text-sm font-medium tracking-wider uppercase">Menu</span>
+                  <span class="text-base font-medium tracking-wider uppercase">Menu</span>
                   <!-- Icon when menu is closed -->
                   <svg class="block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -92,19 +92,19 @@
 
                 <!-- Mobile menu (hidden by default) -->
                 <div class="hidden sm:hidden mt-3 space-y-1" id="mobile-menu">
-                  <%= link_to "Home", root_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
-                  <%= link_to "Bottle Archive", archives_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
-                  <%= link_to "Tasting Archive", meetings_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
-                  <%= link_to "Stats", stats_path, class: "block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
-                  <a href="<%= new_meeting_path %>" class="block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Schedule</a>
+                  <%= link_to "Home", root_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Bottle Archive", archives_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Tasting Archive", meetings_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Stats", stats_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <a href="<%= new_meeting_path %>" class="block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Schedule</a>
 
                   <% if user_signed_in? %>
-                    <a href="<%= edit_user_registration_path %>" class="block px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Edit account</a>
+                    <a href="<%= edit_user_registration_path %>" class="block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Edit account</a>
 
                     <%= button_to destroy_user_session_path,
                           method: :delete,
                           form: { class: "w-full" },
-                          class: "w-full text-left px-3 py-3 rounded-md text-sm font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition",
+                          class: "w-full text-left px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition",
                           data: { turbo: false, turbo_confirm: "Log out of your account?" },
                           aria: { label: "Log out" } do %>
                       Log out
