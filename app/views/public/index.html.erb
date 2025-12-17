@@ -213,7 +213,7 @@
               <div class="space-y-4">
                 <div class="flex items-end justify-between">
                   <h3 class="heading-section text-lagavulin-gold">
-                    Your Taste Twin
+                    Closest Match
                   </h3>
                   <span class="meta-xs text-lagavulin-gold/60">
                     <%= @taste_match[:similarity].round(1) %> / 5 Match
@@ -232,7 +232,10 @@
                     </div>
                   </div>
                   <p class="body-sm text-lagavulin-gold/70">
-                    You've rated <%= @taste_match[:shared_bottles] %> of the same bottles with similar scores. Great minds think alike!
+                    You've both rated <%= @taste_match[:shared_bottles] %> of the same bottles with similar scores.
+                  </p>
+                  <p class="meta-xs italic text-lagavulin-gold/55">
+                    Based on bottles you've rated — their match may differ
                   </p>
                 </div>
               </div>
