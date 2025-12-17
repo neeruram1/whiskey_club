@@ -128,6 +128,9 @@
                                     shadow-sm shadow-black/30 transition group-hover:bg-black/25 group-hover:border-lagavulin-gold/40 group-active:scale-[0.98]">
                           <p class="body-sm text-lagavulin-gold/70 truncate">
                             #<%= idx + 1 %> · <%= bottle.distillery.presence || "Distillery" %>
+                            <% if bottle.meeting&.flight_night? %>
+                              <span class="ml-1">✈️</span>
+                            <% end %>
                           </p>
                           <p class="mt-2 text-base sm:text-lg font-semibold text-lagavulin-gold break-words line-clamp-2">
                             <%= bottle.name %>
