@@ -38,18 +38,18 @@
 
         <% unless hide_shell %>
           <header class="sticky top-0 z-40 border-b border-lagavulin-gold/30 bg-lagavulin-green/70 supports-[backdrop-filter]:backdrop-blur-md" role="banner">
-            <div class="mx-auto w-full max-w-screen-xl px-4 py-3 sm:px-6">
-              <nav class="sm:flex sm:items-center sm:justify-between" aria-label="Main navigation">
+            <div class="mx-auto w-full max-w-screen-xl px-4 py-3 sm:px-4 md:px-6">
+              <nav class="sm:flex sm:items-center sm:justify-between sm:gap-4" aria-label="Main navigation">
                 <!-- Left: wordmark -->
-                <%= link_to root_path, class: "group flex flex-col sm:inline-flex sm:flex-row sm:items-baseline gap-0 sm:gap-2 sm:flex-initial" do %>
-                  <span class="text-xs sm:text-xs tracking-[0.25em] sm:tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                <%= link_to root_path, class: "group flex flex-col sm:inline-flex sm:flex-row sm:items-baseline gap-0 sm:gap-1.5 md:gap-2 flex-shrink-0" do %>
+                  <span class="text-xs tracking-[0.25em] sm:tracking-[0.2em] md:tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap">
                     Collective Spirits
                   </span>
-                  <span class="inline-flex items-baseline gap-1.5">
-                    <span class="font-of text-sm sm:text-base lg:text-lg leading-none text-lagavulin-gold/80">
+                  <span class="inline-flex items-baseline gap-1 sm:gap-1.5">
+                    <span class="font-of text-sm sm:text-sm md:text-base lg:text-lg leading-none text-lagavulin-gold/80">
                       of
                     </span>
-                    <span class="text-xs sm:text-xs tracking-[0.25em] sm:tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                    <span class="text-xs tracking-[0.25em] sm:tracking-[0.2em] md:tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap">
                       Montclair
                     </span>
                   </span>
@@ -69,7 +69,7 @@
                 </button>
 
                 <!-- Desktop nav (hidden on mobile) -->
-                <div class="hidden sm:flex sm:items-center sm:gap-x-6">
+                <div class="hidden sm:flex sm:items-center sm:gap-x-3 md:gap-x-4 lg:gap-x-6 flex-wrap">
                   <%= link_to "Home", root_path, class: "link-mini" %>
                   <%= link_to "Bottle Archive", archives_path, class: "link-mini" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "link-mini" %>
