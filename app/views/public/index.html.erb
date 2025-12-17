@@ -64,14 +64,14 @@
 
         <!-- Stat tiles -->
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
+          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
             <p class="stat-label text-lagavulin-gold/80">Ratings</p>
             <p class="mt-3 stat-value text-lagavulin-gold">
               <%= @ratings_count || 0 %>
             </p>
           </div>
 
-          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
+          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
             <p class="stat-label text-lagavulin-gold/80" title="Your average rating across all bottles">Avg Score</p>
             <p class="mt-3 stat-value text-lagavulin-gold">
               <%= @avg_rating.present? ? number_with_precision(@avg_rating, precision: 1) : "—" %>
@@ -79,14 +79,14 @@
             </p>
           </div>
 
-          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
+          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
             <p class="stat-label text-lagavulin-gold/80">Bottles Brought</p>
             <p class="mt-3 stat-value text-lagavulin-gold">
               <%= @bottles_brought_count || 0 %>
             </p>
           </div>
 
-          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
+          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
             <p class="stat-label text-lagavulin-gold/80" title="Your highest-rated bottle">Top Pick</p>
             <p class="mt-3 body-base font-semibold text-lagavulin-gold line-clamp-2 leading-snug">
               <%= @top_rated&.first&.name || "—" %>
