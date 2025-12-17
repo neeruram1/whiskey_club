@@ -91,10 +91,11 @@ class PublicController < ApplicationController
                                  .count
                                  .max_by { |_, count| count }
 
-    # Best meeting (highest average rating for bottles at that meeting)
+    # Best meeting (highest average rating for bottles at that meeting, min 3 ratings)
     @best_meeting = Meeting.joins(bottles: :ratings)
                            .select('meetings.*, AVG(ratings.score) as avg_score')
                            .group('meetings.id')
+                           .having('COUNT(ratings.id) >= 3')
                            .order('avg_score DESC')
                            .first
   end
