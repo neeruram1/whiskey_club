@@ -38,10 +38,11 @@ class PublicController < ApplicationController
     @total_ratings = Rating.count
     @club_avg_rating = Rating.average(:score)&.round(2)
 
-    # Top bottle (highest club average)
+    # Top bottle (highest club average with at least 3 ratings)
     @top_bottle = Bottle.joins(:ratings)
                         .select('bottles.*, AVG(ratings.score) as avg_score')
                         .group('bottles.id')
+                        .having('COUNT(ratings.id) >= 3')
                         .order('avg_score DESC')
                         .first
 
