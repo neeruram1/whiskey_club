@@ -31,6 +31,7 @@ class BottlesController < ApplicationController
     # Ratings already loaded via set_bottle and eager loading
     @current_user_rating = current_user ? @bottle.ratings.find { |r| r.user_id == current_user.id } : nil
     @all_ratings = @bottle.ratings.sort_by { |r| [-r.score, r.created_at] }
+    @is_unrated = current_user && @current_user_rating.nil?
 
     if params[:peek] == "1"
       render partial: "bottles/peek", locals: { bottle: @bottle }
