@@ -249,16 +249,34 @@
                     </div>
                   </div>
                 <% else %>
+                  <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
+                  <% meeting_is_upcoming = meeting.date > Date.current %>
                   <div class="mt-4 rounded-xl border-2 border-dashed border-lagavulin-gold/20 bg-black/20 p-6 text-center">
                     <svg class="mx-auto h-10 w-10 text-lagavulin-gold/30 mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <p class="text-sm font-semibold text-lagavulin-gold/60">
-                      No bottle added yet
-                    </p>
-                    <p class="mt-1 text-xs text-lagavulin-gold/40">
-                      Click to add bottle details
-                    </p>
+                    <% if meeting_is_upcoming && is_spirit_guide %>
+                      <p class="text-sm font-semibold text-lagavulin-gold/60">
+                        🔒 Bottle not added yet
+                      </p>
+                      <p class="mt-1 text-xs text-lagavulin-gold/40">
+                        Click to add (will stay hidden until you reveal it)
+                      </p>
+                    <% elsif meeting_is_upcoming %>
+                      <p class="text-sm font-semibold text-lagavulin-gold/60">
+                        🔒 Bottle not yet revealed
+                      </p>
+                      <p class="mt-1 text-xs text-lagavulin-gold/40">
+                        The spirit guide will reveal it during the tasting
+                      </p>
+                    <% else %>
+                      <p class="text-sm font-semibold text-lagavulin-gold/60">
+                        No bottle added yet
+                      </p>
+                      <p class="mt-1 text-xs text-lagavulin-gold/40">
+                        Click to add bottle details
+                      </p>
+                    <% end %>
                   </div>
                 <% end %>
               </div>

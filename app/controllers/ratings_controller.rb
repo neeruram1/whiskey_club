@@ -6,10 +6,12 @@ class RatingsController < ApplicationController
     bottle_id = rating_params[:bottle_id]
     score     = rating_params[:score]
     comment   = rating_params[:comment]
+    flavors   = rating_params[:flavors]&.reject(&:blank?) || []
 
     rating = Rating.find_or_initialize_by(user: current_user, bottle_id: bottle_id)
     rating.score = score
     rating.comment = comment
+    rating.flavors = flavors
 
     if rating.save
       redirect_back fallback_location: bottle_path(bottle_id), notice: "Rating saved."
@@ -36,7 +38,7 @@ class RatingsController < ApplicationController
   private
 
   def rating_params
-    params.require(:rating).permit(:bottle_id, :score, :comment)
+    params.require(:rating).permit(:bottle_id, :score, :comment, flavors: [])
   end
 end
 

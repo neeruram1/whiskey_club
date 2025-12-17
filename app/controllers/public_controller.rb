@@ -17,6 +17,11 @@ class PublicController < ApplicationController
                        .order('ratings.score DESC')
                        .limit(3)
 
+    # Attendance stats
+    @meetings_attended = current_user.meetings.where('date < ?', Date.current).count
+    @total_past_meetings = Meeting.where('date < ?', Date.current).count
+    @attendance_rate = @total_past_meetings > 0 ? ((@meetings_attended.to_f / @total_past_meetings) * 100).round : 0
+
     # Bottles brought with eager loading (includes both spirit guide bottles and flight night bottles)
     @bottles_brought = Bottle.joins(:meeting)
                              .where('meetings.bottle_bringer_id = ? OR bottles.user_id = ?', current_user.id, current_user.id)
@@ -29,6 +34,12 @@ class PublicController < ApplicationController
 
     # Find which bottle bringer's bottles you rate highest
     @favorite_bringer = calculate_favorite_bringer
+  end
+
+  def wishlist
+    @wishlisted_bottles = current_user.wishlisted_bottles
+                                      .includes(:meeting, :user)
+                                      .order(created_at: :desc)
   end
 
   def stats

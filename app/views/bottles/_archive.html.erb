@@ -6,7 +6,7 @@
 
   <!-- Featured: Most Recent Tasting -->
   <% if bottle_of_month.present? %>
-    <%= link_to meeting_path(bottle_of_month.meeting), class: "block group touch-manipulation" do %>
+    <%= link_to bottle_of_month, class: "block group touch-manipulation" do %>
       <div class="relative overflow-hidden rounded-3xl border-2 border-lagavulin-gold/50 bg-gradient-to-br from-black/30 to-black/20 p-8 sm:p-10
                   shadow-2xl shadow-black/60 transition-all duration-300 group-hover:border-lagavulin-gold/70 group-hover:shadow-lagavulin-gold/10 group-active:scale-[0.99]">
 
@@ -238,7 +238,7 @@
             data-date="<%= bottle.meeting.date.to_time.to_i %>"
             data-unrated="<%= @unrated_bottle_ids.include?(bottle.id) %>"
           >
-            <%= link_to meeting_path(bottle.meeting), class: "block group h-full touch-manipulation" do %>
+            <%= link_to bottle, class: "block group h-full touch-manipulation" do %>
               <div class="h-full rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 
                           shadow-md shadow-black/40 transition-all duration-200
                           group-hover:border-lagavulin-gold/50 group-hover:bg-black/35 

@@ -5,13 +5,34 @@
 
     <!-- Header -->
     <header class="mb-8 max-w-3xl space-y-3">
-      <p class="label-sm text-lagavulin-gold/80">
-        <%= @bottle.distillery.presence || "Distillery" %>
-      </p>
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <p class="label-sm text-lagavulin-gold/80">
+            <%= @bottle.distillery.presence || "Distillery" %>
+          </p>
 
-      <h1 class="mt-2 heading-page text-lagavulin-gold">
-        <%= @bottle.name %>
-      </h1>
+          <h1 class="mt-2 heading-page text-lagavulin-gold">
+            <%= @bottle.name %>
+          </h1>
+        </div>
+
+        <div class="flex flex-col items-center gap-1 flex-shrink-0">
+          <%= button_to toggle_wishlist_bottle_path(@bottle), method: :post, class: "group" do %>
+            <% if current_user.wishlist_includes?(@bottle) %>
+              <svg class="w-8 h-8 text-red-500 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Remove from Encore Pours">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            <% else %>
+              <svg class="w-8 h-8 text-lagavulin-gold/40 group-hover:text-red-500 group-hover:fill-red-500 stroke-current group-hover:scale-110 transition-all" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Add to Encore Pours">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            <% end %>
+          <% end %>
+          <p class="label-xs text-lagavulin-gold/60 text-center whitespace-nowrap">
+            <%= current_user.wishlist_includes?(@bottle) ? "Saved" : "Encore?" %>
+          </p>
+        </div>
+      </div>
 
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
         <p class="meta-sm text-lagavulin-gold/80">
@@ -22,9 +43,11 @@
 
         <p class="label-sm text-lagavulin-gold/70">
           Spirit Guide:
-          <span class="text-lagavulin-gold/80">
-            <%= @bottle.meeting.bottle_bringer&.full_name || "—" %>
-          </span>
+          <% if @bottle.meeting.bottle_bringer.present? %>
+            <%= link_to @bottle.meeting.bottle_bringer.full_name, user_path(@bottle.meeting.bottle_bringer), class: "text-lagavulin-gold/80 hover:text-lagavulin-gold transition" %>
+          <% else %>
+            <span class="text-lagavulin-gold/80">—</span>
+          <% end %>
         </p>
 
         <% if @is_unrated %>
@@ -81,6 +104,35 @@
       <!-- Divider -->
       <div class="my-8 h-px bg-lagavulin-gold/14"></div>
 
+      <!-- Flavor Profile Summary -->
+      <% 
+        all_flavors = @all_ratings.flat_map { |r| r.flavors || [] }
+        flavor_counts = all_flavors.tally.sort_by { |_, count| -count }
+      %>
+      <% if flavor_counts.any? %>
+        <div class="space-y-4 mb-8">
+          <h2 class="heading-section text-lagavulin-gold">
+            Flavor Profile
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            <% flavor_counts.each do |flavor, count| %>
+              <span class="inline-flex items-center gap-2 rounded-full bg-lagavulin-gold/15 border border-lagavulin-gold/30 px-4 py-2">
+                <span class="label-sm text-lagavulin-gold"><%= flavor %></span>
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-lagavulin-gold/25 text-xs font-semibold text-lagavulin-gold">
+                  <%= count %>
+                </span>
+              </span>
+            <% end %>
+          </div>
+          <p class="meta-xs text-lagavulin-gold/50">
+            Based on <%= pluralize(@all_ratings.count, 'member rating') %>
+          </p>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-8 h-px bg-lagavulin-gold/14"></div>
+      <% end %>
+
       <!-- All Member Ratings -->
       <% if @all_ratings.any? %>
         <div class="space-y-4 mb-8">
@@ -98,12 +150,14 @@
               <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-3 transition hover:bg-black/25 hover:border-lagavulin-gold/40">
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
-                    <p class="body-base font-semibold text-lagavulin-gold">
-                      <%= rating.user.full_name %>
-                      <% if rating.user.id == current_user.id %>
-                        <span class="meta-xs text-lagavulin-gold/60">(You)</span>
-                      <% end %>
-                    </p>
+                    <%= link_to user_path(rating.user), class: "group" do %>
+                      <p class="body-base font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/80">
+                        <%= rating.user.full_name %>
+                        <% if rating.user.id == current_user.id %>
+                          <span class="meta-xs text-lagavulin-gold/60">(You)</span>
+                        <% end %>
+                      </p>
+                    <% end %>
                   </div>
                     <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-2.5 py-1">
                       <p class="text-sm font-bold text-lagavulin-gold whitespace-nowrap">
@@ -112,6 +166,16 @@
                     </p>
                   </div>
                 </div>
+
+                <% if rating.flavors.present? && rating.flavors.any? %>
+                  <div class="flex flex-wrap gap-1.5">
+                    <% rating.flavors.each do |flavor| %>
+                      <span class="inline-block rounded-full bg-lagavulin-gold/10 border border-lagavulin-gold/25 px-2 py-0.5">
+                        <span class="label-xs text-lagavulin-gold/80"><%= flavor %></span>
+                      </span>
+                    <% end %>
+                  </div>
+                <% end %>
 
                 <% if rating.comment.present? %>
                   <p class="body-sm text-lagavulin-gold/70 leading-relaxed">

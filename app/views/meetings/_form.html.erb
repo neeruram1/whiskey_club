@@ -28,6 +28,17 @@
                   data: { action: "change->form-errors#clearError", form_errors_error_id_param: "date-error" } %>
             <%= form_error_message(@meeting, :date, id: "date-error") %>
           </div>
+          
+          <div>
+            <%= f.label :notes, class: form_label_classes do %>
+              Meeting Notes <span class="font-normal text-lagavulin-green/70">(optional group discussion notes)</span>
+            <% end %>
+            <%= f.text_area :notes,
+                  rows: 4,
+                  placeholder: "Record key discussion points, memorable quotes, or group insights...",
+                  class: form_input_classes(errors_present: @meeting.errors[:notes].any?) %>
+            <%= form_error_message(@meeting, :notes, id: "notes-error") %>
+          </div>
           <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between">
             <% if @meeting.persisted? %>
               <%= link_to "Cancel", meeting_path(@meeting), 

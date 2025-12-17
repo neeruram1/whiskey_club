@@ -38,55 +38,43 @@
 
         <% unless hide_shell %>
           <header class="sticky top-0 z-40 border-b border-lagavulin-gold/30 bg-lagavulin-green/70 supports-[backdrop-filter]:backdrop-blur-md" role="banner">
-            <div class="mx-auto w-full max-w-screen-xl px-4 py-3 sm:px-4 md:px-6">
-              <nav class="sm:flex sm:items-center sm:justify-between sm:gap-4" aria-label="Main navigation">
+            <div class="mx-auto w-full max-w-screen-xl px-4 py-2.5 sm:px-4 md:px-6">
+              <nav class="flex items-center justify-between gap-4" aria-label="Main navigation">
                 <!-- Left: wordmark -->
-                <%= link_to root_path, class: "group flex flex-col sm:inline-flex sm:flex-row sm:items-baseline gap-0 sm:gap-1.5 md:gap-2 flex-shrink-0" do %>
-                  <span class="text-xs tracking-[0.25em] sm:tracking-[0.2em] md:tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap">
+                <%= link_to root_path, class: "group flex flex-col gap-0.5 flex-shrink-0" do %>
+                  <span class="text-xs tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap leading-none">
                     Collective Spirits
                   </span>
-                  <span class="inline-flex items-baseline gap-1 sm:gap-1.5">
-                    <span class="font-of text-sm sm:text-sm md:text-base lg:text-lg leading-none text-lagavulin-gold/80">
-                      of
-                    </span>
-                    <span class="text-xs tracking-[0.25em] sm:tracking-[0.2em] md:tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap">
-                      Montclair
-                    </span>
+                  <span class="font-of text-sm text-lagavulin-gold/70 transition group-hover:text-lagavulin-gold/90 leading-none">
+                    of Montclair
                   </span>
                 <% end %>
 
-                <!-- Mobile menu button (below logo on mobile & tablet) -->
+                <!-- Mobile menu button -->
                 <button type="button" 
-                        class="lg:hidden mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
+                        class="lg:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
                         aria-controls="mobile-menu" 
                         aria-expanded="false"
                         onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
-                  <span class="text-base font-medium tracking-wider uppercase">Menu</span>
-                  <!-- Icon when menu is closed -->
-                  <svg class="block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <span class="text-sm font-medium tracking-wider uppercase">Menu</span>
+                  <svg class="block h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                   </svg>
                 </button>
 
                 <!-- Desktop nav (hidden on mobile & tablet) -->
-                <div class="hidden lg:flex lg:items-center lg:gap-x-6 flex-wrap">
+                <div class="hidden lg:flex lg:items-center lg:gap-x-4 xl:gap-x-5 flex-wrap">
                   <%= link_to "Home", root_path, class: "link-mini" %>
-                  <%= link_to "Bottle Archive", archives_path, class: "link-mini" %>
-                  <%= link_to "Tasting Archive", meetings_path, class: "link-mini" %>
+                  <%= link_to "Bottles", archives_path, class: "link-mini" %>
+                  <%= link_to "Tastings", meetings_path, class: "link-mini" %>
                   <%= link_to "Stats", stats_path, class: "link-mini" %>
+                  <%= link_to "Encore Pours", wishlist_path, class: "link-mini" %>
                   <a href="<%= new_meeting_path %>" class="link-mini" data-turbo-frame="modal">Schedule</a>
 
                   <% if user_signed_in? %>
-                    <a href="<%= edit_user_registration_path %>" class="link-mini" data-turbo-frame="modal">Edit account</a>
-
-                    <%= button_to destroy_user_session_path,
-                          method: :delete,
-                          form: { class: "inline" },
-                          class: "btn-mini",
-                          data: { turbo: false, turbo_confirm: "Log out of your account?" },
-                          aria: { label: "Log out" } do %>
-                      Log out
-                    <% end %>
+                    <span class="text-lagavulin-gold/30">|</span>
+                    <a href="<%= edit_user_registration_path %>" class="link-mini" data-turbo-frame="modal">Account</a>
+                    <%= link_to "Log out", destroy_user_session_path, class: "link-mini", data: { turbo_method: :delete, turbo_confirm: "Log out of your account?" } %>
                   <% end %>
                 </div>
 
@@ -96,6 +84,7 @@
                   <%= link_to "Bottle Archive", archives_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Stats", stats_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                  <%= link_to "Encore Pours", wishlist_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <a href="<%= new_meeting_path %>" class="block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Schedule</a>
 
                   <% if user_signed_in? %>

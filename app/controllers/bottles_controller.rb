@@ -15,6 +15,11 @@ class BottlesController < ApplicationController
   def create
     @bottle = @meeting.bottles.build(bottle_params)
     @bottle.user ||= current_user
+    
+    # Auto-reveal if meeting date has arrived
+    if @meeting.date <= Date.current
+      @bottle.revealed_at = Time.current
+    end
 
     if @bottle.save
       redirect_to meeting_path(@meeting), notice: "Bottle added.", status: :see_other
@@ -54,6 +59,41 @@ class BottlesController < ApplicationController
   def destroy
     @bottle.destroy
     redirect_to meeting_path(@meeting), notice: "Bottle removed."
+  end
+
+  def reveal
+    @bottle = Bottle.find(params[:id])
+    @meeting = @bottle.meeting
+    
+    # Only spirit guide can reveal
+    unless current_user.id == @meeting.bottle_bringer_id
+      redirect_to meeting_path(@meeting), alert: "Only the spirit guide can reveal the bottle.", status: :see_other
+      return
+    end
+    
+    # Only reveal on or after meeting date
+    unless @meeting.date <= Date.current
+      redirect_to meeting_path(@meeting), alert: "Bottle can only be revealed on the meeting date.", status: :see_other
+      return
+    end
+    
+    @bottle.reveal!
+    redirect_to meeting_path(@meeting), notice: "Bottle revealed! Everyone can now see and rate it.", status: :see_other
+  end
+
+  def toggle_wishlist
+    @bottle = Bottle.find(params[:id])
+    wishlist_item = current_user.bottle_wishlists.find_by(bottle: @bottle)
+    
+    if wishlist_item
+      wishlist_item.destroy
+      message = "Removed from wishlist"
+    else
+      current_user.bottle_wishlists.create(bottle: @bottle)
+      message = "Added to wishlist"
+    end
+    
+    redirect_back fallback_location: meeting_path(@bottle.meeting), notice: message, status: :see_other
   end
 
   private

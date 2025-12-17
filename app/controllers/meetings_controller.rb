@@ -35,6 +35,7 @@ class MeetingsController < ApplicationController
   def show
     @bottle = @meeting&.bottle
     @attendees = @meeting.attendees.includes(:ratings)
+    @user_is_attending = current_user && @meeting.attendees.exists?(id: current_user.id)
     
     # Calculate meeting stats and load ratings
     if @bottle.present?
@@ -50,6 +51,21 @@ class MeetingsController < ApplicationController
     elsif params[:peek] == "0"
       render partial: "bottles/row", locals: { bottle: @bottle }
     end
+  end
+
+  def toggle_attendance
+    @meeting = Meeting.find(params[:id])
+    attendance = @meeting.meeting_attendees.find_by(user: current_user)
+    
+    if attendance
+      attendance.destroy
+      message = "Marked as not attending"
+    else
+      @meeting.meeting_attendees.create!(user: current_user)
+      message = "Marked as attending"
+    end
+    
+    redirect_back fallback_location: meeting_path(@meeting), notice: message, status: :see_other
   end
 
   def edit
@@ -84,7 +100,7 @@ class MeetingsController < ApplicationController
   private
 
   def meeting_params
-    params.require(:meeting).permit(:bottle_bringer_id, :date, :is_flight)
+    params.require(:meeting).permit(:bottle_bringer_id, :date, :is_flight, :notes)
   end
 
   def find_meeting

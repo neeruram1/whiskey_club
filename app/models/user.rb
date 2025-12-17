@@ -10,8 +10,14 @@ class User < ApplicationRecord
   has_many :bottles
   has_many :meeting_attendees
   has_many :meetings, through: :meeting_attendees
+  has_many :bottle_wishlists, dependent: :destroy
+  has_many :wishlisted_bottles, through: :bottle_wishlists, source: :bottle
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+  
+  def wishlist_includes?(bottle)
+    bottle_wishlists.exists?(bottle: bottle)
   end
 end

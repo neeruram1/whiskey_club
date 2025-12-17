@@ -6,19 +6,23 @@ Rails.application.routes.draw do
 
   resources :meetings do
     resources :bottles
+    member do
+      post :toggle_attendance
+    end
   end
 
   resources :archives, only: [:index]
-  resources :bottles, except: [:show] # Bottle show is handled by meeting show
+  resources :bottles do
+    member do
+      post :reveal
+      post :toggle_wishlist
+    end
+  end
   resources :ratings
+  resources :users, only: [:show]
   
   get 'stats', to: 'public#stats', as: :stats
-  
-  # Redirect old bottle URLs to meeting page
-  get 'bottles/:id', to: redirect { |params, request|
-    bottle = Bottle.find(params[:id])
-    "/meetings/#{bottle.meeting_id}#{request.query_string.present? ? "?#{request.query_string}" : ""}"
-  }
+  get 'wishlist', to: 'public#wishlist', as: :wishlist
   
   # get "up" => "rails/health#show", as: :rails_health_check
 end

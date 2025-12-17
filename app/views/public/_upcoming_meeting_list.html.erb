@@ -21,7 +21,7 @@
 
                 <% if meeting.bottle_bringer.present? %>
                   <p class="mt-1 text-sm sm:text-base small-caps font-medium text-[#E8D6A7]/85 leading-snug">
-                    This month's selection by <%= meeting.bottle_bringer.full_name %>
+                    This month's selection by <%= link_to meeting.bottle_bringer.full_name, user_path(meeting.bottle_bringer), class: "hover:text-lagavulin-gold transition" %>
                   </p>
                 <% elsif meeting.flight_night? %>
                   <p class="mt-1 text-sm sm:text-base small-caps font-medium text-[#E8D6A7]/85 leading-snug">

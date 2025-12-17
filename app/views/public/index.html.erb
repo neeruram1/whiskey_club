@@ -63,7 +63,7 @@
       <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-4 sm:p-6 md:p-8 lg:p-10 shadow-lg shadow-black/40 space-y-10">
 
         <!-- Stat tiles -->
-        <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+        <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
             <p class="stat-label text-lagavulin-gold/80">Ratings</p>
             <p class="mt-3 stat-value text-lagavulin-gold">
@@ -87,6 +87,14 @@
           </div>
 
           <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35">
+            <p class="stat-label text-lagavulin-gold/80">Meetings</p>
+            <p class="mt-3 stat-value text-lagavulin-gold">
+              <%= @meetings_attended || 0 %>
+              <span class="text-lagavulin-gold/60 text-lg font-medium ml-1">/ <%= @total_past_meetings || 0 %></span>
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 min-h-[100px] flex flex-col justify-between transition hover:border-lagavulin-gold/50 hover:bg-black/35 col-span-2 sm:col-span-2 md:col-span-3 lg:col-span-1">
             <p class="stat-label text-lagavulin-gold/80" title="Your highest-rated bottle">Top Pick</p>
             <p class="mt-3 body-base font-semibold text-lagavulin-gold line-clamp-2 leading-snug">
               <%= @top_rated&.first&.name || "—" %>
@@ -112,7 +120,7 @@
               <ul class="space-y-3">
                 <% @top_rated.each_with_index do |bottle, idx| %>
                   <li>
-                    <%= link_to meeting_path(bottle.meeting), class: "block group touch-manipulation" do %>
+                    <%= link_to bottle, class: "block group touch-manipulation" do %>
                       <div class="flex min-h-[56px] gap-2 sm:gap-3">
                         <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
 
@@ -164,7 +172,7 @@
               <ul class="space-y-3">
                 <% @bottles_brought.order("meetings.date desc").each do |bottle| %>
                   <li>
-                    <%= link_to meeting_path(bottle.meeting), class: "block group touch-manipulation" do %>
+                    <%= link_to bottle, class: "block group touch-manipulation" do %>
                       <div class="flex min-h-[56px] gap-2 sm:gap-3">
                         <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
 
@@ -220,24 +228,31 @@
                   </span>
                 </div>
 
-                <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5 lg:p-6 space-y-3">
-                  <div class="flex items-center justify-between gap-2 min-w-0">
-                    <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-lagavulin-gold truncate">
-                      <%= @taste_match[:user].full_name %>
-                    </p>
-                    <div class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
-                      <p class="meta-xs text-lagavulin-gold font-semibold">
-                        <%= @taste_match[:shared_bottles] %> bottles
+                <%= link_to user_path(@taste_match[:user]), class: "block group" do %>
+                  <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5 lg:p-6 space-y-3 hover:bg-black/25 hover:border-lagavulin-gold/40 transition-all">
+                    <div class="flex items-center justify-between gap-2 min-w-0">
+                      <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-lagavulin-gold truncate">
+                        <%= @taste_match[:user].full_name %>
                       </p>
+                      <div class="flex items-center gap-2">
+                        <div class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
+                          <p class="meta-xs text-lagavulin-gold font-semibold">
+                            <%= @taste_match[:shared_bottles] %> bottles
+                          </p>
+                        </div>
+                        <svg class="w-5 h-5 text-lagavulin-gold/60 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </div>
                     </div>
+                    <p class="body-sm text-lagavulin-gold/70">
+                      You've both rated <%= @taste_match[:shared_bottles] %> of the same bottles with similar scores.
+                    </p>
+                    <p class="meta-xs italic text-lagavulin-gold/55">
+                      Based on bottles you've rated — their match may differ
+                    </p>
                   </div>
-                  <p class="body-sm text-lagavulin-gold/70">
-                    You've both rated <%= @taste_match[:shared_bottles] %> of the same bottles with similar scores.
-                  </p>
-                  <p class="meta-xs italic text-lagavulin-gold/55">
-                    Based on bottles you've rated — their match may differ
-                  </p>
-                </div>
+                <% end %>
               </div>
             <% end %>
 
@@ -253,21 +268,28 @@
                   </span>
                 </div>
 
-                <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5 lg:p-6 space-y-3">
-                  <div class="flex items-center justify-between gap-2 min-w-0">
-                    <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-lagavulin-gold truncate">
-                      <%= @favorite_bringer[:bringer].full_name %>
-                    </p>
-                    <div class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
-                      <p class="meta-xs text-lagavulin-gold font-semibold">
-                        <%= @favorite_bringer[:bottle_count] %> bottles
+                <%= link_to user_path(@favorite_bringer[:bringer]), class: "block group" do %>
+                  <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5 lg:p-6 space-y-3 hover:bg-black/25 hover:border-lagavulin-gold/40 transition-all">
+                    <div class="flex items-center justify-between gap-2 min-w-0">
+                      <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-lagavulin-gold truncate">
+                        <%= @favorite_bringer[:bringer].full_name %>
                       </p>
+                      <div class="flex items-center gap-2">
+                        <div class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
+                          <p class="meta-xs text-lagavulin-gold font-semibold">
+                            <%= @favorite_bringer[:bottle_count] %> bottles
+                          </p>
+                        </div>
+                        <svg class="w-5 h-5 text-lagavulin-gold/60 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </div>
                     </div>
+                    <p class="body-sm text-lagavulin-gold/70">
+                      You've rated their <%= @favorite_bringer[:bottle_count] %> bottles highest on average. They know your palate!
+                    </p>
                   </div>
-                  <p class="body-sm text-lagavulin-gold/70">
-                    You've rated their <%= @favorite_bringer[:bottle_count] %> bottles highest on average. They know your palate!
-                  </p>
-                </div>
+                <% end %>
               </div>
             <% end %>
           </div>

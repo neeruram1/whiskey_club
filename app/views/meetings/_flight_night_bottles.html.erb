@@ -24,7 +24,7 @@
                 <%= bottle.name %>
               </h3>
               <p class="body-sm text-lagavulin-gold/70">
-                Brought by <span class="text-lagavulin-gold font-semibold"><%= bottle.user.full_name %></span>
+                Brought by <%= link_to bottle.user.full_name, user_path(bottle.user), class: "text-lagavulin-gold font-semibold hover:text-lagavulin-gold/80 transition" %>
               </p>
             </div>
             <%= link_to "Edit",
@@ -73,13 +73,13 @@
           <!-- Quick rate -->
           <div>
             <% current_rating = bottle.user_rating(current_user) %>
-            <%= render "ratings/module", bottle: bottle, current_user_rating: current_rating %>
+            <%= render "ratings/module", bottle: bottle, current_user_rating: current_rating, show_flavors: false %>
           </div>
 
           <!-- View full details link -->
           <div class="pt-2">
             <%= link_to "View full details & all ratings →",
-                  bottle_path(bottle),
+                  bottle_url(bottle),
                   class: "body-sm text-lagavulin-gold/80 hover:text-lagavulin-gold transition underline underline-offset-4" %>
           </div>
         </div>

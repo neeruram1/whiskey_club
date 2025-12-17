@@ -2,6 +2,8 @@ class Bottle < ApplicationRecord
   belongs_to :user
   belongs_to :meeting
   has_many :ratings, dependent: :destroy
+  has_many :bottle_wishlists, dependent: :destroy
+  has_many :wishlisters, through: :bottle_wishlists, source: :user
 
   validates :name, presence: true
   validates :distillery, presence: true

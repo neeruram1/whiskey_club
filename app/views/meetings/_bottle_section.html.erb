@@ -1,65 +1,79 @@
-<% if bottle.present? %>
-  <section class="space-y-4">
-    <div class="block">
-      <div class="flex min-h-[120px]">
-        <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold"></div>
+<% meeting_is_today = meeting.date == Date.current %>
+<% meeting_has_passed = meeting.date < Date.current %>
+<% meeting_is_upcoming = meeting.date > Date.current %>
+<% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
 
-        <div class="flex-1 ml-4 md:ml-5 rounded-2xl border border-lagavulin-gold/18 bg-black/15 p-5 sm:p-5 md:p-6
-                    shadow-sm shadow-black/40 transition group-hover:bg-black/22 group-active:scale-[0.98]">
-          <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div class="space-y-2">
-              <p class="label-xs text-lagavulin-gold/70">
-                <%= bottle.distillery.presence || "Distillery" %>
-              </p>
+<% if bottle.present? && bottle.revealed_at.nil? %>
+  <!-- Bottle exists but not revealed yet -->
+  <section class="space-y-6">
+    <% if is_spirit_guide %>
+      <!-- Spirit guide view - can see bottle and reveal it -->
+      <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-6">
+        <div class="rounded-2xl border border-lagavulin-green/30 bg-lagavulin-green/5 p-4">
+          <p class="body-sm text-lagavulin-green">
+            <strong>Spirit Guide View:</strong> Only you can see this bottle until you reveal it.
+          </p>
+        </div>
 
-              <p class="heading-sub text-lagavulin-gold">
-                <%= bottle.name %>
-              </p>
-
-              <div class="mt-2 flex flex-wrap gap-x-5 gap-y-2 meta-sm text-lagavulin-gold/70">
-                <span>
-                  Style: <span class="text-lagavulin-gold/75"><%= bottle.bottle_type.presence || "—" %></span>
-                </span>
-
-                <% if bottle.age.present? %>
-                  <span>
-                    Age: <span class="text-lagavulin-gold/75"><%= pluralize(bottle.age, "year") %></span>
-                  </span>
-                <% end %>
-
-                <span>
-                  Avg: <span class="text-lagavulin-gold/75"><%= bottle.ratings.any? ? bottle.ratings.average(:score).round(1) : "—" %></span>
-                  <span class="text-lagavulin-gold/45">/ 5</span>
-                </span>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2 text-lagavulin-gold/70 transition group-hover:text-lagavulin-gold">
-              <span class="label-xs">Open Bottle Profile</span>
-              <svg class="h-5 w-5 transition-transform group-hover:translate-x-1"
-                   fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-              </svg>
-            </div>
+        <div class="space-y-3">
+          <p class="label-sm text-lagavulin-gold/80">
+            <%= bottle.distillery.presence || "Distillery" %>
+          </p>
+          <h3 class="heading-section text-lagavulin-gold">
+            <%= bottle.name %>
+          </h3>
+          <div class="flex flex-wrap gap-x-5 gap-y-2 meta-sm text-lagavulin-gold/70">
+            <span>Style: <span class="text-lagavulin-gold/75"><%= bottle.bottle_type.presence || "—" %></span></span>
+            <% if bottle.age.present? %>
+              <span>Age: <span class="text-lagavulin-gold/75"><%= pluralize(bottle.age, "year") %></span></span>
+            <% end %>
           </div>
         </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <%= link_to "Edit Bottle",
+                edit_bottle_path(bottle),
+                class: "btn-mini",
+                data: { turbo_frame: "modal" } %>
+          
+          <% if meeting_is_today || meeting_has_passed %>
+            <%= button_to "🥃 Reveal Bottle to Everyone",
+                  reveal_bottle_path(bottle),
+                  method: :post,
+                  class: "btn-mini bg-lagavulin-gold/20 border-lagavulin-gold/40",
+                  data: { turbo: false } %>
+          <% else %>
+            <p class="body-sm text-lagavulin-gold/60 self-center">
+              You can reveal the bottle on <%= meeting.date.strftime("%B %-d") %>
+            </p>
+          <% end %>
+        </div>
       </div>
-    </div>
+    <% else %>
+      <!-- Non-spirit guide view - bottle is hidden -->
+      <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
+        <p class="heading-section text-lagavulin-gold/60">
+          🔒 Bottle Not Yet Revealed
+        </p>
+        <p class="body-sm text-lagavulin-gold/70">
+          The bottle is a surprise! The spirit guide will reveal it during the tasting.
+        </p>
+      </div>
+    <% end %>
   </section>
+
 <% else %>
-  <% meeting_is_today = meeting.date == Date.current %>
-  <% meeting_has_passed = meeting.date < Date.current %>
-  
+  <!-- No bottle exists yet -->
   <section class="space-y-6">
-    <% if meeting_is_today %>
-      <!-- It's meeting day - Prominent reveal CTA -->
+    <% if meeting_is_today && is_spirit_guide %>
+      <!-- It's meeting day and you're the spirit guide -->
       <div class="rounded-3xl border-2 border-lagavulin-gold/40 bg-lagavulin-gold/5 p-8 shadow-xl shadow-black/50 text-center space-y-4">
         <div class="space-y-2">
           <p class="heading-sub text-lagavulin-gold">
             🥃 Time to Reveal
           </p>
           <p class="body-base text-lagavulin-gold/80">
-            The bottle has been revealed! Add it to the app so everyone can rate it.
+            Add the bottle details so everyone can see and rate it!
           </p>
         </div>
         
@@ -69,7 +83,7 @@
           <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
-          <span>Reveal Bottle</span>
+          <span>Add Bottle</span>
         <% end %>
       </div>
       
@@ -91,8 +105,26 @@
               data: { turbo_frame: "modal" } %>
       </div>
       
+    <% elsif meeting_is_upcoming && is_spirit_guide %>
+      <!-- Upcoming meeting - spirit guide can add bottle early -->
+      <div class="rounded-3xl border border-lagavulin-gold/30 bg-black/25 p-8 shadow-lg shadow-black/40 space-y-4">
+        <div class="space-y-2">
+          <p class="heading-section text-lagavulin-gold">
+            Add Your Bottle
+          </p>
+          <p class="body-sm text-lagavulin-gold/70">
+            Add the bottle details now (it will stay hidden until you reveal it on <%= meeting.date.strftime("%B %-d") %>)
+          </p>
+        </div>
+        
+        <%= link_to "Add Bottle",
+              new_meeting_bottle_path(meeting),
+              class: "btn-mini w-full sm:w-auto",
+              data: { turbo_frame: "modal" } %>
+      </div>
+      
     <% else %>
-      <!-- Future meeting - bottle is still a secret -->
+      <!-- Upcoming meeting - non-spirit guide -->
       <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
         <p class="heading-section text-lagavulin-gold/60">
           🔒 Bottle Not Yet Revealed
