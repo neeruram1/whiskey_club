@@ -17,7 +17,7 @@ class BottlesController < ApplicationController
     @bottle.user ||= current_user
 
     if @bottle.save
-      redirect_to meeting_path(@meeting), notice: "Bottle added."
+      redirect_to meeting_path(@meeting), notice: "Bottle added.", status: :see_other
     else
       render :new, status: :unprocessable_entity
     end
