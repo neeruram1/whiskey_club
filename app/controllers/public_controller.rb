@@ -17,9 +17,9 @@ class PublicController < ApplicationController
                        .order('ratings.score DESC')
                        .limit(3)
 
-    # Bottles brought with eager loading
+    # Bottles brought with eager loading (includes both spirit guide bottles and flight night bottles)
     @bottles_brought = Bottle.joins(:meeting)
-                             .where(meetings: { bottle_bringer_id: current_user.id })
+                             .where('meetings.bottle_bringer_id = ? OR bottles.user_id = ?', current_user.id, current_user.id)
                              .includes(:meeting)
                              .order('meetings.date DESC')
     @bottles_brought_count = @bottles_brought.count

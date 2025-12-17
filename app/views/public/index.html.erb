@@ -171,7 +171,7 @@
                         <div class="flex-1 min-w-0 rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5
                                     shadow-sm shadow-black/30 transition group-hover:bg-black/25 group-hover:border-lagavulin-gold/40 group-active:scale-[0.98]">
                           <p class="body-sm text-lagavulin-gold/70 truncate">
-                            <%= bottle.distillery.presence || "Distillery" %>
+                            <% if bottle.meeting.flight_night? %>✈️ <% end %><%= bottle.distillery.presence || "Distillery" %>
                           </p>
                           <p class="mt-2 text-base sm:text-lg font-semibold text-lagavulin-gold break-words line-clamp-2">
                             <%= bottle.name %>
