@@ -8,9 +8,17 @@
 
         <div class="space-y-3">
           <!-- Date (quiet, editorial) -->
-          <p class="label-sm text-lagavulin-gold/60">
-            <%= date_with_friendly(meeting.date, format: "%A · %B %d, %Y") %>
-          </p>
+          <div class="flex items-center gap-2 flex-wrap">
+            <p class="label-sm text-lagavulin-gold/60">
+              <%= date_with_friendly(meeting.date, format: "%A · %B %d, %Y") %>
+            </p>
+            <% is_attending = current_user && meeting.attendees.exists?(id: current_user.id) %>
+            <% if is_attending %>
+              <span class="inline-flex items-center rounded-full bg-lagavulin-gold/10 border border-lagavulin-gold/30 px-2.5 py-0.5">
+                <p class="label-xs text-lagavulin-gold font-medium">Attending</p>
+              </span>
+            <% end %>
+          </div>
 
           <!-- Spirit Guide -->
           <% if meeting.bottle_bringer.present? %>

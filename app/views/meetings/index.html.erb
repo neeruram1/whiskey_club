@@ -169,6 +169,13 @@
                       <p class="label-xs text-lagavulin-gold font-semibold">Upcoming</p>
                     </span>
                   <% end %>
+                  <% is_attending = current_user && meeting.attendees.exists?(id: current_user.id) %>
+                  <% if is_attending %>
+                    <% attendance_label = meeting.date < Date.today ? "Attended" : "Attending" %>
+                    <span class="inline-flex items-center rounded-full bg-lagavulin-gold/10 border border-lagavulin-gold/30 px-3 py-1">
+                      <p class="label-xs text-lagavulin-gold/90 font-medium"><%= attendance_label %></p>
+                    </span>
+                  <% end %>
                   <% if has_unrated_bottles %>
                     <span class="inline-flex items-center rounded-full bg-red-500/20 border border-red-500/40 px-3 py-1">
                       <p class="label-xs text-red-400 font-semibold">
