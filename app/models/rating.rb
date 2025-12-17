@@ -19,10 +19,21 @@ class Rating < ApplicationRecord
   # Update cached average rating on bottle when rating changes
   after_save :update_bottle_average
   after_destroy :update_bottle_average
+  
+  # Automatically mark user as attended when they rate a bottle
+  after_save :mark_meeting_attendance
 
   private
 
   def update_bottle_average
     bottle.update_cached_average_rating
+  end
+  
+  def mark_meeting_attendance
+    meeting = bottle.meeting
+    return unless meeting
+    
+    # Create attendance record if it doesn't exist
+    meeting.meeting_attendees.find_or_create_by(user: user)
   end
 end
