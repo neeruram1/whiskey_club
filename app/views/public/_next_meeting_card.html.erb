@@ -40,7 +40,7 @@
           <% end %>
 
           <!-- Featured bottle -->
-          <% if meeting.bottle.present? && is_revealed || is_spirit_guide %>
+          <% if meeting.bottle.present? && (is_revealed || is_spirit_guide) %>
             <div class="pt-1">
               <p class="label-sm text-lagavulin-gold/50">
                 Featured bottle
