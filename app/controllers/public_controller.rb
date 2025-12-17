@@ -38,12 +38,12 @@ class PublicController < ApplicationController
     @total_ratings = Rating.count
     @club_avg_rating = Rating.average(:score)&.round(2)
 
-    # Top bottle (highest club average with at least 3 ratings)
+    # Top bottle (highest club average with at least 3 ratings, tiebreaker: most ratings)
     @top_bottle = Bottle.joins(:ratings)
-                        .select('bottles.*, AVG(ratings.score) as avg_score')
+                        .select('bottles.*, AVG(ratings.score) as avg_score, COUNT(ratings.id) as rating_count')
                         .group('bottles.id')
                         .having('COUNT(ratings.id) >= 3')
-                        .order('avg_score DESC')
+                        .order('avg_score DESC, rating_count DESC')
                         .first
 
     # Most controversial bottle (biggest variance in ratings)
@@ -91,12 +91,12 @@ class PublicController < ApplicationController
                                  .count
                                  .max_by { |_, count| count }
 
-    # Best meeting (highest average rating for bottles at that meeting, min 3 ratings)
+    # Best meeting (highest average rating for bottles at that meeting, min 3 ratings, tiebreaker: most ratings)
     @best_meeting = Meeting.joins(bottles: :ratings)
-                           .select('meetings.*, AVG(ratings.score) as avg_score')
+                           .select('meetings.*, AVG(ratings.score) as avg_score, COUNT(ratings.id) as rating_count')
                            .group('meetings.id')
                            .having('COUNT(ratings.id) >= 3')
-                           .order('avg_score DESC')
+                           .order('avg_score DESC, rating_count DESC')
                            .first
   end
 
