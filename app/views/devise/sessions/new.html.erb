@@ -1,4 +1,4 @@
-<div class="relative min-h-screen">
+<div class="relative min-h-screen overflow-x-hidden">
   <!-- Background image -->
   <div
     class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-90"
@@ -9,7 +9,7 @@
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-lagavulin-green/60 via-lagavulin-green/40 to-lagavulin-green/20"></div>
 
   <!-- Centered content -->
-  <div class="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center px-4 py-12 sm:px-6 sm:py-16">
+  <div class="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl items-center px-3 sm:px-4 md:px-6 py-12 sm:py-16">
     <div class="grid w-full gap-8 sm:gap-12 md:gap-16 md:grid-cols-2 md:items-center">
 
       <!-- Left side: Hero branding -->
@@ -21,7 +21,7 @@
 
       <!-- Right side: Login form -->
       <div class="flex items-center justify-center md:justify-start">
-        <div class="w-full max-w-md rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-6 py-8 shadow-2xl shadow-black/40 sm:px-8 sm:py-10 md:px-10 md:py-12">
+        <div class="w-full max-w-md rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
 
           <% if flash[:alert].present? || flash[:notice].present? %>
             <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-xs sm:text-sm text-yellow-900">
