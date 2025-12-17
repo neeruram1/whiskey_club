@@ -34,31 +34,7 @@ class UsersController < ApplicationController
     
     # Taste compatibility (if viewing someone else's profile)
     unless @is_current_user
-      @compatibility = calculate_taste_compatibility(@user, current_user)
+      @compatibility = @user.taste_compatibility_with(current_user)
     end
-  end
-
-  private
-
-  def calculate_taste_compatibility(user1, user2)
-    # Find bottles both users have rated
-    user1_ratings = Rating.where(user: user1).pluck(:bottle_id, :score).to_h
-    user2_ratings = Rating.where(user: user2).pluck(:bottle_id, :score).to_h
-    
-    shared_bottles = user1_ratings.keys & user2_ratings.keys
-    return nil if shared_bottles.empty?
-    
-    # Calculate average difference
-    differences = shared_bottles.map do |bottle_id|
-      (user1_ratings[bottle_id] - user2_ratings[bottle_id]).abs
-    end
-    
-    avg_difference = differences.sum / differences.size.to_f
-    similarity_score = ((5.0 - avg_difference) / 5.0 * 100).round
-    
-    {
-      score: similarity_score,
-      shared_count: shared_bottles.size
-    }
   end
 end

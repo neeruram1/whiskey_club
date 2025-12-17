@@ -98,9 +98,13 @@
     <div class="h-px bg-lagavulin-gold/18"></div>
 
     <!-- Bottle Section -->
+    <% 
+      meeting_has_passed = @meeting.date < Date.current
+      is_revealed = @bottle.present? && (@bottle.revealed_at.present? || meeting_has_passed)
+    %>
     <% if @meeting.flight_night? %>
       <%= render "flight_night_bottles", meeting: @meeting, bottles: @meeting.bottles %>
-    <% elsif @bottle.present? && @bottle.revealed_at.present? %>
+    <% elsif is_revealed %>
       <!-- Revealed bottle - show full details -->
       <section class="space-y-6">
         <div class="flex items-end justify-between gap-4">

@@ -2,8 +2,9 @@
 <% meeting_has_passed = meeting.date < Date.current %>
 <% meeting_is_upcoming = meeting.date > Date.current %>
 <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
+<% is_revealed = bottle.present? && (bottle.revealed_at.present? || meeting_has_passed) %>
 
-<% if bottle.present? && bottle.revealed_at.nil? %>
+<% if bottle.present? && !is_revealed %>
   <!-- Bottle exists but not revealed yet -->
   <section class="space-y-6">
     <% if is_spirit_guide %>
