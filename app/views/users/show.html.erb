@@ -89,7 +89,7 @@
     <!-- Bottles Brought -->
     <% if @bottles_brought.any? %>
       <section class="mb-8">
-        <h2 class="heading-sub text-lagavulin-gold mb-4">Bottles Shared</h2>
+        <h2 class="heading-sub text-lagavulin-gold mb-4">Bottles Brought</h2>
         <div class="space-y-3">
           <% @bottles_brought.each do |bottle| %>
             <%= link_to bottle, class: "block group" do %>
