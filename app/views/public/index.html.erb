@@ -5,7 +5,7 @@
     <header class="space-y-2">
       <h1 class="heading-page text-lagavulin-gold">
         <span class="block sm:inline">Welcome back,</span>
-        <span class="block sm:inline"><%= current_user.full_name %></span>
+        <span class="block sm:inline"><%= link_to current_user.full_name, user_path(current_user) %></span>
       </h1>
     </header>
 
