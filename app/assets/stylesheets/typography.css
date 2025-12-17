@@ -4,7 +4,7 @@
   /* === LABELS === */
   /* Tiny uppercase labels for specs/metadata */
   .label-xs {
-    @apply text-[0.7rem] tracking-[0.3em] uppercase;
+    @apply text-[0.7rem] sm:text-[0.7rem] tracking-[0.25em] sm:tracking-[0.3em] uppercase;
   }
   
   /* Small uppercase labels for sections */
@@ -34,7 +34,7 @@
   /* === HEADINGS === */
   /* Section headers (small, bold, uppercase) */
   .heading-section {
-    @apply text-sm font-bold tracking-widest uppercase;
+    @apply text-sm sm:text-base font-bold tracking-[0.18em] sm:tracking-widest uppercase;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
   
@@ -85,7 +85,7 @@
   /* === METADATA === */
   /* Very small secondary info */
   .meta-xs {
-    @apply text-[0.65rem] tracking-widest uppercase;
+    @apply text-[0.7rem] tracking-[0.18em] sm:tracking-widest uppercase;
   }
   
   /* Small secondary info */

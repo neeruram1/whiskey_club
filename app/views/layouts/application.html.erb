@@ -55,9 +55,9 @@
                   </span>
                 <% end %>
 
-                <!-- Mobile menu button (below logo on mobile) -->
+                <!-- Mobile menu button (below logo on mobile & tablet) -->
                 <button type="button" 
-                        class="sm:hidden mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
+                        class="lg:hidden mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
                         aria-controls="mobile-menu" 
                         aria-expanded="false"
                         onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
@@ -68,8 +68,8 @@
                   </svg>
                 </button>
 
-                <!-- Desktop nav (hidden on mobile) -->
-                <div class="hidden sm:flex sm:items-center sm:gap-x-3 md:gap-x-4 lg:gap-x-6 flex-wrap">
+                <!-- Desktop nav (hidden on mobile & tablet) -->
+                <div class="hidden lg:flex lg:items-center lg:gap-x-6 flex-wrap">
                   <%= link_to "Home", root_path, class: "link-mini" %>
                   <%= link_to "Bottle Archive", archives_path, class: "link-mini" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "link-mini" %>
@@ -91,7 +91,7 @@
                 </div>
 
                 <!-- Mobile menu (hidden by default) -->
-                <div class="hidden sm:hidden mt-3 space-y-1" id="mobile-menu">
+                <div class="hidden lg:hidden mt-3 space-y-1" id="mobile-menu">
                   <%= link_to "Home", root_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Bottle Archive", archives_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>

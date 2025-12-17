@@ -16,7 +16,7 @@
       
       <!-- Count & Search -->
       <div class="space-y-4">
-        <p class="meta-sm text-lagavulin-gold/75">
+        <p class="body-sm text-lagavulin-gold/75">
           <span data-meeting-filter-target="count"><%= @meetings.count %></span> meetings shown
         </p>
 
@@ -149,7 +149,7 @@
             <%= link_to meeting_path(meeting), 
                   class: "block group transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.99]" do %>
               
-              <div class="relative overflow-hidden rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-6 sm:p-8
+              <div class="relative overflow-hidden rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 sm:p-6 md:p-8
                           shadow-lg shadow-black/40 
                           group-hover:border-lagavulin-gold/50 group-hover:bg-black/35 
                           group-hover:shadow-xl group-hover:shadow-black/50">
@@ -161,7 +161,7 @@
               <div class="space-y-3">
                 <!-- Date & Status -->
                 <div class="flex items-center gap-3 flex-wrap">
-                  <h2 class="text-2xl font-bold text-lagavulin-gold">
+                  <h2 class="text-xl sm:text-2xl font-bold text-lagavulin-gold">
                     <%= meeting.date.strftime("%B %d, %Y") %>
                   </h2>
                   <% if meeting.date > Date.today %>
@@ -197,7 +197,7 @@
                 <% if meeting.flight_night? && meeting.bottles.any? %>
                   <div class="mt-4 space-y-2">
                     <% meeting.bottles.each do |flight_bottle| %>
-                      <div class="rounded-xl bg-black/30 border border-lagavulin-gold/20 p-4">
+                      <div class="rounded-xl bg-black/30 border border-lagavulin-gold/20 p-3 sm:p-4">
                         <div class="flex items-start justify-between gap-3">
                           <div class="flex-1">
                             <p class="label-xs text-lagavulin-gold/60 uppercase tracking-wider">

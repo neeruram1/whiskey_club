@@ -1,6 +1,6 @@
 <div class="relative min-h-screen">
   <!-- Content -->
-  <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
+  <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-12 md:py-16">
     <%= turbo_frame_tag "modal" %>
 
     <!-- Header -->
@@ -30,7 +30,7 @@
     </header>
 
     <!-- Main card -->
-    <section class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-5 sm:p-7 md:p-10 shadow-2xl shadow-black/50 backdrop-blur-sm">
+    <section class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-4 sm:p-6 md:p-10 shadow-2xl shadow-black/50 backdrop-blur-sm">
 
       <!-- Specs -->
       <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
@@ -99,8 +99,8 @@
                       <% end %>
                     </p>
                   </div>
-                  <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
-                    <p class="text-sm font-bold text-lagavulin-gold">
+                    <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-2.5 py-1">
+                      <p class="text-sm font-bold text-lagavulin-gold whitespace-nowrap">
                       <%= rating.score %>
                       <span class="text-lagavulin-gold/60 font-normal">/5</span>
                     </p>
