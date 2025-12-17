@@ -77,9 +77,10 @@
                     <%= link_to "Log out", destroy_user_session_path, class: "link-mini", data: { turbo_method: :delete, turbo_confirm: "Log out of your account?" } %>
                   <% end %>
                 </div>
+              </nav>
 
-                <!-- Mobile menu (hidden by default) -->
-                <div class="hidden lg:hidden mt-3 space-y-1" id="mobile-menu">
+              <!-- Mobile menu (hidden by default, outside sticky nav) -->
+              <div class="hidden lg:hidden mt-3 space-y-1 pb-3" id="mobile-menu">
                   <%= link_to "Home", root_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Bottle Archive", archives_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
@@ -100,7 +101,6 @@
                     <% end %>
                   <% end %>
                 </div>
-              </nav>
 
               <% if user_signed_in? %>
                 <p class="mt-2 meta-xs text-lagavulin-gold/70">
