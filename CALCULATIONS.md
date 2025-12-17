@@ -161,20 +161,6 @@ For each user who has brought bottles:
 
 ---
 
-### Most Prolific Spirit Guide
-**Algorithm:** Simple count of meetings where user was the spirit guide
-
-**Formula:**
-```
-count = COUNT(meetings where bottle_bringer_id = user.id)
-```
-
-**Notes:** 
-- Only counts regular tastings (where they were designated spirit guide)
-- Does not count flight night bottles
-
----
-
 ### Toughest Critic
 **Algorithm:** User with lowest average rating
 

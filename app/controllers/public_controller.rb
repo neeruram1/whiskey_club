@@ -73,14 +73,6 @@ class PublicController < ApplicationController
     # Tastemaker - spirit guide whose bottles score highest
     @tastemaker = User.tastemaker
 
-    # Most prolific spirit guide (user who has been bottle_bringer most often)
-    @prolific_spirit_guide = Meeting.where.not(bottle_bringer_id: nil)
-                        .group(:bottle_bringer_id)
-                        .select('bottle_bringer_id, COUNT(*) as meeting_count')
-                        .order('meeting_count DESC')
-                        .first
-                        &.then { |result| User.find(result.bottle_bringer_id).tap { |u| u.define_singleton_method(:meeting_count) { result.meeting_count } } }
-
     # Hardest rater (lowest average score)
     @hardest_rater = User.joins(:ratings)
                         .select('users.*, AVG(ratings.score) as avg_score')

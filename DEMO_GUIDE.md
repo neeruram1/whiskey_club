@@ -137,7 +137,6 @@ Collective Spirits is a web app for managing a whiskey tasting club. It helps me
 **Member Highlights:**
 - 👃 **Golden Nose** - Member whose ratings best predict the club average
 - ⭐ **Tastemaker** - Spirit guide whose bottles score highest
-- 🥃 **Most Prolific Spirit Guide** - Member who's brought the most bottles
 - 🎯 **Toughest Critic** - Member with lowest average rating
 - 😊 **Most Generous** - Member with highest average rating
 

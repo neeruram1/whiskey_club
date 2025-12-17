@@ -122,7 +122,7 @@
       </div>
     </section>
 
-    <% if @golden_nose.present? || @tastemaker.present? || @prolific_spirit_guide.present? || @hardest_rater.present? || @easiest_rater.present? %>
+    <% if @golden_nose.present? || @tastemaker.present? || @hardest_rater.present? || @easiest_rater.present? %>
       <div class="h-px bg-lagavulin-gold/18"></div>
 
       <!-- Member Highlights -->
@@ -177,31 +177,6 @@
               </p>
               <p class="body-sm text-lagavulin-gold/70">
                 Their bottles consistently score highest
-              </p>
-            <% end %>
-          </div>
-        <% end %>
-
-        <!-- Most prolific spirit guide -->
-        <% if @prolific_spirit_guide.present? %>
-          <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-4">
-            <div class="flex items-center justify-between">
-              <h3 class="heading-section text-lagavulin-gold">
-                🥃 Most Prolific Spirit Guide
-              </h3>
-              <div class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
-                <p class="meta-xs text-lagavulin-gold font-semibold">
-                  <%= pluralize(@prolific_spirit_guide.meeting_count, 'meeting') %>
-                </p>
-              </div>
-            </div>
-
-            <%= link_to user_path(@prolific_spirit_guide), class: "block rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2 transition hover:bg-black/25 hover:border-lagavulin-gold/40 group" do %>
-              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90">
-                <%= @prolific_spirit_guide.full_name %>
-              </p>
-              <p class="body-sm text-lagavulin-gold/70">
-                Always eager to share a new bottle
               </p>
             <% end %>
           </div>
