@@ -10,21 +10,21 @@
 
   <!-- Centered content -->
   <div class="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl items-center px-3 sm:px-4 md:px-6 py-12 sm:py-16">
-    <div class="grid w-full gap-8 sm:gap-12 md:gap-16 md:grid-cols-2 md:items-center">
+    <div class="grid w-full gap-6 md:gap-12 lg:gap-16 md:grid-cols-2 md:items-center">
 
       <!-- Left side: Hero branding -->
       <div class="flex items-center justify-center md:justify-end">
         <%= image_tag "transparent_green_seal.png",
           alt: "Collective Spirits Wax Seal",
-          class: "h-48 w-auto sm:h-64 md:h-80 lg:h-96 opacity-90 drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]" %>
+          class: "h-32 w-auto sm:h-48 md:h-64 lg:h-80 xl:h-96 max-w-full opacity-90 drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]" %>
       </div>
 
       <!-- Right side: Login form -->
       <div class="flex items-center justify-center md:justify-start">
-        <div class="w-full max-w-md rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
+        <div class="w-full max-w-sm sm:max-w-md rounded-3xl border border-lagavulin-gold/40 bg-[#F8F5E9] px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 shadow-2xl shadow-black/40">
 
           <% if flash[:alert].present? || flash[:notice].present? %>
-            <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-xs sm:text-sm text-yellow-900">
+            <div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 px-3 py-2.5 text-xs sm:text-sm text-yellow-900">
               <p><%= flash[:alert] || flash[:notice] %></p>
             </div>
           <% end %>
@@ -34,7 +34,7 @@
 
               <!-- Email -->
               <div>
-                <label class="mb-1.5 block text-xs sm:text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
+                <label class="mb-1.5 block text-xs sm:text-sm font-semibold uppercase tracking-wider sm:tracking-widest text-lagavulin-green">
                   <%= f.label :email, "Email", class: "sr-only" %>
                   Email
                 </label>
@@ -47,7 +47,7 @@
 
               <!-- Password -->
               <div>
-                <label class="mb-1.5 block text-xs sm:text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
+                <label class="mb-1.5 block text-xs sm:text-sm font-semibold uppercase tracking-wider sm:tracking-widest text-lagavulin-green">
                   <%= f.label :password, "Password", class: "sr-only" %>
                   Password
                 </label>
