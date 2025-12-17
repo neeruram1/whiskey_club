@@ -1,3 +1,8 @@
+<% meeting_is_today = meeting.date == Date.current %>
+<% meeting_has_passed = meeting.date < Date.current %>
+<% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
+<% is_revealed = meeting.bottle.present? && (meeting.bottle.revealed_at.present? || meeting_has_passed) %>
+
 <%= link_to meeting_path(meeting), class: "block group touch-manipulation" do %>
   <div class="flex min-h-[120px]">
     <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
@@ -35,7 +40,7 @@
           <% end %>
 
           <!-- Featured bottle -->
-          <% if meeting.bottle.present? %>
+          <% if meeting.bottle.present? && is_revealed || is_spirit_guide %>
             <div class="pt-1">
               <p class="label-sm text-lagavulin-gold/50">
                 Featured bottle
@@ -53,12 +58,12 @@
             <% meeting_has_passed = meeting.date < Date.current %>
             
             <div class="pt-1 space-y-2">
-              <% if meeting_is_today %>
+              <% if meeting_is_today && is_spirit_guide %>
                 <p class="body-base font-semibold text-lagavulin-gold">
                   🥃 Ready to reveal the bottle!
                 </p>
                 <p class="label-sm text-lagavulin-gold/60">
-                  Add it to the app during the tasting.
+                  Reveal it during the tasting.
                 </p>
               <% elsif meeting_has_passed %>
                 <p class="body-base text-lagavulin-gold/75">
@@ -67,12 +72,19 @@
                 <p class="label-sm text-lagavulin-gold/50">
                   Complete the record by adding the bottle.
                 </p>
-              <% else %>
+              <% elsif !is_spirit_guide %>
                 <p class="body-base text-lagavulin-gold/75">
                   Bottle not announced yet.
                 </p>
                 <p class="label-sm text-lagavulin-gold/50">
                   The spirit guide will reveal it during the tasting.
+                </p>
+              <% else %>
+                <p class="body-base font-semibold text-lagavulin-gold">
+                  🥃 Time to add the bottle!
+                </p>
+                <p class="label-sm text-lagavulin-gold/60">
+                  Let the club know what you'll be bringing.
                 </p>
               <% end %>
             </div>

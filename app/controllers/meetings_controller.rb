@@ -44,13 +44,6 @@ class MeetingsController < ApplicationController
       @meeting_avg_rating = @bottle.ratings.average(:score)&.round(1)
       @total_ratings = @bottle.ratings.count
     end
-
-    # Handle peek parameter for archive partial rendering
-    if params[:peek] == "1"
-      render partial: "bottles/peek", locals: { bottle: @bottle }
-    elsif params[:peek] == "0"
-      render partial: "bottles/row", locals: { bottle: @bottle }
-    end
   end
 
   def toggle_attendance
