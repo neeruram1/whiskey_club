@@ -40,34 +40,31 @@
           <header class="sticky top-0 z-40 border-b border-lagavulin-gold/30 bg-lagavulin-green/70 supports-[backdrop-filter]:backdrop-blur-md" role="banner">
             <div class="mx-auto max-w-screen-xl px-4 py-3 sm:px-6">
               <nav class="sm:flex sm:items-center sm:justify-between" aria-label="Main navigation">
-                <!-- Mobile header with hamburger -->
-                <div class="flex items-center justify-between sm:flex-initial">
-                  <!-- Left: wordmark -->
-                  <%= link_to root_path, class: "group inline-flex items-baseline gap-2" do %>
-                    <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
-                      Collective Spirits
-                    </span>
-                    <span class="font-of text-base sm:text-lg leading-none text-lagavulin-gold/80 relative -top-[1px]">
-                      of
-                    </span>
-                    <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
-                      Montclair
-                    </span>
-                  <% end %>
+                <!-- Left: wordmark -->
+                <%= link_to root_path, class: "group inline-flex items-baseline gap-2 sm:flex-initial" do %>
+                  <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                    Collective Spirits
+                  </span>
+                  <span class="font-of text-base sm:text-lg leading-none text-lagavulin-gold/80 relative -top-[1px]">
+                    of
+                  </span>
+                  <span class="label-sm text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold">
+                    Montclair
+                  </span>
+                <% end %>
 
-                  <!-- Mobile menu button -->
-                  <button type="button" 
-                          class="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
-                          aria-controls="mobile-menu" 
-                          aria-expanded="false"
-                          onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
-                    <span class="sr-only">Open main menu</span>
-                    <!-- Icon when menu is closed -->
-                    <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                  </button>
-                </div>
+                <!-- Mobile menu button (below logo on mobile) -->
+                <button type="button" 
+                        class="sm:hidden mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
+                        aria-controls="mobile-menu" 
+                        aria-expanded="false"
+                        onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
+                  <span class="text-sm font-medium tracking-wider uppercase">Menu</span>
+                  <!-- Icon when menu is closed -->
+                  <svg class="block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                  </svg>
+                </button>
 
                 <!-- Desktop nav (hidden on mobile) -->
                 <div class="hidden sm:flex sm:items-center sm:gap-x-6">

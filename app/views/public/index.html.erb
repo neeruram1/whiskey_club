@@ -4,7 +4,8 @@
     <!-- Welcome header -->
     <header class="space-y-2">
       <h1 class="heading-page text-lagavulin-gold">
-        Welcome back, <%= current_user.full_name %>
+        <span class="block sm:inline">Welcome back,</span>
+        <span class="block sm:inline"><%= current_user.full_name %></span>
       </h1>
     </header>
 
@@ -20,7 +21,8 @@
 
         <p class="mt-3 heading-hero text-lagavulin-gold leading-tight">
           <% if @next_meeting.present? %>
-            <%= @next_meeting.date.strftime("%A, %B %-d, %Y") %>
+            <span class="block sm:inline"><%= @next_meeting.date.strftime("%A") %>,</span>
+            <span class="block sm:inline"><%= @next_meeting.date.strftime("%B %-d, %Y") %></span>
           <% else %>
             No meeting scheduled
           <% end %>
