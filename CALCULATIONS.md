@@ -32,6 +32,7 @@ Attendance Rate = (Meetings Attended / Total Past Meetings) × 100
 **Notes:**
 - Only counts meetings in the past (date < today)
 - Rounded to nearest whole number
+- **Automatic Tracking:** Users are automatically marked as attending a meeting when they rate any bottle from that meeting
 
 **Example:**
 - User attended 8 meetings out of 10 total

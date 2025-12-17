@@ -47,7 +47,24 @@ Collective Spirits is a web app for managing a whiskey tasting club. It helps me
 
 ---
 
-### 3. 📅 **Tasting Archive (Meetings)**
+### 3. � **User Profiles**
+**What it shows:**
+- Member's full name and join date
+- Taste compatibility score (if viewing someone else's profile)
+- Personal statistics:
+  - Ratings count and average
+  - Bottles brought to club
+  - Meetings attended (automatically tracked when they rate bottles)
+  - Encore Pours (bottles they want to try again)
+
+**Demo Tips:**
+- Show how rating a bottle automatically marks attendance
+- Click through to see someone's Encore Pours list
+- Explain the taste compatibility percentage
+
+---
+
+### 4. �📅 **Tasting Archive (Meetings)**
 **What it shows:**
 - Chronological list of all tastings
 - Each meeting card shows:
@@ -93,12 +110,14 @@ Collective Spirits is a web app for managing a whiskey tasting club. It helps me
   - Vanilla, Caramel, Citrus, Herbal, Honey, Chocolate, Leather
   - Tropical, Earthy, Maritime, Medicinal
 - Click "Save Rating"
+- **Automatic Attendance:** Rating a bottle automatically marks you as attending that meeting
 
 **Demo Tips:**
 - Show the flavor profile toggle button (expand/collapse the list)
 - Explain that you can select multiple flavors
 - Point out that ratings update the bottle's average immediately
 - Show how your rating appears on your profile
+- Mention that rating also marks attendance (no need to manually check a box)
 
 ---
 

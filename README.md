@@ -1,24 +1,54 @@
-# README
+# Collective Spirits of Montclair
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A web application for managing a whiskey tasting club. Track bottles, rate whiskeys, discover members with similar taste, and explore club statistics.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- 🥃 **Bottle Archive** - Browse all whiskeys the club has tasted
+- 📅 **Meeting Management** - Schedule regular tastings and flight nights
+- ⭐ **Rating System** - Rate bottles with scores, comments, and flavor profiles
+- 💛 **Encore Pours** - Save bottles you want to drink again (wishlist)
+- 👥 **Member Profiles** - View stats, ratings, and taste compatibility
+- 📊 **Club Statistics** - Golden Nose, Tastemaker, and more insights
+- ✈️ **Flight Nights** - Support for multi-bottle tasting events
+- 🔒 **Bottle Reveals** - Hide bottles until meeting day for surprise tastings
 
-* System dependencies
+## Key Behaviors
 
-* Configuration
+### Automatic Attendance Tracking
+When a user rates a bottle from any meeting, they are automatically marked as having attended that meeting. No manual check-in required.
 
-* Database creation
+### Backfill Attendance
+If you need to mark attendance for existing ratings, run:
+```bash
+bin/rails attendance:backfill
+```
 
-* Database initialization
+## Documentation
 
-* How to run the test suite
+- **[CALCULATIONS.md](CALCULATIONS.md)** - Technical reference for all statistical calculations
+- **[DEMO_GUIDE.md](DEMO_GUIDE.md)** - Non-technical walkthrough of features for demos
 
-* Services (job queues, cache servers, search engines, etc.)
+## Setup
 
-* Deployment instructions
+* Ruby version: 3.2+
+* Rails version: 7.1.5
+* Database: PostgreSQL
+* CSS: Tailwind CSS v4
 
-* ...
+## Development
+
+```bash
+# Install dependencies
+bundle install
+
+# Setup database
+bin/rails db:setup
+
+# Run development server
+bin/dev
+```
+
+## Deployment
+
+Designed for deployment on platforms like Heroku, Fly.io, or Render with PostgreSQL database support.
