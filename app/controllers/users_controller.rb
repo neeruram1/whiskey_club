@@ -27,6 +27,11 @@ class UsersController < ApplicationController
     @total_past_meetings = Meeting.where('date < ?', Date.current).count
     @attendance_rate = @total_past_meetings > 0 ? ((@meetings_attended.to_f / @total_past_meetings) * 100).round : 0
     
+    # Member since date (first meeting attended or first rating)
+    first_meeting_date = @user.meetings.minimum(:date)
+    first_rating_date = @user.ratings.joins(bottle: :meeting).minimum('meetings.date')
+    @member_since = [first_meeting_date, first_rating_date].compact.min || @user.created_at
+    
     # Taste compatibility (if viewing someone else's profile)
     unless @is_current_user
       @compatibility = calculate_taste_compatibility(@user, current_user)
