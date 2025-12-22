@@ -1,8 +1,8 @@
-<% meeting_is_today = meeting.date == Date.current %>
-<% meeting_has_passed = meeting.date < Date.current %>
-<% meeting_is_upcoming = meeting.date > Date.current %>
+<% meeting_is_today = meeting.date == Date.today %>
+<% meeting_has_passed = meeting.date < Date.today %>
+<% meeting_is_upcoming = meeting.date > Date.today %>
 <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
-<% is_revealed = bottle.present? && (bottle.revealed_at.present? || meeting_has_passed) %>
+<% is_revealed = bottle.present? && bottle.revealed_at.present? %>
 
 <% if bottle.present? && !is_revealed %>
   <!-- Bottle exists but not revealed yet -->
@@ -86,6 +86,17 @@
           </svg>
           <span>Add Bottle</span>
         <% end %>
+      </div>
+      
+    <% elsif meeting_is_today %>
+      <!-- It's meeting day but you're not the spirit guide -->
+      <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
+        <p class="heading-section text-lagavulin-gold/60">
+          🔒 Bottle Not Yet Revealed
+        </p>
+        <p class="body-sm text-lagavulin-gold/70">
+          The spirit guide will reveal the bottle during today's tasting.
+        </p>
       </div>
       
     <% elsif meeting_has_passed %>

@@ -99,8 +99,8 @@
 
     <!-- Bottle Section -->
     <% 
-      meeting_has_passed = @meeting.date < Date.current
-      is_revealed = @bottle.present? && (@bottle.revealed_at.present? || meeting_has_passed)
+      meeting_has_passed = @meeting.date < Date.today
+      is_revealed = @bottle.present? && @bottle.revealed_at.present?
     %>
     <% if @meeting.flight_night? %>
       <%= render "flight_night_bottles", meeting: @meeting, bottles: @meeting.bottles %>

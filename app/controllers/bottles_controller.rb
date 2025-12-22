@@ -17,7 +17,7 @@ class BottlesController < ApplicationController
     @bottle.user ||= current_user
     
     # Auto-reveal if meeting date has arrived
-    if @meeting.date <= Date.current
+    if @meeting.date < Date.today
       @bottle.revealed_at = Time.current
     end
 
@@ -72,7 +72,7 @@ class BottlesController < ApplicationController
     end
     
     # Only reveal on or after meeting date
-    unless @meeting.date <= Date.current
+    unless @meeting.date <= Date.today
       redirect_to meeting_path(@meeting), alert: "Bottle can only be revealed on the meeting date.", status: :see_other
       return
     end
