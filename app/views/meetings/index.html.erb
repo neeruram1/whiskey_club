@@ -133,7 +133,7 @@
       <ul data-meeting-filter-target="list" class="space-y-6 list-none">
         <% @meetings.each do |meeting| %>
           <% bottle = meeting.bottle %>
-          <% has_unrated_bottles = meeting.date < Date.today && meeting.bottles.any? { |b| !@user_ratings[b.id] } %>
+          <% has_unrated_bottles = meeting.date < Time.zone.today && meeting.bottles.any? { |b| !@user_ratings[b.id] } %>
           <% search_terms = meeting.bottles.map { |b| "#{b.name} #{b.distillery}" }.join(' ') %>
           <li
             data-meeting-filter-target="item"
@@ -143,7 +143,7 @@
             data-year="<%= meeting.date.year %>"
             data-date="<%= meeting.date.to_time.to_i %>"
             data-has-bottle="<%= meeting.bottles.any? %>"
-            data-is-past="<%= meeting.date <= Date.today %>"
+            data-is-past="<%= meeting.date <= Time.zone.today %>"
             data-unrated="<%= has_unrated_bottles %>"
           >
             <%= link_to meeting_path(meeting), 
@@ -164,14 +164,14 @@
                   <h2 class="text-xl sm:text-2xl font-bold text-lagavulin-gold">
                     <%= meeting.date.strftime("%B %d, %Y") %>
                   </h2>
-                  <% if meeting.date > Date.today %>
+                  <% if meeting.date > Time.zone.today %>
                     <span class="inline-flex items-center rounded-full bg-lagavulin-gold/10 border border-lagavulin-gold/40 px-3 py-1">
                       <p class="label-xs text-lagavulin-gold font-semibold">Upcoming</p>
                     </span>
                   <% end %>
                   <% is_attending = current_user && meeting.attendees.exists?(id: current_user.id) %>
                   <% if is_attending %>
-                    <% attendance_label = meeting.date < Date.today ? "Attended" : "Attending" %>
+                    <% attendance_label = meeting.date < Time.zone.today ? "Attended" : "Attending" %>
                     <span class="inline-flex items-center rounded-full bg-lagavulin-gold/10 border border-lagavulin-gold/30 px-3 py-1">
                       <p class="label-xs text-lagavulin-gold/90 font-medium"><%= attendance_label %></p>
                     </span>
@@ -257,7 +257,7 @@
                   </div>
                 <% else %>
                   <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
-                  <% meeting_is_upcoming = meeting.date > Date.current %>
+                  <% meeting_is_upcoming = meeting.date > Time.zone.today %>
                   <div class="mt-4 rounded-xl border-2 border-dashed border-lagavulin-gold/20 bg-black/20 p-6 text-center">
                     <svg class="mx-auto h-10 w-10 text-lagavulin-gold/30 mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>

@@ -23,8 +23,8 @@ class UsersController < ApplicationController
                          .order('bottle_wishlists.created_at DESC')
     
     # Attendance
-    @meetings_attended = @user.meetings.where('date < ?', Date.current).count
-    @total_past_meetings = Meeting.where('date < ?', Date.current).count
+    @meetings_attended = @user.meetings.where('date < ?', Time.zone.today).count
+    @total_past_meetings = Meeting.where('date < ?', Time.zone.today).count
     @attendance_rate = @total_past_meetings > 0 ? ((@meetings_attended.to_f / @total_past_meetings) * 100).round : 0
     
     # Member since date (first meeting attended or first rating)

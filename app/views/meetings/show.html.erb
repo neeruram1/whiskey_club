@@ -99,7 +99,7 @@
 
     <!-- Bottle Section -->
     <% 
-      meeting_has_passed = @meeting.date < Date.today
+      meeting_has_passed = @meeting.date < Time.zone.today
       is_revealed = @bottle.present? && @bottle.revealed_at.present?
     %>
     <% if @meeting.flight_night? %>

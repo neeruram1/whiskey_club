@@ -13,7 +13,7 @@ class Bottle < ApplicationRecord
 
   scope :revealed, -> { where.not(revealed_at: nil) }
   scope :unrevealed, -> { where(revealed_at: nil) }
-  scope :past_bottles, -> { joins(:meeting).where("meetings.date < ?", Date.current).order("meetings.date DESC") }
+  scope :past_bottles, -> { joins(:meeting).where("meetings.date < ?", Time.zone.today).order("meetings.date DESC") }
   scope :with_ratings, -> { joins(:ratings).distinct }
 
   # Cache ratings count

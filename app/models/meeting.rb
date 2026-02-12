@@ -9,8 +9,8 @@ class Meeting < ApplicationRecord
   validates :date, presence: true, uniqueness: true
   validates :bottle_bringer, presence: true, unless: :is_flight
   
-  scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc) }
-  scope :past_meetings, -> { where('date < ?', Date.today).order(date: :desc) }
+  scope :upcoming, -> { where('date >= ?', Time.zone.today).order(date: :asc) }
+  scope :past_meetings, -> { where('date < ?', Time.zone.today).order(date: :desc) }
   
   # Helper method to get primary bottle for regular tastings
   def bottle
@@ -28,9 +28,9 @@ class Meeting < ApplicationRecord
 
 
   def meeting_status
-    if date == Date.current
+    if date == Time.zone.today
       :happening_today
-    elsif date < Date.current
+    elsif date < Time.zone.today
       :past
     else
       :upcoming

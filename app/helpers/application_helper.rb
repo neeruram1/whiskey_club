@@ -2,7 +2,7 @@ module ApplicationHelper
   def friendly_date(date)
     return "" unless date
 
-    days_ago = (Date.current - date.to_date).to_i
+    days_ago = (Time.zone.today - date.to_date).to_i
     
     case days_ago
     when 0
@@ -25,7 +25,7 @@ module ApplicationHelper
   def date_with_friendly(date, format: "%B %-d, %Y")
     return "" unless date
     
-    days_ago = (Date.current - date.to_date).to_i
+    days_ago = (Time.zone.today - date.to_date).to_i
     
     # Show relative for recent dates (within 2 weeks)
     if days_ago <= 14

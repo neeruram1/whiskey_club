@@ -1,5 +1,5 @@
-<% meeting_is_today = meeting.date == Date.today %>
-<% meeting_has_passed = meeting.date < Date.today %>
+<% meeting_is_today = meeting.date == Time.zone.today %>
+<% meeting_has_passed = meeting.date < Time.zone.today %>
 <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
 <% is_revealed = meeting.bottle.present? && meeting.bottle.revealed_at.present? %>
 
@@ -54,8 +54,8 @@
               </p>
             </div>
           <% else %>
-            <% meeting_is_today = meeting.date == Date.current %>
-            <% meeting_has_passed = meeting.date < Date.current %>
+            <% meeting_is_today = meeting.date == Time.zone.today %>
+            <% meeting_has_passed = meeting.date < Time.zone.today %>
             
             <div class="pt-1 space-y-2">
               <% if meeting_is_today && is_spirit_guide %>

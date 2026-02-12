@@ -1,6 +1,6 @@
 class PublicController < ApplicationController
   def index
-    @next_meeting = Meeting.where("date >= ?", Date.today)
+    @next_meeting = Meeting.where("date >= ?", Time.zone.today)
                            .order(date: :asc)
                            .includes(:bottle_bringer, bottles: [:ratings, :user])
                            .first
@@ -18,8 +18,8 @@ class PublicController < ApplicationController
                        .limit(3)
 
     # Attendance stats
-    @meetings_attended = current_user.meetings.where('date < ?', Date.today).count
-    @total_past_meetings = Meeting.where('date < ?', Date.today).count
+    @meetings_attended = current_user.meetings.where('date < ?', Time.zone.today).count
+    @total_past_meetings = Meeting.where('date < ?', Time.zone.today).count
     @attendance_rate = @total_past_meetings > 0 ? ((@meetings_attended.to_f / @total_past_meetings) * 100).round : 0
 
     # Bottles brought with eager loading (includes both spirit guide bottles and flight night bottles)
