@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Meeting, type: :model do
   describe 'validations' do
+    subject { build(:meeting) }
+
     it { should validate_presence_of(:date) }
     it { should validate_uniqueness_of(:date) }
     
@@ -21,9 +23,13 @@ RSpec.describe Meeting, type: :model do
 
   describe 'associations' do
     it { should have_many(:bottles).dependent(:destroy) }
-    it { should belong_to(:bottle_bringer).class_name('User').optional }
     it { should have_many(:meeting_attendees).dependent(:destroy) }
     it { should have_many(:attendees).through(:meeting_attendees).source(:user) }
+
+    context 'when is_flight is true' do
+      subject { build(:meeting, is_flight: true) }
+      it { should belong_to(:bottle_bringer).class_name('User').optional }
+    end
   end
 
   describe 'scopes' do

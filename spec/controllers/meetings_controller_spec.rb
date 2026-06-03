@@ -125,7 +125,7 @@ RSpec.describe MeetingsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    let(:meeting) { create(:meeting) }
+    let(:meeting) { create(:meeting, bottle_bringer: user) }
 
     it 'returns success' do
       get :edit, params: { id: meeting.id }

@@ -67,6 +67,7 @@ RSpec.configure do |config|
   # Include Devise test helpers
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include ActiveSupport::Testing::TimeHelpers
 
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
