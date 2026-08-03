@@ -5,6 +5,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
   layout :resolve_layout
 
+  # POST /resource
+  def create
+    if params.dig(:user, :invite_code).to_s.strip != ENV["CLUB_INVITE_CODE"].to_s
+      self.resource = resource_class.new(sign_up_params)
+      resource.validate
+      flash.now[:alert] = "Invalid invite code. Contact a club member for access."
+      respond_with(resource) do |format|
+        format.html { render :new, status: :unprocessable_entity }
+      end
+      return
+    end
+
+    super
+  end
+
   # GET /resource/edit
   def edit
     if turbo_frame_request?

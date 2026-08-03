@@ -4,5 +4,9 @@ FactoryBot.define do
     first_name { "John" }
     last_name  { "Doe" }
     password { "password" }
+
+    trait :admin do
+      admin { true }
+    end
   end
 end
