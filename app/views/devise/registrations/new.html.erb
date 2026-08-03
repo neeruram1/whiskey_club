@@ -105,6 +105,18 @@
                       class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
               </div>
 
+              <!-- Invite Code -->
+              <div>
+                <label class="mb-1.5 block text-xs sm:text-sm font-semibold uppercase tracking-widest text-lagavulin-green">
+                  <%= label_tag :"user[invite_code]", "Invite Code", class: "sr-only" %>
+                  Invite Code
+                </label>
+                <%= text_field_tag "user[invite_code]", nil,
+                      autocomplete: "off",
+                      placeholder: "Members-only code",
+                      class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20" %>
+              </div>
+
               <!-- Submit -->
               <div class="pt-2">
                 <%= f.submit "Request Membership",
