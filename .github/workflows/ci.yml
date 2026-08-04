@@ -57,5 +57,9 @@ jobs:
           bundler-cache: true
       - name: Set up database
         run: bin/rails db:test:prepare
+      - name: Build Tailwind CSS
+        # View-rendering specs render the layout, which references the Tailwind
+        # build via the asset pipeline. Generate it before running the suite.
+        run: bin/rails tailwindcss:build
       - name: Run tests
         run: bundle exec rspec
