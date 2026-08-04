@@ -62,6 +62,10 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
+  # Don't raise when a referenced asset (e.g. the Tailwind build) hasn't been
+  # precompiled — view-rendering specs shouldn't require a CSS build in CI.
+  config.assets.check_precompiled_asset = false
+
   # Wire up Bullet for N+1 detection. Not raising yet — a later phase flips
   # `Bullet.raise = true` once existing findings are triaged.
   config.after_initialize do
