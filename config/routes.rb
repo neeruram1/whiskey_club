@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   end
   resources :ratings
   resources :users, only: [:show]
+
+  namespace :admin do
+    resources :users, only: [:index, :destroy]
+  end
   
   get 'stats', to: 'public#stats', as: :stats
   get 'wishlist', to: 'public#wishlist', as: :wishlist

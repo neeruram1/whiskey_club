@@ -73,6 +73,9 @@
 
                   <% if user_signed_in? %>
                     <span class="text-lagavulin-gold/30">|</span>
+                    <% if current_user.admin? %>
+                      <%= link_to "Admin", admin_users_path, class: "link-mini" %>
+                    <% end %>
                     <a href="<%= edit_user_registration_path %>" class="link-mini" data-turbo-frame="modal">Account</a>
                     <%= link_to "Log out", destroy_user_session_path, class: "link-mini", data: { turbo_method: :delete, turbo_confirm: "Log out of your account?" } %>
                   <% end %>
@@ -89,6 +92,9 @@
                   <a href="<%= new_meeting_path %>" class="block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Schedule</a>
 
                   <% if user_signed_in? %>
+                    <% if current_user.admin? %>
+                      <%= link_to "Admin", admin_users_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
+                    <% end %>
                     <a href="<%= edit_user_registration_path %>" class="block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Edit account</a>
 
                     <%= button_to destroy_user_session_path,

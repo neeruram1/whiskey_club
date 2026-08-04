@@ -1,0 +1,53 @@
+<div class="relative min-h-screen">
+  <div class="relative z-10 mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 sm:py-12 md:py-16 space-y-8">
+
+    <!-- Header -->
+    <header class="space-y-2">
+      <h1 class="heading-page text-lagavulin-gold">
+        Members
+      </h1>
+      <p class="body-base text-lagavulin-gold/80">
+        <%= pluralize(@users.size, "member") %> · remove unwanted accounts
+      </p>
+    </header>
+
+    <!-- User list -->
+    <div class="overflow-x-auto rounded-2xl border border-lagavulin-gold/25 bg-lagavulin-green/40 supports-[backdrop-filter]:backdrop-blur-md">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-lagavulin-gold/20 label-xs text-lagavulin-gold/70">
+            <th class="px-4 py-3 sm:px-6">Name</th>
+            <th class="px-4 py-3 sm:px-6">Email</th>
+            <th class="px-4 py-3 sm:px-6 whitespace-nowrap">Joined</th>
+            <th class="px-4 py-3 sm:px-6 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="border-b border-lagavulin-gold/10 last:border-0">
+              <td class="px-4 py-3 sm:px-6 text-lagavulin-gold">
+                <%= user.full_name %>
+                <% if user.admin? %>
+                  <span class="ml-2 rounded-full border border-lagavulin-gold/40 px-2 py-0.5 label-xs text-lagavulin-gold/80">Admin</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 sm:px-6 body-sm text-lagavulin-gold/80"><%= user.email %></td>
+              <td class="px-4 py-3 sm:px-6 body-sm text-lagavulin-gold/70 whitespace-nowrap">
+                <%= user.created_at.strftime("%b %-d, %Y") %>
+              </td>
+              <td class="px-4 py-3 sm:px-6 text-right">
+                <% if user == current_user %>
+                  <span class="meta-xs text-lagavulin-gold/50">You</span>
+                <% else %>
+                  <%= button_to "Delete", admin_user_path(user), method: :delete,
+                        class: "btn-mini",
+                        form: { data: { turbo_confirm: "Delete #{user.full_name} and all of their data? This cannot be undone." } } %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
