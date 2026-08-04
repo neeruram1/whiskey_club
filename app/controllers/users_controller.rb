@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     
     # Taste compatibility (if viewing someone else's profile)
     unless @is_current_user
-      @compatibility = @user.taste_compatibility_with(current_user)
+      @compatibility = Stats::TasteProfile.new(@user).compatibility_with(current_user)
     end
   end
 end
