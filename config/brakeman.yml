@@ -1,0 +1,7 @@
+---
+# Skip end-of-life advisories for Ruby/Rails. These are real but represent a
+# framework/runtime upgrade tracked separately (see REFACTOR_PLAN.md), not a
+# code-security defect. Brakeman still runs all code-level security checks.
+:skip_checks:
+  - CheckEOLRuby
+  - CheckEOLRails

@@ -61,4 +61,12 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Wire up Bullet for N+1 detection. Not raising yet — a later phase flips
+  # `Bullet.raise = true` once existing findings are triaged.
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.raise         = false
+  end
 end
