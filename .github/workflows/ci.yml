@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint & Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: RuboCop
+        run: bundle exec rubocop --format github
+      - name: Brakeman (security)
+        run: bundle exec brakeman --no-pager --quiet
+      # Report-only for now: the app is on EOL Rails 7.1 / Ruby 3.2 with a
+      # backlog of known CVEs that require a framework upgrade (tracked in
+      # REFACTOR_PLAN.md). Surfaced on every PR but non-blocking until the
+      # dependency-upgrade phase lands, at which point drop continue-on-error.
+      - name: Bundler Audit (dependency CVEs)
+        continue-on-error: true
+        run: |
+          bundle exec bundle-audit update
+          bundle exec bundle-audit check
+
+  test:
+    name: RSpec
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+      CLUB_INVITE_CODE: ci-test-code
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Set up database
+        run: bin/rails db:test:prepare
+      - name: Build Tailwind CSS
+        # View-rendering specs render the layout, which references the Tailwind
+        # build via the asset pipeline. Generate it before running the suite.
+        run: bin/rails tailwindcss:build
+      - name: Run tests
+        run: bundle exec rspec

@@ -21,16 +21,24 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.1.0'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem "bullet"
 end
 
 group :development do
   gem "web-console"
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubocop-performance", require: false
+  gem "brakeman", require: false
+  gem "bundler-audit", require: false
 end
 
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'shoulda-matchers', '~> 6.0'
+  gem "simplecov", require: false
 end
 
 gem "rails-controller-testing", "~> 1.0", :group => :test
