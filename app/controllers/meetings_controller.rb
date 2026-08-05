@@ -33,7 +33,7 @@ class MeetingsController < ApplicationController
   end
 
   def show
-    @bottle = @meeting&.bottle
+    @bottle = @meeting&.primary_bottle
     @attendees = @meeting.attendees.includes(:ratings)
     @user_is_attending = current_user && @meeting.attendees.exists?(id: current_user.id)
     
@@ -85,8 +85,9 @@ class MeetingsController < ApplicationController
   end
 
   def find_rating
-    return unless @meeting&.bottle&.ratings&.any?
-    @user_rating = @meeting.bottle.ratings.find { |r| r.user_id == current_user.id }&.score
+    return unless @meeting&.primary_bottle&.ratings&.any?
+
+    @user_rating = @meeting.primary_bottle.ratings.find { |r| r.user_id == current_user.id }&.score
   end
 
 

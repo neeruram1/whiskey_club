@@ -57,6 +57,36 @@ RSpec.describe Bottle, type: :model do
         expect(Bottle.with_ratings).not_to include(bottle_without_ratings)
       end
     end
+
+    describe '.brought_by' do
+      let(:member) { create(:user) }
+
+      it 'includes bottles from meetings the member was the bringer for' do
+        meeting = create(:meeting, bottle_bringer: member)
+        bottle = create(:bottle, meeting: meeting, user: create(:user))
+
+        expect(Bottle.brought_by(member)).to include(bottle)
+      end
+
+      it 'includes bottles the member added themselves' do
+        bottle = create(:bottle, user: member)
+
+        expect(Bottle.brought_by(member)).to include(bottle)
+      end
+
+      it 'excludes bottles the member had no part in' do
+        bottle = create(:bottle, user: create(:user))
+
+        expect(Bottle.brought_by(member)).not_to include(bottle)
+      end
+
+      it 'orders by meeting date descending' do
+        older = create(:bottle, user: member, meeting: create(:meeting, date: 2.weeks.ago))
+        newer = create(:bottle, user: member, meeting: create(:meeting, date: 1.day.ago))
+
+        expect(Bottle.brought_by(member).to_a).to eq([newer, older])
+      end
+    end
   end
 
   describe '#reveal!' do

@@ -15,6 +15,13 @@ class Bottle < ApplicationRecord
   scope :unrevealed, -> { where(revealed_at: nil) }
   scope :past_bottles, -> { joins(:meeting).where("meetings.date < ?", Time.zone.today).order("meetings.date DESC") }
   scope :with_ratings, -> { joins(:ratings).distinct }
+  # Bottles a member is responsible for: either they were the meeting's bottle
+  # bringer, or they added the bottle themselves (e.g. on a flight night).
+  scope :brought_by, lambda { |user|
+    joins(:meeting)
+      .where("meetings.bottle_bringer_id = :id OR bottles.user_id = :id", id: user.id)
+      .order("meetings.date DESC")
+  }
 
   # Cache ratings count
   after_save :update_cached_average_rating, if: -> { saved_change_to_attribute?(:id) }

@@ -18,15 +18,13 @@ class PublicController < ApplicationController
                        .limit(3)
 
     # Attendance stats
-    @meetings_attended = current_user.meetings.where('date < ?', Time.zone.today).count
-    @total_past_meetings = Meeting.where('date < ?', Time.zone.today).count
-    @attendance_rate = @total_past_meetings > 0 ? ((@meetings_attended.to_f / @total_past_meetings) * 100).round : 0
+    attendance = Attendance.new(current_user)
+    @meetings_attended = attendance.meetings_attended
+    @total_past_meetings = attendance.total_past_meetings
+    @attendance_rate = attendance.rate
 
-    # Bottles brought with eager loading (includes both spirit guide bottles and flight night bottles)
-    @bottles_brought = Bottle.joins(:meeting)
-                             .where('meetings.bottle_bringer_id = ? OR bottles.user_id = ?', current_user.id, current_user.id)
-                             .includes(:meeting)
-                             .order('meetings.date DESC')
+    # Bottles brought (spirit-guide bottles and flight-night bottles alike).
+    @bottles_brought = Bottle.brought_by(current_user).includes(:meeting)
     @bottles_brought_count = @bottles_brought.count
 
     # Taste analytics: closest-matching palate and favourite bottle bringer.

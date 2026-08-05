@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :meeting do
     association :bottle_bringer, factory: :user
-    sequence(:date) { |n| Date.current + n.days }
+    # Offset well past the fixed trait dates (:past -7d, :upcoming +7d) so the
+    # unique-date sequence can never collide with them.
+    sequence(:date) { |n| Date.current + 30.days + n.days }
     is_flight { false }
     
     trait :flight_night do

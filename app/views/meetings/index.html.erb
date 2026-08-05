@@ -132,7 +132,7 @@
       <!-- Timeline -->
       <ul data-meeting-filter-target="list" class="space-y-6 list-none">
         <% @meetings.each do |meeting| %>
-          <% bottle = meeting.bottle %>
+          <% bottle = meeting.primary_bottle %>
           <% has_unrated_bottles = meeting.date < Time.zone.today && meeting.bottles.any? { |b| !@user_ratings[b.id] } %>
           <% search_terms = meeting.bottles.map { |b| "#{b.name} #{b.distillery}" }.join(' ') %>
           <li

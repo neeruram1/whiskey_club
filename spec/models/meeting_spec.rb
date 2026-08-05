@@ -76,13 +76,13 @@ RSpec.describe Meeting, type: :model do
     end
   end
 
-  describe '#bottle' do
+  describe '#primary_bottle' do
     let(:meeting) { create(:meeting) }
     let!(:first_bottle) { create(:bottle, meeting: meeting, created_at: 1.day.ago) }
     let!(:second_bottle) { create(:bottle, meeting: meeting, created_at: 1.hour.ago) }
 
     it 'returns the first bottle' do
-      expect(meeting.bottle).to eq(first_bottle)
+      expect(meeting.primary_bottle).to eq(first_bottle)
     end
   end
 
