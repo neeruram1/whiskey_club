@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe PublicController, type: :controller do
+  render_views
+
   let(:user) { create(:user) }
 
   before { sign_in user }

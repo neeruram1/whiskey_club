@@ -1,7 +1,7 @@
 <% meeting_is_today = meeting.date == Time.zone.today %>
 <% meeting_has_passed = meeting.date < Time.zone.today %>
 <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
-<% is_revealed = meeting.bottle.present? && meeting.bottle.revealed_at.present? %>
+<% is_revealed = meeting.primary_bottle.present? && meeting.primary_bottle.revealed_at.present? %>
 
 <%= link_to meeting_path(meeting), class: "block group touch-manipulation" do %>
   <div class="flex min-h-[120px]">
@@ -40,7 +40,7 @@
           <% end %>
 
           <!-- Featured bottle -->
-          <% if meeting.bottle.present? && (is_revealed || is_spirit_guide) %>
+          <% if meeting.primary_bottle.present? && (is_revealed || is_spirit_guide) %>
             <div class="pt-1">
               <p class="label-sm text-lagavulin-gold/50">
                 Featured bottle
@@ -48,9 +48,9 @@
 
               <p class="mt-2 heading-sub text-lagavulin-gold leading-snug">
                 <span class="text-lagavulin-gold/70 font-normal">
-                  <%= meeting.bottle.distillery.presence || "Distillery" %> ·
+                  <%= meeting.primary_bottle.distillery.presence || "Distillery" %> ·
                 </span>
-                <span class="font-normal"><%= meeting.bottle.name %></span>
+                <span class="font-normal"><%= meeting.primary_bottle.name %></span>
               </p>
             </div>
           <% else %>
