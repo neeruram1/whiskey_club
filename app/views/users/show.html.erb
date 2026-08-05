@@ -56,11 +56,11 @@
     <% end %>
 
     <!-- Encore Pours -->
-    <% if @encore_pours.any? %>
-      <section class="mb-8">
-        <h2 class="heading-sub text-lagavulin-gold mb-4">
-          <%= @is_current_user ? "Your" : "#{@user.first_name}'s" %> Encore Pours
-        </h2>
+    <section class="mb-8">
+      <h2 class="heading-sub text-lagavulin-gold mb-4">
+        <%= @is_current_user ? "Your" : "#{@user.first_name}'s" %> Encore Pours
+      </h2>
+      <% if @encore_pours.any? %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <% @encore_pours.each do |bottle| %>
             <%= link_to bottle, class: "block group" do %>
@@ -83,13 +83,18 @@
             <% end %>
           <% end %>
         </div>
-      </section>
-    <% end %>
+      <% else %>
+        <%= render "shared/empty_state",
+                   icon: "❤️",
+                   title: "No Encore Pours yet",
+                   message: @is_current_user ? "Tap the heart on any bottle to save it here." : "#{@user.first_name} hasn’t saved any bottles yet." %>
+      <% end %>
+    </section>
 
     <!-- Bottles Brought -->
-    <% if @bottles_brought.past_bottles.any? %>
-      <section class="mb-8">
-        <h2 class="heading-sub text-lagavulin-gold mb-4">Bottles Brought</h2>
+    <section class="mb-8">
+      <h2 class="heading-sub text-lagavulin-gold mb-4">Bottles Brought</h2>
+      <% if @bottles_brought.past_bottles.any? %>
         <div class="space-y-3">
           <% @bottles_brought.past_bottles.each do |bottle| %>
             <%= link_to bottle, class: "block group" do %>
@@ -116,8 +121,13 @@
             <% end %>
           <% end %>
         </div>
-      </section>
-    <% end %>
+      <% else %>
+        <%= render "shared/empty_state",
+                   icon: "🥃",
+                   title: "No bottles brought yet",
+                   message: @is_current_user ? "Bottles you bring to tastings will show up here." : "#{@user.first_name} hasn’t brought a bottle yet." %>
+      <% end %>
+    </section>
 
     <!-- All Ratings -->
     <% if @ratings.any? %>
