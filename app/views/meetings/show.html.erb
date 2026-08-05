@@ -54,9 +54,10 @@
           Attendance
         </h2>
         <% is_past = @meeting.meeting_status == :past %>
-        <%= button_to toggle_attendance_meeting_path(@meeting), 
+        <%= button_to toggle_attendance_meeting_path(@meeting),
               method: :post,
-              class: "btn-mini #{'bg-lagavulin-gold/20 border-lagavulin-gold/40' if @user_is_attending}" do %>
+              class: "btn-mini #{'bg-lagavulin-gold/20 border-lagavulin-gold/40' if @user_is_attending}",
+              data: { turbo_submits_with: "Saving…" } do %>
           <%= @user_is_attending ? (is_past ? "✓ Attended" : "✓ Attending") : (is_past ? "Mark Attended" : "Mark Attending") %>
         <% end %>
       </div>
