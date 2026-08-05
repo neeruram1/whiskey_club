@@ -1,0 +1,10 @@
+<%# A friendly empty state. locals: title (required), icon, message (optional). %>
+<div class="rounded-3xl border border-dashed border-lagavulin-gold/30 bg-black/20 p-8 text-center space-y-2">
+  <% if local_assigns[:icon].present? %>
+    <p class="text-3xl" aria-hidden="true"><%= icon %></p>
+  <% end %>
+  <p class="body-base font-semibold text-lagavulin-gold/90"><%= title %></p>
+  <% if local_assigns[:message].present? %>
+    <p class="body-sm text-lagavulin-gold/60 max-w-md mx-auto"><%= message %></p>
+  <% end %>
+</div>

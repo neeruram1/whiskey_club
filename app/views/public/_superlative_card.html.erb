@@ -1,0 +1,8 @@
+<%# Card shell for a stats superlative: title row with a gold pill, then the yielded body. %>
+<div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-4">
+  <div class="flex items-center justify-between">
+    <h3 class="heading-section text-lagavulin-gold"><%= title %></h3>
+    <%= gold_pill(pill) %>
+  </div>
+  <%= yield %>
+</div>

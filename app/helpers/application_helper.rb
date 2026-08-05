@@ -62,6 +62,13 @@ module ApplicationHelper
                 id: id)
   end
 
+  # Small gold "pill" badge used across stat cards.
+  def gold_pill(text)
+    content_tag(:div, class: "rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1") do
+      content_tag(:p, text, class: "meta-xs text-lagavulin-gold font-semibold")
+    end
+  end
+
   # Generate cancel button classes for forms
   def form_cancel_button_classes
     "inline-flex w-full md:w-auto items-center justify-center rounded-xl border-2 border-gray-400 bg-white px-6 py-3 text-sm tracking-widest uppercase font-semibold text-gray-700 shadow-lg shadow-black/50 transition-all duration-200 hover:bg-gray-50 hover:border-gray-500 hover:shadow-xl hover:shadow-black/60 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gray-400/40 order-2 sm:order-1"
