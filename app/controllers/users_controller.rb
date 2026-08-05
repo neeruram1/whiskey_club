@@ -11,10 +11,7 @@ class UsersController < ApplicationController
     @avg_rating = @ratings.average(:score)&.round(1)
     
     # Bottles brought (both spirit guide and flight night)
-    @bottles_brought = Bottle.joins(:meeting)
-                             .where('meetings.bottle_bringer_id = ? OR bottles.user_id = ?', @user.id, @user.id)
-                             .includes(:meeting, :ratings)
-                             .order('meetings.date DESC')
+    @bottles_brought = Bottle.brought_by(@user).includes(:meeting, :ratings)
     @bottles_brought_count = @bottles_brought.count
     
     # Encore Pours
@@ -23,9 +20,10 @@ class UsersController < ApplicationController
                          .order('bottle_wishlists.created_at DESC')
     
     # Attendance
-    @meetings_attended = @user.meetings.where('date < ?', Time.zone.today).count
-    @total_past_meetings = Meeting.where('date < ?', Time.zone.today).count
-    @attendance_rate = @total_past_meetings > 0 ? ((@meetings_attended.to_f / @total_past_meetings) * 100).round : 0
+    attendance = Attendance.new(@user)
+    @meetings_attended = attendance.meetings_attended
+    @total_past_meetings = attendance.total_past_meetings
+    @attendance_rate = attendance.rate
     
     # Member since date (first meeting attended or first rating)
     first_meeting_date = @user.meetings.minimum(:date)

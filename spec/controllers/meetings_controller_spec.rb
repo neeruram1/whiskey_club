@@ -25,7 +25,7 @@ RSpec.describe MeetingsController, type: :controller do
     end
 
     it 'tracks user ratings' do
-      bottle = meetings.first.bottle
+      bottle = meetings.first.primary_bottle
       create(:rating, user: user, bottle: bottle)
       
       get :index

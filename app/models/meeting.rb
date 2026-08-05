@@ -12,8 +12,9 @@ class Meeting < ApplicationRecord
   scope :upcoming, -> { where('date >= ?', Time.zone.today).order(date: :asc) }
   scope :past_meetings, -> { where('date < ?', Time.zone.today).order(date: :desc) }
   
-  # Helper method to get primary bottle for regular tastings
-  def bottle
+  # The single bottle for a regular tasting. Meaningful only for non-flight
+  # meetings; flight nights have many bottles (see #flight_night?).
+  def primary_bottle
     bottles.first
   end
   
