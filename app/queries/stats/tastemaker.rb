@@ -1,14 +1,16 @@
 module Stats
-  # Spirit guide (bottle bringer) whose bottles consistently score highest,
-  # among those who have brought at least 2 bottles.
+  # Spirit guide whose bottles consistently score highest.
+  #
+  # Measured directly off the meetings a member was the bottle bringer for
+  # (independent of whether they marked attendance), among members who have
+  # brought at least MIN_BOTTLES distinct rated bottles.
   # Returns { spirit_guide:, avg_score:, bottle_count: } or nil.
   class Tastemaker
     MIN_BOTTLES = 2
 
     def self.call
-      User.joins(meetings: { bottles: :ratings })
+      User.joins(guided_meetings: { bottles: :ratings })
           .select('users.*, AVG(ratings.score) as avg_score, COUNT(DISTINCT bottles.id) as bottle_count')
-          .where('meetings.bottle_bringer_id = users.id')
           .group('users.id')
           .having('COUNT(DISTINCT bottles.id) >= ?', MIN_BOTTLES)
           .order(Arel.sql('avg_score DESC'))
