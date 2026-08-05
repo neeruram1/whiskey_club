@@ -29,6 +29,11 @@ Style/FrozenStringLiteralComment:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+# Seed scripts legitimately print progress to stdout.
+Rails/Output:
+  Exclude:
+    - "db/seeds.rb"
+
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"

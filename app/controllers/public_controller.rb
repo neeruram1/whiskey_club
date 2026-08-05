@@ -55,7 +55,7 @@ class PublicController < ApplicationController
     @tastemaker = Stats::Tastemaker.call
     @hardest_rater = Stats::RaterExtremes.hardest
     @easiest_rater = Stats::RaterExtremes.easiest
-    @favorite_distillery = Stats::FavoriteDistillery.call
+    @most_poured_distillery = Stats::MostPouredDistillery.call
     @best_meeting = Stats::BestMeeting.call
   end
 end

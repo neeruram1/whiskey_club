@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Stats::FavoriteDistillery do
+RSpec.describe Stats::MostPouredDistillery do
   describe '.call' do
     it 'returns the most-represented distillery and its bottle count' do
       create(:bottle, distillery: 'Lagavulin')
