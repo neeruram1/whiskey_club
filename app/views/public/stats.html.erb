@@ -235,7 +235,7 @@
     </section>
     <% end %>
 
-    <% if @favorite_distillery.present? || @best_meeting.present? %>
+    <% if @most_poured_distillery.present? || @best_meeting.present? %>
       <div class="h-px bg-lagavulin-gold/18"></div>
     <% end %>
 
@@ -246,23 +246,23 @@
       </h2>
 
       <div class="grid gap-6 lg:grid-cols-2">
-        <!-- Favorite distillery -->
-        <% if @favorite_distillery.present? %>
+        <!-- Most poured distillery -->
+        <% if @most_poured_distillery.present? %>
           <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="heading-section text-lagavulin-gold">
-                🥃 Favorite Distillery
+                🥃 Most Poured Distillery
               </h3>
               <div class="rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1">
                 <p class="meta-xs text-lagavulin-gold font-semibold">
-                  <%= pluralize(@favorite_distillery[1], 'bottle') %>
+                  <%= pluralize(@most_poured_distillery[1], 'bottle') %>
                 </p>
               </div>
             </div>
 
             <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2">
               <p class="text-2xl font-semibold text-lagavulin-gold">
-                <%= @favorite_distillery[0] %>
+                <%= @most_poured_distillery[0] %>
               </p>
               <p class="body-sm text-lagavulin-gold/70">
                 Our most-tasted distillery
