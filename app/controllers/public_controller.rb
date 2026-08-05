@@ -29,11 +29,10 @@ class PublicController < ApplicationController
                              .order('meetings.date DESC')
     @bottles_brought_count = @bottles_brought.count
 
-    # Find users with similar taste (based on shared bottle ratings)
-    @taste_match = current_user.find_closest_match
-
-    # Find which bottle bringer's bottles you rate highest
-    @favorite_bringer = current_user.favorite_bringer
+    # Taste analytics: closest-matching palate and favourite bottle bringer.
+    taste_profile = Stats::TasteProfile.new(current_user)
+    @taste_match = taste_profile.closest_match
+    @favorite_bringer = taste_profile.favorite_bringer
   end
 
   def wishlist
@@ -49,58 +48,14 @@ class PublicController < ApplicationController
     @total_ratings = Rating.count
     @club_avg_rating = Rating.average(:score)&.round(2)
 
-    # Top bottle (highest club average with at least 3 ratings, tiebreaker: most ratings)
-    @top_bottle = Bottle.joins(:ratings)
-                        .select('bottles.*, AVG(ratings.score) as avg_score, COUNT(ratings.id) as rating_count')
-                        .group('bottles.id')
-                        .having('COUNT(ratings.id) >= 3')
-                        .order('avg_score DESC, rating_count DESC')
-                        .first
-
-    # Most controversial bottle (biggest variance in ratings)
-    @controversial_bottle = Bottle.joins(:ratings)
-                                  .select('bottles.*, 
-                                          VARIANCE(ratings.score) as score_variance,
-                                          AVG(ratings.score) as avg_score')
-                                  .group('bottles.id')
-                                  .having('COUNT(ratings.id) >= 3') # At least 3 ratings
-                                  .order('score_variance DESC')
-                                  .first
-
-    # Golden Nose - ratings closest to club average
-    @golden_nose = User.golden_nose
-
-    # Tastemaker - spirit guide whose bottles score highest
-    @tastemaker = User.tastemaker
-
-    # Hardest rater (lowest average score)
-    @hardest_rater = User.joins(:ratings)
-                        .select('users.*, AVG(ratings.score) as avg_score')
-                        .group('users.id')
-                        .having('COUNT(ratings.id) >= 3') # At least 3 ratings
-                        .order('avg_score ASC')
-                        .first
-
-    # Easiest rater (highest average score)
-    @easiest_rater = User.joins(:ratings)
-                        .select('users.*, AVG(ratings.score) as avg_score')
-                        .group('users.id')
-                        .having('COUNT(ratings.id) >= 3') # At least 3 ratings
-                        .order('avg_score DESC')
-                        .first
-
-    # Favorite distillery
-    @favorite_distillery = Bottle.where.not(distillery: [nil, ''])
-                                 .group(:distillery)
-                                 .count
-                                 .max_by { |_, count| count }
-
-    # Best meeting (highest average rating for bottles at that meeting, min 3 ratings, tiebreaker: most ratings)
-    @best_meeting = Meeting.joins(bottles: :ratings)
-                           .select('meetings.*, AVG(ratings.score) as avg_score, COUNT(ratings.id) as rating_count')
-                           .group('meetings.id')
-                           .having('COUNT(ratings.id) >= 3')
-                           .order('avg_score DESC, rating_count DESC')
-                           .first
+    # Superlatives (each backed by a query object in app/queries/stats).
+    @top_bottle = Stats::TopBottle.call
+    @controversial_bottle = Stats::ControversialBottle.call
+    @golden_nose = Stats::GoldenNose.call
+    @tastemaker = Stats::Tastemaker.call
+    @hardest_rater = Stats::RaterExtremes.hardest
+    @easiest_rater = Stats::RaterExtremes.easiest
+    @favorite_distillery = Stats::FavoriteDistillery.call
+    @best_meeting = Stats::BestMeeting.call
   end
 end
