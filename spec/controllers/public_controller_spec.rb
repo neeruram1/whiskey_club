@@ -51,6 +51,16 @@ RSpec.describe PublicController, type: :controller do
       expect(response).to be_successful
     end
 
+    context 'with no rated bottles' do
+      before { Rating.delete_all }
+
+      it 'renders guidance instead of superlatives' do
+        get :stats
+        expect(response).to be_successful
+        expect(response.body).to include("No superlatives yet")
+      end
+    end
+
     it 'assigns overview stats' do
       get :stats
       expect(assigns(:total_meetings)).to be_a(Integer)

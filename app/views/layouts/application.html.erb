@@ -38,7 +38,9 @@
 
         <% unless hide_shell %>
           <header class="sticky top-0 z-40 border-b border-lagavulin-gold/30 bg-lagavulin-green/70 supports-[backdrop-filter]:backdrop-blur-md" role="banner">
-            <div class="mx-auto w-full max-w-screen-xl px-4 py-2.5 sm:px-4 md:px-6">
+            <div class="mx-auto w-full max-w-screen-xl px-4 py-2.5 sm:px-4 md:px-6"
+                 data-controller="menu"
+                 data-action="keydown@window->menu#closeOnEscape click@window->menu#closeOnOutsideClick">
               <nav class="flex items-center justify-between gap-4" aria-label="Main navigation">
                 <!-- Left: wordmark -->
                 <%= link_to root_path, class: "group flex flex-col gap-0.5 flex-shrink-0" do %>
@@ -51,11 +53,12 @@
                 <% end %>
 
                 <!-- Mobile menu button -->
-                <button type="button" 
+                <button type="button"
                         class="lg:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md text-lagavulin-gold/70 hover:text-lagavulin-gold hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lagavulin-gold/50 transition"
-                        aria-controls="mobile-menu" 
+                        aria-controls="mobile-menu"
                         aria-expanded="false"
-                        onclick="document.getElementById('mobile-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');">
+                        data-menu-target="button"
+                        data-action="menu#toggle">
                   <span class="text-sm font-medium tracking-wider uppercase">Menu</span>
                   <svg class="block h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -83,7 +86,7 @@
               </nav>
 
               <!-- Mobile menu (hidden by default, outside sticky nav) -->
-              <div class="hidden lg:hidden mt-3 space-y-1 pb-3" id="mobile-menu">
+              <div class="hidden lg:hidden mt-3 space-y-1 pb-3" id="mobile-menu" data-menu-target="panel">
                   <%= link_to "Home", root_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Bottle Archive", archives_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                   <%= link_to "Tasting Archive", meetings_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>

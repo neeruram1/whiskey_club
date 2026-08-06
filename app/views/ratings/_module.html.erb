@@ -133,7 +133,7 @@
           Tap stars or slide for precision
         </p>
         <%= submit_tag(current_user_rating.present? ? "Update Rating" : "Submit Rating",
-              class: "btn-mini") %>
+              class: "btn-mini", data: { turbo_submits_with: "Saving…" }) %>
       </div>
     <% end %>
   </div>
