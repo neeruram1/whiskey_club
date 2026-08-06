@@ -6,7 +6,7 @@
 
   <!-- Featured: Most Recent Tasting -->
   <% if bottle_of_month.present? %>
-    <%= link_to bottle_of_month, class: "block group touch-manipulation" do %>
+    <%= link_to bottle_of_month, class: "block group touch-manipulation max-w-4xl" do %>
       <div class="relative overflow-hidden rounded-3xl border-2 border-lagavulin-gold/50 bg-gradient-to-br from-black/30 to-black/20 p-8 sm:p-10
                   shadow-2xl shadow-black/60 transition-all duration-300 group-hover:border-lagavulin-gold/70 group-hover:shadow-lagavulin-gold/10 group-active:scale-[0.99]">
 
@@ -29,7 +29,7 @@
                 </span>
               <% end %>
             </div>
-            <p class="label-sm text-lagavulin-gold/70">
+            <p class="label-sm text-lagavulin-gold/85">
               <%= bottle_of_month.meeting.date.strftime("%B %Y") %>
             </p>
           </div>
@@ -47,19 +47,19 @@
             <!-- Stats -->
             <div class="flex flex-wrap gap-6 pt-2">
               <div class="space-y-1">
-                <p class="label-xs text-lagavulin-gold/60">My Rating</p>
+                <p class="label-xs text-lagavulin-gold/80">My Rating</p>
                 <p class="text-xl font-bold text-lagavulin-gold">
                   <%= format_rating(user_rating_for(bottle_of_month, current_user, @user_ratings)) %>
                 </p>
               </div>
               <div class="space-y-1">
-                <p class="label-xs text-lagavulin-gold/60">Club Average</p>
+                <p class="label-xs text-lagavulin-gold/80">Club Average</p>
                 <p class="text-xl font-bold text-lagavulin-gold">
                   <%= format_rating(average_rating_for(bottle_of_month)) %>
                 </p>
               </div>
               <div class="space-y-1">
-                <p class="label-xs text-lagavulin-gold/60">Spirit Guide</p>
+                <p class="label-xs text-lagavulin-gold/80">Spirit Guide</p>
                 <p class="text-base font-semibold text-lagavulin-gold">
                   <%= bottle_of_month.user.full_name %>
                 </p>
@@ -68,7 +68,7 @@
           </div>
 
           <!-- Arrow -->
-          <div class="flex items-center gap-2 pt-2 text-lagavulin-gold/70 transition-colors group-hover:text-lagavulin-gold">
+          <div class="flex items-center gap-2 pt-2 text-lagavulin-gold/85 transition-colors group-hover:text-lagavulin-gold">
             <span class="label-sm font-semibold">View full details</span>
             <svg class="h-5 w-5 transition-transform group-hover:translate-x-1"
                  fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -99,7 +99,7 @@
         type="button"
         data-bottle-filter-target="clearAll"
         data-action="click->bottle-filter#clearAll"
-        class="hidden label-sm text-lagavulin-gold/60 hover:text-lagavulin-gold transition whitespace-nowrap"
+        class="hidden label-sm text-lagavulin-gold/80 hover:text-lagavulin-gold transition whitespace-nowrap"
       >
         Clear all
       </button>
@@ -113,7 +113,7 @@
         <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
           <!-- Rating filter -->
           <div class="flex items-center gap-2">
-            <span class="label-xs text-lagavulin-gold/60 uppercase tracking-wider whitespace-nowrap">Rating</span>
+            <span class="label-xs text-lagavulin-gold/80 uppercase tracking-wider whitespace-nowrap">Rating</span>
             <div class="flex gap-1.5">
               <% [
                 ["All", ""],
@@ -137,7 +137,7 @@
 
           <!-- Year filter -->
           <div class="flex items-center gap-2">
-            <span class="label-xs text-lagavulin-gold/60 uppercase tracking-wider whitespace-nowrap">Year</span>
+            <span class="label-xs text-lagavulin-gold/80 uppercase tracking-wider whitespace-nowrap">Year</span>
             <select
               data-bottle-filter-target="year"
               data-action="change->bottle-filter#filter"
@@ -156,7 +156,7 @@
 
         <!-- Right: Sort -->
         <div class="flex items-center gap-2">
-          <span class="label-xs text-lagavulin-gold/60 uppercase tracking-wider whitespace-nowrap">Sort</span>
+          <span class="label-xs text-lagavulin-gold/80 uppercase tracking-wider whitespace-nowrap">Sort</span>
           <div class="flex flex-wrap gap-1.5">
             <% [
               ["Newest", "date_desc"],
@@ -183,7 +183,7 @@
 
     <!-- Active Filter Chips -->
     <div data-bottle-filter-target="chipsRow" class="hidden flex flex-wrap items-center gap-2">
-      <span class="label-xs text-lagavulin-gold/50">Active:</span>
+      <span class="label-xs text-lagavulin-gold/80">Active:</span>
 
       <button
         type="button"
@@ -196,7 +196,7 @@
                hover:bg-lagavulin-gold/15 hover:border-lagavulin-gold/50 transition-all"
       >
         <span data-bottle-filter-target="chipRatingText"></span>
-        <span class="text-lagavulin-gold/60 text-sm">×</span>
+        <span class="text-lagavulin-gold/80 text-sm">×</span>
       </button>
 
       <button
@@ -210,7 +210,7 @@
                hover:bg-lagavulin-gold/15 hover:border-lagavulin-gold/50 transition-all"
       >
         <span data-bottle-filter-target="chipYearText"></span>
-        <span class="text-lagavulin-gold/60 text-sm">×</span>
+        <span class="text-lagavulin-gold/80 text-sm">×</span>
       </button>
     </div>
 
@@ -219,7 +219,7 @@
       <p class="body-sm text-lagavulin-gold font-semibold">
         <span data-bottle-filter-target="count"><%= bottles_for_list.count %></span>
       </p>
-      <p class="body-sm text-lagavulin-gold/70">
+      <p class="body-sm text-lagavulin-gold/85">
         <%= 'bottle'.pluralize(bottles_for_list.count) %>
       </p>
     </div>
@@ -270,7 +270,7 @@
                 <!-- Content -->
                 <div class="flex-1 space-y-3">
                   <div class="space-y-1">
-                    <p class="label-xs text-lagavulin-gold/70 uppercase tracking-wider">
+                    <p class="label-xs text-lagavulin-gold/85 uppercase tracking-wider">
                       <% if bottle.meeting.flight_night? %>✈️ <% end %><%= bottle.distillery %>
                     </p>
                     <h3 class="text-lg sm:text-xl font-bold text-lagavulin-gold leading-tight line-clamp-2 min-h-[3.5rem]">
@@ -281,13 +281,13 @@
                   <!-- Stats grid -->
                   <div class="grid grid-cols-2 gap-3 pt-2">
                     <div class="rounded-lg bg-black/30 border border-lagavulin-gold/20 p-2.5">
-                      <p class="meta-xs text-lagavulin-gold/60 mb-1">My Rating</p>
+                      <p class="meta-xs text-lagavulin-gold/80 mb-1">My Rating</p>
                       <p class="text-lg font-bold text-lagavulin-gold">
                         <%= format_rating(user_rating_for(bottle, current_user, @user_ratings)) %>
                       </p>
                     </div>
                     <div class="rounded-lg bg-black/30 border border-lagavulin-gold/20 p-2.5">
-                      <p class="meta-xs text-lagavulin-gold/60 mb-1">Club Avg</p>
+                      <p class="meta-xs text-lagavulin-gold/80 mb-1">Club Avg</p>
                       <p class="text-lg font-bold text-lagavulin-gold">
                         <%= format_rating(average_rating_for(bottle)) %>
                       </p>
@@ -297,7 +297,7 @@
 
                 <!-- Spirit Guide -->
                 <div class="mt-4 pt-3 border-t border-lagavulin-gold/15">
-                  <p class="meta-xs text-lagavulin-gold/60">
+                  <p class="meta-xs text-lagavulin-gold/80">
                     Guided by <span class="text-lagavulin-gold/80 font-semibold"><%= bottle.user.full_name %></span>
                   </p>
                 </div>
@@ -317,10 +317,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
           </svg>
           <div>
-            <p class="text-2xl font-bold text-lagavulin-gold/70">
+            <p class="text-2xl font-bold text-lagavulin-gold/85">
               No bottles found
             </p>
-            <p class="mt-2 body-sm text-lagavulin-gold/50">
+            <p class="mt-2 body-sm text-lagavulin-gold/80">
               Try adjusting your search or filter criteria
             </p>
           </div>
