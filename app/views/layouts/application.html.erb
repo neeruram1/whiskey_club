@@ -79,6 +79,7 @@
                     <% if current_user.admin? %>
                       <%= link_to "Admin", admin_users_path, class: "link-mini" %>
                     <% end %>
+                    <%= link_to "Profile", user_path(current_user), class: "link-mini" %>
                     <a href="<%= edit_user_registration_path %>" class="link-mini" data-turbo-frame="modal">Account</a>
                     <%= link_to "Log out", destroy_user_session_path, class: "link-mini", data: { turbo_method: :delete, turbo_confirm: "Log out of your account?" } %>
                   <% end %>
@@ -98,6 +99,7 @@
                     <% if current_user.admin? %>
                       <%= link_to "Admin", admin_users_path, class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                     <% end %>
+                    <%= link_to "Profile", user_path(current_user), class: "block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" %>
                     <a href="<%= edit_user_registration_path %>" class="block px-4 py-3.5 rounded-md text-base font-medium tracking-wider uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold hover:bg-black/20 transition" data-turbo-frame="modal">Edit account</a>
 
                     <%= button_to destroy_user_session_path,
@@ -113,7 +115,7 @@
 
               <% if user_signed_in? %>
                 <p class="mt-2 meta-xs text-lagavulin-gold/70">
-                  Signed in as <span class="text-lagavulin-gold/90"><%= current_user.full_name %></span>
+                  Signed in as <%= link_to current_user.full_name, user_path(current_user), class: "text-lagavulin-gold/90 hover:text-lagavulin-gold underline decoration-lagavulin-gold/30 underline-offset-2 hover:decoration-lagavulin-gold transition-colors" %>
                 </p>
               <% end %>
             </div>
