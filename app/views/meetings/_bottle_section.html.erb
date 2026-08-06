@@ -23,7 +23,7 @@
           <h3 class="heading-section text-lagavulin-gold">
             <%= bottle.name %>
           </h3>
-          <div class="flex flex-wrap gap-x-5 gap-y-2 meta-sm text-lagavulin-gold/70">
+          <div class="flex flex-wrap gap-x-5 gap-y-2 meta-sm text-lagavulin-gold/85">
             <span>Style: <span class="text-lagavulin-gold/75"><%= bottle.bottle_type.presence || "—" %></span></span>
             <% if bottle.age.present? %>
               <span>Age: <span class="text-lagavulin-gold/75"><%= pluralize(bottle.age, "year") %></span></span>
@@ -47,7 +47,7 @@
                   class: "btn-mini bg-lagavulin-gold/20 border-lagavulin-gold/40",
                   data: { turbo: false } %>
           <% else %>
-            <p class="body-sm text-lagavulin-gold/60 self-center">
+            <p class="body-sm text-lagavulin-gold/80 self-center">
               You can reveal the bottle on <%= meeting.date.strftime("%B %-d") %>
             </p>
           <% end %>
@@ -56,10 +56,10 @@
     <% else %>
       <!-- Non-spirit guide view - bottle is hidden -->
       <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
-        <p class="heading-section text-lagavulin-gold/60">
+        <p class="heading-section text-lagavulin-gold/80">
           🔒 Bottle Not Yet Revealed
         </p>
-        <p class="body-sm text-lagavulin-gold/70">
+        <p class="body-sm text-lagavulin-gold/85">
           The bottle is a surprise! The spirit guide will reveal it during the tasting. 
         </p>
         <div class="max-w-2xl mx-auto">
@@ -98,10 +98,10 @@
     <% elsif meeting_is_today %>
       <!-- It's meeting day but you're not the spirit guide -->
       <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
-        <p class="heading-section text-lagavulin-gold/60">
+        <p class="heading-section text-lagavulin-gold/80">
           🔒 Bottle Not Yet Revealed
         </p>
-        <p class="body-sm text-lagavulin-gold/70">
+        <p class="body-sm text-lagavulin-gold/85">
           The bottle is a surprise!The spirit guide will reveal the bottle during today's tasting.
         </p>
       </div>
@@ -110,7 +110,7 @@
       <!-- Meeting completed but no bottle added -->
       <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-8 shadow-lg shadow-black/40 space-y-4">
         <div class="space-y-2">
-          <p class="heading-section text-lagavulin-gold/70">
+          <p class="heading-section text-lagavulin-gold/85">
             Meeting Completed
           </p>
           <p class="body-base text-lagavulin-gold/80">
@@ -131,7 +131,7 @@
           <p class="heading-section text-lagavulin-gold">
             Add Your Bottle
           </p>
-          <p class="body-sm text-lagavulin-gold/70">
+          <p class="body-sm text-lagavulin-gold/85">
             Add the bottle details now (it will stay hidden until you reveal it on <%= meeting.date.strftime("%B %-d") %>)
           </p>
         </div>
@@ -145,10 +145,10 @@
     <% else %>
       <!-- Upcoming meeting - non-spirit guide -->
       <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
-        <p class="heading-section text-lagavulin-gold/60">
+        <p class="heading-section text-lagavulin-gold/80">
           🔒 Bottle Not Yet Revealed
         </p>
-        <p class="body-sm text-lagavulin-gold/70">
+        <p class="body-sm text-lagavulin-gold/85">
           The bottle is a surprise! It will be revealed during the tasting on <%= meeting.date.strftime("%B %-d") %>.
         </p>
       </div>

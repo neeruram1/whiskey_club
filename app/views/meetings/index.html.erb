@@ -90,7 +90,7 @@
         data-meeting-filter-target="chipsRow"
         class="hidden flex flex-wrap items-center gap-2"
       >
-        <p class="meta-xs text-lagavulin-gold/60">Active filters:</p>
+        <p class="meta-xs text-lagavulin-gold/80">Active filters:</p>
 
         <button
           type="button"
@@ -102,7 +102,7 @@
                  hover:bg-lagavulin-gold/25 transition"
         >
           <span data-meeting-filter-target="chipStatusText"></span>
-          <span class="text-lagavulin-gold/50">×</span>
+          <span class="text-lagavulin-gold/80">×</span>
         </button>
 
         <button
@@ -115,14 +115,14 @@
                  hover:bg-lagavulin-gold/25 transition"
         >
           <span data-meeting-filter-target="chipYearText"></span>
-          <span class="text-lagavulin-gold/50">×</span>
+          <span class="text-lagavulin-gold/80">×</span>
         </button>
 
         <button
           type="button"
           data-meeting-filter-target="clearAll"
           data-action="click->meeting-filter#clearAll"
-          class="ml-1 label-xs text-lagavulin-gold/60
+          class="ml-1 label-xs text-lagavulin-gold/80
                  hover:text-lagavulin-gold transition"
         >
           Clear all
@@ -191,11 +191,11 @@
 
                 <!-- Spirit Guide or Flight Info -->
                 <% if meeting.flight_night? %>
-                  <p class="body-sm text-lagavulin-gold/70">
+                  <p class="body-sm text-lagavulin-gold/85">
                     ✈️ <span class="text-lagavulin-gold font-semibold">Whiskey Flight Night</span> — <%= pluralize(meeting.bottles.count, 'bottle') %>
                   </p>
                 <% elsif meeting.bottle_bringer.present? %>
-                  <p class="body-sm text-lagavulin-gold/70">
+                  <p class="body-sm text-lagavulin-gold/85">
                     Guided by <span class="text-lagavulin-gold font-semibold"><%= meeting.bottle_bringer.full_name %></span>
                   </p>
                 <% end %>
@@ -207,8 +207,8 @@
                       <div class="rounded-xl bg-black/30 border border-lagavulin-gold/20 p-3 sm:p-4">
                         <div class="flex items-start justify-between gap-3">
                           <div class="flex-1">
-                            <p class="label-xs text-lagavulin-gold/60 uppercase tracking-wider">
-                              <%= flight_bottle.distillery %> · <span class="text-lagavulin-gold/50"><%= flight_bottle.user.full_name %></span>
+                            <p class="label-xs text-lagavulin-gold/80 uppercase tracking-wider">
+                              <%= flight_bottle.distillery %> · <span class="text-lagavulin-gold/80"><%= flight_bottle.user.full_name %></span>
                             </p>
                             <h4 class="text-base font-bold text-lagavulin-gold mt-1">
                               <%= flight_bottle.name %>
@@ -230,7 +230,7 @@
                   </div>
                 <% elsif bottle.present? %>
                   <div class="mt-4 rounded-xl bg-black/30 border border-lagavulin-gold/20 p-4">
-                    <p class="label-xs text-lagavulin-gold/60 uppercase tracking-wider mb-2">
+                    <p class="label-xs text-lagavulin-gold/80 uppercase tracking-wider mb-2">
                       <%= bottle.distillery %>
                     </p>
                     <h3 class="text-xl font-bold text-lagavulin-gold mb-3">
@@ -246,12 +246,12 @@
                           <span class="font-semibold text-lagavulin-gold">
                             <%= bottle.ratings.average(:score)&.round(1) || 'N/A' %>
                           </span>
-                          <span class="text-lagavulin-gold/60">
+                          <span class="text-lagavulin-gold/80">
                             (<%= bottle.ratings.count %> <%= 'rating'.pluralize(bottle.ratings.count) %>)
                           </span>
                         </div>
                       <% else %>
-                        <span class="text-lagavulin-gold/50 italic">Not yet rated</span>
+                        <span class="text-lagavulin-gold/80 italic">Not yet rated</span>
                       <% end %>
                     </div>
                   </div>
@@ -263,21 +263,21 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <% if meeting_is_upcoming && is_spirit_guide %>
-                      <p class="text-sm font-semibold text-lagavulin-gold/60">
+                      <p class="text-sm font-semibold text-lagavulin-gold/80">
                         🔒 Bottle not added yet
                       </p>
                       <p class="mt-1 text-xs text-lagavulin-gold/40">
                         Click to add (will stay hidden until you reveal it)
                       </p>
                     <% elsif meeting_is_upcoming %>
-                      <p class="text-sm font-semibold text-lagavulin-gold/60">
+                      <p class="text-sm font-semibold text-lagavulin-gold/80">
                         🔒 Bottle not yet revealed
                       </p>
                       <p class="mt-1 text-xs text-lagavulin-gold/40">
                         The spirit guide will reveal it during the tasting
                       </p>
                     <% else %>
-                      <p class="text-sm font-semibold text-lagavulin-gold/60">
+                      <p class="text-sm font-semibold text-lagavulin-gold/80">
                         No bottle added yet
                       </p>
                       <p class="mt-1 text-xs text-lagavulin-gold/40">
@@ -314,10 +314,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
           </svg>
           <div>
-            <p class="text-2xl font-bold text-lagavulin-gold/70">
+            <p class="text-2xl font-bold text-lagavulin-gold/85">
               No meetings found
             </p>
-            <p class="mt-2 body-sm text-lagavulin-gold/50">
+            <p class="mt-2 body-sm text-lagavulin-gold/80">
               Try adjusting your search or filter criteria
             </p>
           </div>
@@ -334,10 +334,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
           </svg>
           <div>
-            <p class="text-2xl font-bold text-lagavulin-gold/70">
+            <p class="text-2xl font-bold text-lagavulin-gold/85">
               No tastings yet
             </p>
-            <p class="mt-2 body-sm text-lagavulin-gold/50">
+            <p class="mt-2 body-sm text-lagavulin-gold/80">
               Schedule your first tasting night to get started
             </p>
           </div>

@@ -5,7 +5,7 @@
     <!-- Header -->
     <header class="mb-8">
       <h1 class="heading-page text-lagavulin-gold"><%= @user.full_name %></h1>
-      <p class="mt-2 body-base text-lagavulin-gold/70">
+      <p class="mt-2 body-base text-lagavulin-gold/85">
         Member since <%= @member_since.strftime("%B %Y") %>
       </p>
     </header>
@@ -13,26 +13,26 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
       <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
-        <p class="label-xs text-lagavulin-gold/70">Ratings</p>
+        <p class="label-xs text-lagavulin-gold/85">Ratings</p>
         <p class="mt-2 text-2xl font-bold text-lagavulin-gold"><%= @ratings_count %></p>
       </div>
       <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
-        <p class="label-xs text-lagavulin-gold/70">Avg Rating</p>
+        <p class="label-xs text-lagavulin-gold/85">Avg Rating</p>
         <p class="mt-2 text-2xl font-bold text-lagavulin-gold">
           <%= @avg_rating || "—" %>
           <% if @avg_rating %>
-            <span class="text-base text-lagavulin-gold/60">/5</span>
+            <span class="text-base text-lagavulin-gold/80">/5</span>
           <% end %>
         </p>
       </div>
       <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
-        <p class="label-xs text-lagavulin-gold/70">Bottles Brought</p>
+        <p class="label-xs text-lagavulin-gold/85">Bottles Brought</p>
         <p class="mt-2 text-2xl font-bold text-lagavulin-gold"><%= @bottles_brought_count %></p>
       </div>
       <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
-        <p class="label-xs text-lagavulin-gold/70">Attendance</p>
+        <p class="label-xs text-lagavulin-gold/85">Attendance</p>
         <p class="mt-2 text-2xl font-bold text-lagavulin-gold">
-          <%= @attendance_rate %><span class="text-base text-lagavulin-gold/60">%</span>
+          <%= @attendance_rate %><span class="text-base text-lagavulin-gold/80">%</span>
         </p>
       </div>
     </div>
@@ -43,13 +43,13 @@
         <div class="flex items-center justify-between">
           <div>
             <h2 class="heading-section text-lagavulin-gold">Taste Compatibility</h2>
-            <p class="mt-1 body-sm text-lagavulin-gold/70">
+            <p class="mt-1 body-sm text-lagavulin-gold/85">
               Based on <%= pluralize(@compatibility[:shared_count], 'shared rating') %>
             </p>
           </div>
           <div class="text-center">
             <div class="text-4xl font-bold text-lagavulin-gold"><%= @compatibility[:score] %>%</div>
-            <p class="mt-1 label-xs text-lagavulin-gold/60">Match</p>
+            <p class="mt-1 label-xs text-lagavulin-gold/80">Match</p>
           </div>
         </div>
       </div>
@@ -69,13 +69,13 @@
                 <h3 class="heading-section text-lagavulin-gold mb-3 line-clamp-2"><%= bottle.name %></h3>
                 <div class="flex items-center justify-between">
                   <div>
-                    <p class="label-xs text-lagavulin-gold/70">Club Average</p>
+                    <p class="label-xs text-lagavulin-gold/85">Club Average</p>
                     <p class="body-base text-lagavulin-gold font-semibold">
                       <%= bottle.average_rating&.round(1) || "—" %>
-                      <span class="text-lagavulin-gold/60">/5</span>
+                      <span class="text-lagavulin-gold/80">/5</span>
                     </p>
                   </div>
-                  <svg class="w-5 h-5 text-lagavulin-gold/60 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-lagavulin-gold/80 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                   </svg>
                 </div>
@@ -102,18 +102,18 @@
                 <div class="flex-1 min-w-0">
                   <p class="label-sm text-lagavulin-gold/80"><%= bottle.distillery.presence || "Distillery" %></p>
                   <h3 class="body-base font-semibold text-lagavulin-gold mt-1 truncate"><%= bottle.name %></h3>
-                  <p class="meta-xs text-lagavulin-gold/60 mt-1">
+                  <p class="meta-xs text-lagavulin-gold/80 mt-1">
                     <%= bottle.meeting.date.strftime("%B %Y") %> • <%= pluralize(bottle.ratings.count, 'rating') %>
                   </p>
                 </div>
                 <div class="flex items-center gap-4 flex-shrink-0">
                   <div class="text-right">
-                    <p class="label-xs text-lagavulin-gold/70">Club Avg</p>
+                    <p class="label-xs text-lagavulin-gold/85">Club Avg</p>
                     <p class="body-base text-lagavulin-gold font-semibold">
                       <%= bottle.average_rating&.round(1) || "—" %>
                     </p>
                   </div>
-                  <svg class="w-5 h-5 text-lagavulin-gold/60 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-lagavulin-gold/80 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                   </svg>
                 </div>
@@ -141,7 +141,7 @@
                   <p class="label-sm text-lagavulin-gold/80"><%= rating.bottle.distillery.presence || "Distillery" %></p>
                   <h3 class="body-base font-semibold text-lagavulin-gold mt-1 truncate"><%= rating.bottle.name %></h3>
                   <% if rating.comment.present? %>
-                    <p class="meta-sm text-lagavulin-gold/70 mt-2 line-clamp-2 italic">"<%= rating.comment %>"</p>
+                    <p class="meta-sm text-lagavulin-gold/85 mt-2 line-clamp-2 italic">"<%= rating.comment %>"</p>
                   <% end %>
                   <% if rating.flavors.present? && rating.flavors.any? %>
                     <div class="flex flex-wrap gap-1.5 mt-2">
@@ -162,10 +162,10 @@
                   <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-4 py-2">
                     <p class="text-xl font-bold text-lagavulin-gold">
                       <%= rating.score %>
-                      <span class="text-sm text-lagavulin-gold/60 font-normal">/5</span>
+                      <span class="text-sm text-lagavulin-gold/80 font-normal">/5</span>
                     </p>
                   </div>
-                  <svg class="w-5 h-5 text-lagavulin-gold/60 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-lagavulin-gold/80 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                   </svg>
                 </div>
@@ -176,7 +176,7 @@
       </section>
     <% else %>
       <div class="text-center py-12 rounded-3xl border border-lagavulin-gold/30 bg-black/25">
-        <p class="body-base text-lagavulin-gold/70">No ratings yet</p>
+        <p class="body-base text-lagavulin-gold/85">No ratings yet</p>
       </div>
     <% end %>
 
