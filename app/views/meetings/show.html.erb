@@ -23,7 +23,7 @@
         </h1>
         <%= link_to "Edit tasting",
               edit_meeting_path(@meeting),
-              class: "link-mini self-start",
+              class: "link-action self-start",
               data: { turbo_frame: "modal" } %>
       </div>
 
@@ -113,10 +113,10 @@
             Featured Whiskey
           </h2>
           <div class="flex items-center gap-3 flex-wrap">
-            <%= link_to "View full details", @bottle, class: "link-mini" %>
+            <%= link_to "View full details", @bottle, class: "link-action" %>
             <%= link_to "Edit bottle",
                   edit_bottle_path(@bottle),
-                  class: "link-mini",
+                  class: "link-action",
                   data: { turbo_frame: "modal" } %>
           </div>
         </div>
