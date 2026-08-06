@@ -3,11 +3,18 @@
   <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
     
     <!-- Header -->
-    <header class="mb-8">
-      <h1 class="heading-page text-lagavulin-gold"><%= @user.full_name %></h1>
-      <p class="mt-2 body-base text-lagavulin-gold/85">
-        Member since <%= @member_since.strftime("%B %Y") %>
-      </p>
+    <header class="mb-8 flex items-center gap-4 sm:gap-5">
+      <div class="flex h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0 items-center justify-center rounded-full border-2 border-lagavulin-gold/50 bg-lagavulin-gold/10 shadow-lg shadow-black/40">
+        <span class="text-2xl sm:text-3xl font-bold tracking-wide text-lagavulin-gold" aria-hidden="true">
+          <%= @user.first_name.first %><%= @user.last_name.first %>
+        </span>
+      </div>
+      <div class="min-w-0">
+        <h1 class="heading-page text-lagavulin-gold truncate"><%= @user.full_name %></h1>
+        <p class="mt-1 body-base text-lagavulin-gold/85">
+          Member since <%= @member_since.strftime("%B %Y") %>
+        </p>
+      </div>
     </header>
 
     <!-- Stats Grid -->
@@ -19,10 +26,7 @@
       <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
         <p class="label-xs text-lagavulin-gold/85">Avg Rating</p>
         <p class="mt-2 text-2xl font-bold text-lagavulin-gold">
-          <%= @avg_rating || "—" %>
-          <% if @avg_rating %>
-            <span class="text-base text-lagavulin-gold/80">/5</span>
-          <% end %>
+          <%= format_rating(@avg_rating) %><% if @avg_rating %><span class="ml-1 font-medium text-lagavulin-gold/70">/ 5</span><% end %>
         </p>
       </div>
       <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
