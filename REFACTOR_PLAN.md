@@ -166,7 +166,8 @@ This is why the CI `bundle-audit` step is currently **report-only** (`continue-o
 Goal: keep the distinctive identity (charred-oak ground, gold serif, editorial
 feel — this is a real asset) while fixing the places where the styling costs
 usability. Based on a walkthrough of the home dashboard, stats, bottle archive,
-tasting detail, and profile at desktop + mobile widths. Ship as small, screenshot-
+tasting detail, profile, and the schedule-a-tasting flow at desktop + mobile widths.
+Ship as small, screenshot-
 verified changes — this is presentation-only, so drive each page in the browser.
 
 - **Contrast / accessibility (do first, least subjective).** Much secondary text is
@@ -180,15 +181,16 @@ verified changes — this is presentation-only, so drive each page in the browse
   clustered in the left third and large dead space to the right, pushing the actual
   list/stats below the fold. Tighten these (cap width, use the horizontal space, or
   shrink) and lift the real content up.
-- **Typographic hierarchy (subjective — confirm appetite).** ALL-CAPS + wide tracking
-  is applied to nearly everything (nav, headings, eyebrows, labels, buttons). All-caps
-  reads slower and flattens hierarchy when universal. Proposal: reserve caps for small
-  labels/eyebrows; set section headings and content in the serif in title case (already
-  strong in "18 Year", "Welcome back"). Keep the identity, sharpen the scan.
+- **All-caps: keep.** The ALL-CAPS + wide-tracking treatment is a deliberate part of the
+  brand and stays — do not convert headings to title case. (Contrast fixes below still
+  apply to caps text.)
 - **Action affordances.** Primary actions (View, Rate, Reveal, Edit Tasting, View Full
   Details) are small low-contrast caps links that are easy to miss; whole-card links
   don't look clickable. Give primary actions a clear button/link treatment and adequate
-  contrast.
+  contrast (without abandoning caps).
+- **Scheduling modal has no title.** The "Schedule a Tasting" modal opens straight into
+  the flight-night checkbox with no heading — add a title so the modal is self-orienting.
+  (The create flow itself works: it creates the meeting and redirects to its page.)
 - **Weight vs. priority.** Align visual weight with information value (e.g. the ~60px
   dashboard date currently outweighs the card beneath it that carries the real info).
 - **Verify:** drive each page in the browser at mobile + desktop; run a contrast checker
