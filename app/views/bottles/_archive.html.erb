@@ -59,14 +59,14 @@
             <div>
               <p class="label-xs text-lagavulin-gold/80">Club Verdict</p>
               <p class="mt-1 text-3xl font-bold text-lagavulin-gold">
-                <%= format_rating(club_avg) %><span class="ml-1 text-base font-medium text-lagavulin-gold/70">/ 5</span>
+                <%= format_rating(club_avg) %><span class="ml-1 font-medium text-lagavulin-gold/70">/ 5</span>
               </p>
             </div>
             <div>
               <p class="label-xs text-lagavulin-gold/80">Your Rating</p>
               <% if my_rating %>
                 <p class="mt-1 text-3xl font-semibold text-lagavulin-gold">
-                  <%= format_rating(my_rating) %><span class="ml-1 text-base font-medium text-lagavulin-gold/70">/ 5</span>
+                  <%= format_rating(my_rating) %><span class="ml-1 font-medium text-lagavulin-gold/70">/ 5</span>
                 </p>
               <% else %>
                 <p class="mt-1 text-lg font-semibold text-lagavulin-gold/60">Not yet</p>
