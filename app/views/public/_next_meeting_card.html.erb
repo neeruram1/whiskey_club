@@ -3,7 +3,7 @@
 <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
 <% is_revealed = meeting.primary_bottle.present? && meeting.primary_bottle.revealed_at.present? %>
 
-<%= link_to meeting_path(meeting), class: "block group touch-manipulation" do %>
+<%= link_to meeting_path(meeting), class: "block group touch-manipulation max-w-3xl" do %>
   <div class="flex min-h-[120px]">
     <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
 
@@ -14,7 +14,7 @@
         <div class="space-y-3">
           <!-- Date (quiet, editorial) -->
           <div class="flex items-center gap-2 flex-wrap">
-            <p class="label-sm text-lagavulin-gold/60">
+            <p class="label-sm text-lagavulin-gold/80">
               <%= date_with_friendly(meeting.date, format: "%A · %B %d, %Y") %>
             </p>
             <% is_attending = current_user && meeting.attendees.exists?(id: current_user.id) %>
@@ -27,14 +27,14 @@
 
           <!-- Spirit Guide -->
           <% if meeting.bottle_bringer.present? %>
-            <p class="label-sm text-lagavulin-gold/70">
+            <p class="label-sm text-lagavulin-gold/85">
               Guided by
               <span class="text-lagavulin-gold/85">
                 <%= meeting.bottle_bringer.full_name %>
               </span>
             </p>
           <% elsif meeting.flight_night? %>
-            <p class="label-sm text-lagavulin-gold/70">
+            <p class="label-sm text-lagavulin-gold/85">
               <span class="text-lagavulin-gold/85">✈️ Whiskey Flight Night</span>
             </p>
           <% end %>
@@ -42,12 +42,12 @@
           <!-- Featured bottle -->
           <% if meeting.primary_bottle.present? && (is_revealed || is_spirit_guide) %>
             <div class="pt-1">
-              <p class="label-sm text-lagavulin-gold/50">
+              <p class="label-sm text-lagavulin-gold/80">
                 Featured bottle
               </p>
 
               <p class="mt-2 heading-sub text-lagavulin-gold leading-snug">
-                <span class="text-lagavulin-gold/70 font-normal">
+                <span class="text-lagavulin-gold/85 font-normal">
                   <%= meeting.primary_bottle.distillery.presence || "Distillery" %> ·
                 </span>
                 <span class="font-normal"><%= meeting.primary_bottle.name %></span>
@@ -62,28 +62,28 @@
                 <p class="body-base font-semibold text-lagavulin-gold">
                   🥃 Ready to reveal the bottle!
                 </p>
-                <p class="label-sm text-lagavulin-gold/60">
+                <p class="label-sm text-lagavulin-gold/80">
                   Reveal it during the tasting.
                 </p>
               <% elsif meeting_has_passed %>
                 <p class="body-base text-lagavulin-gold/75">
                   Bottle details not yet added.
                 </p>
-                <p class="label-sm text-lagavulin-gold/50">
+                <p class="label-sm text-lagavulin-gold/80">
                   Complete the record by adding the bottle.
                 </p>
               <% elsif !is_spirit_guide %>
                 <p class="body-base text-lagavulin-gold/75">
                   Bottle not announced yet.
                 </p>
-                <p class="label-sm text-lagavulin-gold/50">
+                <p class="label-sm text-lagavulin-gold/80">
                   The spirit guide will reveal it during the tasting.
                 </p>
               <% else %>
                 <p class="body-base font-semibold text-lagavulin-gold">
                   🥃 Time to add the bottle!
                 </p>
-                <p class="label-sm text-lagavulin-gold/60">
+                <p class="label-sm text-lagavulin-gold/80">
                   Let the club know what you'll be bringing.
                 </p>
               <% end %>
@@ -92,7 +92,7 @@
         </div>
 
         <!-- Affordance -->
-        <div class="flex items-center gap-2 text-lagavulin-gold/65 transition group-hover:text-lagavulin-gold">
+        <div class="flex items-center gap-2 text-lagavulin-gold/85 transition group-hover:text-lagavulin-gold">
           <span class="label-sm">View</span>
           <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
