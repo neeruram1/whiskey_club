@@ -4,79 +4,77 @@
 
 <div class="space-y-8">
 
-  <!-- Featured: Most Recent Tasting -->
+  <!-- Featured: Most Recent Tasting — the latest pour, with the club's verdict -->
   <% if bottle_of_month.present? %>
+    <% my_rating = user_rating_for(bottle_of_month, current_user, @user_ratings) %>
+    <% club_avg = average_rating_for(bottle_of_month) %>
+    <% meta = [bottle_of_month.age.present? ? pluralize(bottle_of_month.age, "Year") : nil,
+               bottle_of_month.bottle_type.presence,
+               bottle_of_month.meeting.date.strftime("%B %Y")].compact.join(" · ") %>
     <%= link_to bottle_of_month, class: "block group touch-manipulation max-w-4xl" do %>
-      <div class="relative overflow-hidden rounded-3xl border-2 border-lagavulin-gold/50 bg-gradient-to-br from-black/30 to-black/20 p-8 sm:p-10
-                  shadow-2xl shadow-black/60 transition-all duration-300 group-hover:border-lagavulin-gold/70 group-hover:shadow-lagavulin-gold/10 group-active:scale-[0.99]">
+      <article class="relative overflow-hidden rounded-3xl border-2 border-lagavulin-gold/50 bg-gradient-to-br from-black/30 to-black/20
+                      shadow-2xl shadow-black/60 transition-all duration-300 group-hover:border-lagavulin-gold/70 group-hover:shadow-lagavulin-gold/10 group-active:scale-[0.99]">
+        <!-- Radial glow -->
+        <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(201,169,104,0.16),transparent_70%)]"></div>
 
-        <!-- Radial glow effect -->
-        <div class="pointer-events-none absolute -inset-32 bg-[radial-gradient(circle_at_50%_50%,rgba(201,169,104,0.15),transparent_70%)]"></div>
-        
-        <div class="relative space-y-6">
-          <!-- Badge -->
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="relative flex flex-col md:flex-row">
+          <!-- Identity -->
+          <div class="flex-1 space-y-6 p-8 sm:p-10">
             <div class="flex flex-wrap items-center gap-2">
               <span class="inline-flex items-center gap-2 rounded-full border border-lagavulin-gold/60 bg-lagavulin-gold/10 px-4 py-2">
-                <svg class="h-4 w-4 text-lagavulin-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-4 w-4 flex-shrink-0 text-lagavulin-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                 </svg>
-                <span class="label-sm text-lagavulin-gold font-semibold whitespace-nowrap">Most Recent</span>
+                <span class="label-sm font-semibold whitespace-nowrap text-lagavulin-gold">Most Recent</span>
               </span>
               <% if @unrated_bottle_ids.include?(bottle_of_month.id) %>
-                <span class="inline-flex items-center rounded-full bg-red-500/20 border border-red-500/40 px-3 py-1">
-                  <p class="label-sm text-red-400 font-semibold">Unrated</p>
+                <span class="inline-flex items-center rounded-full border border-red-500/40 bg-red-500/20 px-3 py-1">
+                  <p class="label-sm font-semibold text-red-400">Unrated</p>
                 </span>
               <% end %>
             </div>
-            <p class="label-sm text-lagavulin-gold/85">
-              <%= bottle_of_month.meeting.date.strftime("%B %Y") %>
-            </p>
-          </div>
 
-          <!-- Bottle details -->
-          <div class="space-y-3">
-            <p class="label-sm text-lagavulin-gold/80 uppercase tracking-wider">
-              <%= bottle_of_month.distillery %>
-            </p>
+            <div class="space-y-2">
+              <p class="label-sm uppercase tracking-wider text-lagavulin-gold/80"><%= bottle_of_month.distillery %></p>
+              <h3 class="text-3xl sm:text-4xl font-bold leading-tight text-lagavulin-gold"><%= bottle_of_month.name %></h3>
+              <p class="meta-sm text-lagavulin-gold/80"><%= meta %></p>
+            </div>
 
-            <h3 class="text-3xl sm:text-4xl font-bold text-lagavulin-gold leading-tight">
-              <%= bottle_of_month.name %>
-            </h3>
+            <div>
+              <p class="label-xs text-lagavulin-gold/80">Spirit Guide</p>
+              <p class="mt-1 text-base font-semibold text-lagavulin-gold"><%= bottle_of_month.user.full_name %></p>
+            </div>
 
-            <!-- Stats -->
-            <div class="flex flex-wrap gap-6 pt-2">
-              <div class="space-y-1">
-                <p class="label-xs text-lagavulin-gold/80">My Rating</p>
-                <p class="text-xl font-bold text-lagavulin-gold">
-                  <%= format_rating(user_rating_for(bottle_of_month, current_user, @user_ratings)) %>
-                </p>
-              </div>
-              <div class="space-y-1">
-                <p class="label-xs text-lagavulin-gold/80">Club Average</p>
-                <p class="text-xl font-bold text-lagavulin-gold">
-                  <%= format_rating(average_rating_for(bottle_of_month)) %>
-                </p>
-              </div>
-              <div class="space-y-1">
-                <p class="label-xs text-lagavulin-gold/80">Spirit Guide</p>
-                <p class="text-base font-semibold text-lagavulin-gold">
-                  <%= bottle_of_month.user.full_name %>
-                </p>
-              </div>
+            <div class="flex items-center gap-2 pt-1 text-lagavulin-gold/85 transition-colors group-hover:text-lagavulin-gold">
+              <span class="label-sm font-semibold">View full details</span>
+              <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
             </div>
           </div>
 
-          <!-- Arrow -->
-          <div class="flex items-center gap-2 pt-2 text-lagavulin-gold/85 transition-colors group-hover:text-lagavulin-gold">
-            <span class="label-sm font-semibold">View full details</span>
-            <svg class="h-5 w-5 transition-transform group-hover:translate-x-1"
-                 fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
+          <!-- The club's verdict -->
+          <div class="flex flex-row items-center justify-around gap-6 border-t border-lagavulin-gold/20 bg-black/25 p-8
+                      md:w-56 md:flex-col md:items-start md:justify-center md:border-l md:border-t-0">
+            <div>
+              <p class="label-xs text-lagavulin-gold/80">Club Verdict</p>
+              <p class="mt-1 text-3xl font-bold text-lagavulin-gold">
+                <%= format_rating(club_avg) %><span class="ml-1 text-base font-medium text-lagavulin-gold/70">/ 5</span>
+              </p>
+            </div>
+            <div>
+              <p class="label-xs text-lagavulin-gold/80">Your Rating</p>
+              <% if my_rating %>
+                <p class="mt-1 text-3xl font-semibold text-lagavulin-gold">
+                  <%= format_rating(my_rating) %><span class="ml-1 text-base font-medium text-lagavulin-gold/70">/ 5</span>
+                </p>
+              <% else %>
+                <p class="mt-1 text-lg font-semibold text-lagavulin-gold/60">Not yet</p>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
+      </article>
     <% end %>
   <% end %>
 

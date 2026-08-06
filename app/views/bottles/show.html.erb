@@ -78,9 +78,9 @@
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="label-xs text-lagavulin-gold/85" title="Average rating from all club members">Final score</p>
+          <p class="label-xs text-lagavulin-gold/85" title="Average rating from all club members">Club Verdict</p>
           <p class="mt-2 body-base text-lagavulin-gold">
-            <%= @bottle.average_rating.presence || "—" %>
+            <%= format_rating(@bottle.average_rating) %>
           </p>
         </div>
 
