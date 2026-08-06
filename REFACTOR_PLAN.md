@@ -162,6 +162,43 @@ This is why the CI `bundle-audit` step is currently **report-only** (`continue-o
 - **Files:** `.ruby-version`, `Gemfile`, `Gemfile.lock`, `config/**` (framework
   defaults), `.github/workflows/ci.yml`, `config/brakeman.yml`.
 
+## Phase 8 — UX & visual hierarchy
+Goal: keep the distinctive identity (charred-oak ground, gold serif, editorial
+feel — this is a real asset) while fixing the places where the styling costs
+usability. Based on a walkthrough of the home dashboard, stats, bottle archive,
+tasting detail, profile, and the schedule-a-tasting flow at desktop + mobile widths.
+Ship as small, screenshot-
+verified changes — this is presentation-only, so drive each page in the browser.
+
+- **Contrast / accessibility (do first, least subjective).** Much secondary text is
+  muted gold at ~50–70% opacity on near-black (card eyebrows, helper lines like
+  "The spirit guide will reveal it…", "Browse all past tastings", secondary labels).
+  This likely fails WCAG AA (4.5:1 body, 3:1 large). Raise the muted tokens and
+  re-check with a contrast tool; adjust the `lagavulin-gold` opacity scale in one
+  place if possible.
+- **Information density / oversized hero cards.** The home "Next Tasting" card and
+  the Bottle Archive "Most Recent" card are full-width and ~350px tall with content
+  clustered in the left third and large dead space to the right, pushing the actual
+  list/stats below the fold. Tighten these (cap width, use the horizontal space, or
+  shrink) and lift the real content up.
+- **All-caps: keep.** The ALL-CAPS + wide-tracking treatment is a deliberate part of the
+  brand and stays — do not convert headings to title case. (Contrast fixes below still
+  apply to caps text.)
+- **Action affordances.** Primary actions (View, Rate, Reveal, Edit Tasting, View Full
+  Details) are small low-contrast caps links that are easy to miss; whole-card links
+  don't look clickable. Give primary actions a clear button/link treatment and adequate
+  contrast (without abandoning caps).
+- **Scheduling modal has no title.** The "Schedule a Tasting" modal opens straight into
+  the flight-night checkbox with no heading — add a title so the modal is self-orienting.
+  (The create flow itself works: it creates the meeting and redirects to its page.)
+- **Weight vs. priority.** Align visual weight with information value (e.g. the ~60px
+  dashboard date currently outweighs the card beneath it that carries the real info).
+- **Verify:** drive each page in the browser at mobile + desktop; run a contrast checker
+  on the adjusted tokens.
+- **Files:** the Tailwind theme (color/opacity tokens, `app/assets/stylesheets` or the
+  Tailwind config), the shared partials, and the larger view files. Mostly CSS/markup,
+  no controller/model changes.
+
 ---
 
 ## Suggested sequencing & sizing
@@ -175,6 +212,7 @@ This is why the CI `bundle-audit` step is currently **report-only** (`continue-o
 | 5 | Usability | low | M (iterative) |
 | 6 | System specs / perf | low | M |
 | 7 | Dependency & framework upgrade | high | L |
+| 8 | UX & visual hierarchy | low-med | M |
 
 **Do Phase 0 first, then 1 and 2 (biggest code-quality wins), then pick between the
 authz (3), view (4), and usability (5) tracks based on what you feel most day-to-day.**
