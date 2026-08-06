@@ -5,7 +5,7 @@
     </h2>
     <%= link_to "+ Add bottle",
           new_meeting_bottle_path(meeting),
-          class: "link-mini",
+          class: "link-action",
           data: { turbo_frame: "modal" } %>
   </div>
 
@@ -36,7 +36,7 @@
             </div>
             <%= link_to "Edit",
                   edit_bottle_path(bottle),
-                  class: "link-mini whitespace-nowrap",
+                  class: "link-action whitespace-nowrap",
                   data: { turbo_frame: "modal" } %>
           </div>
 
