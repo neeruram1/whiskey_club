@@ -5,7 +5,7 @@
     </h2>
     <%= link_to "+ Add bottle",
           new_meeting_bottle_path(meeting),
-          class: "link-mini",
+          class: "link-action",
           data: { turbo_frame: "modal" } %>
   </div>
 
@@ -30,34 +30,34 @@
               <h3 class="heading-section text-lagavulin-gold leading-tight">
                 <%= bottle.name %>
               </h3>
-              <p class="body-sm text-lagavulin-gold/70">
+              <p class="body-sm text-lagavulin-gold/85">
                 Brought by <%= link_to bottle.user.full_name, user_path(bottle.user), class: "text-lagavulin-gold font-semibold hover:text-lagavulin-gold/80 transition" %>
               </p>
             </div>
             <%= link_to "Edit",
                   edit_bottle_path(bottle),
-                  class: "link-mini whitespace-nowrap",
+                  class: "link-action whitespace-nowrap",
                   data: { turbo_frame: "modal" } %>
           </div>
 
           <!-- Specs grid -->
           <div class="grid gap-3 grid-cols-2">
             <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-              <p class="label-xs text-lagavulin-gold/70">Style</p>
+              <p class="label-xs text-lagavulin-gold/85">Style</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <%= bottle.bottle_type.presence || "—" %>
               </p>
             </div>
 
             <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-              <p class="label-xs text-lagavulin-gold/70">Age</p>
+              <p class="label-xs text-lagavulin-gold/85">Age</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <%= bottle.age.present? ? pluralize(bottle.age, "year") : "—" %>
               </p>
             </div>
 
             <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-              <p class="label-xs text-lagavulin-gold/70">Club Avg</p>
+              <p class="label-xs text-lagavulin-gold/85">Club Avg</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <%= bottle.average_rating.presence ? format("%.1f", bottle.average_rating) : "—" %>
                 <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-              <p class="label-xs text-lagavulin-gold/70">My Rating</p>
+              <p class="label-xs text-lagavulin-gold/85">My Rating</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <% user_rating = bottle.user_rating(current_user) %>
                 <%= user_rating&.score || "—" %>
@@ -94,10 +94,10 @@
     </div>
   <% else %>
     <div class="rounded-3xl border border-lagavulin-gold/30 bg-black/25 p-8 text-center">
-      <p class="body-base text-lagavulin-gold/70">
+      <p class="body-base text-lagavulin-gold/85">
         No bottles added yet for this flight night.
       </p>
-      <p class="mt-2 body-sm text-lagavulin-gold/60">
+      <p class="mt-2 body-sm text-lagavulin-gold/80">
         Add bottles to start rating!
       </p>
     </div>

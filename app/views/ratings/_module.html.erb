@@ -6,21 +6,21 @@
 
     <!-- Status -->
     <div class="space-y-1">
-      <p class="label-xs text-lagavulin-gold/70">
+      <p class="label-xs text-lagavulin-gold/85">
         Rating
       </p>
 
       <% if current_user_rating&.score.present? %>
         <p class="body-sm text-lagavulin-gold">
-          <span class="text-lagavulin-gold/70">Your rating:</span>
+          <span class="text-lagavulin-gold/85">Your rating:</span>
           <span class="font-semibold"><%= number_with_precision(current_user_rating.score, precision: 1) %></span>
-          <span class="text-lagavulin-gold/60">/ 5</span>
+          <span class="text-lagavulin-gold/80">/ 5</span>
         </p>
       <% else %>
         <p class="body-sm text-lagavulin-gold/75">
-          <span class="text-lagavulin-gold/70">Your rating:</span>
+          <span class="text-lagavulin-gold/85">Your rating:</span>
           <span class="text-lagavulin-gold/55">—</span>
-          <span class="text-lagavulin-gold/60">/ 5</span>
+          <span class="text-lagavulin-gold/80">/ 5</span>
         </p>
       <% end %>
 
@@ -30,7 +30,7 @@
     </div>
 
     <!-- (Optional) small hint on the right; remove if you want even cleaner -->
-    <div class="label-sm text-lagavulin-gold/65">
+    <div class="label-sm text-lagavulin-gold/85">
       1.0–5.0
     </div>
   </div>
@@ -45,7 +45,7 @@
       <%= hidden_field_tag "rating[score]", current_user_rating&.score || 0, id: "rating_score_field_#{bottle.id}" %>
 
       <div>
-        <label class="block label-sm text-lagavulin-gold/70 mb-3">
+        <label class="block label-sm text-lagavulin-gold/85 mb-3">
           Select Rating
         </label>
 
@@ -90,12 +90,12 @@
 
       <div class="mt-4">
         <div class="flex items-center justify-between mb-2">
-          <label class="block label-sm text-lagavulin-gold/70">
-            Flavor Profile <span class="meta-xs text-lagavulin-gold/50">(optional)</span>
+          <label class="block label-sm text-lagavulin-gold/85">
+            Flavor Profile <span class="meta-xs text-lagavulin-gold/80">(optional)</span>
           </label>
           <button type="button" 
                   onclick="document.getElementById('flavor-list-<%= bottle.id %>').classList.toggle('hidden'); this.querySelector('.toggle-icon').classList.toggle('rotate-180');"
-                  class="text-lagavulin-gold/70 hover:text-lagavulin-gold transition-colors">
+                  class="text-lagavulin-gold/85 hover:text-lagavulin-gold transition-colors">
             <svg class="w-5 h-5 toggle-icon transition-transform <%= show_flavors ? '' : 'rotate-180' %>" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
@@ -115,21 +115,21 @@
       </div>
 
       <div class="mt-4">
-        <label class="block label-sm text-lagavulin-gold/70 mb-2">
-          Comment <span class="meta-xs text-lagavulin-gold/50">(optional)</span>
+        <label class="block label-sm text-lagavulin-gold/85 mb-2">
+          Comment <span class="meta-xs text-lagavulin-gold/80">(optional)</span>
         </label>
         <%= text_area_tag "rating[comment]", current_user_rating&.comment, 
               placeholder: "Share your tasting notes...",
               maxlength: 500,
               class: "block w-full rounded-xl border border-lagavulin-green/30 bg-white px-3.5 py-3 text-base text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-lagavulin-green focus:outline-none focus:ring-4 focus:ring-lagavulin-green/20",
               rows: 3 %>
-        <p class="mt-1 meta-xs text-lagavulin-gold/50">
+        <p class="mt-1 meta-xs text-lagavulin-gold/80">
           Max 500 characters
         </p>
       </div>
 
       <div class="flex items-center justify-between pt-2">
-        <p class="meta-xs text-lagavulin-gold/65">
+        <p class="meta-xs text-lagavulin-gold/85">
           Tap stars or slide for precision
         </p>
         <%= submit_tag(current_user_rating.present? ? "Update Rating" : "Submit Rating",

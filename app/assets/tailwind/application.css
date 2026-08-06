@@ -188,7 +188,13 @@ a {
     }
 
     .link-mini {
-      @apply text-sm sm:text-xs md:text-xs tracking-[0.22em] sm:tracking-[0.24em] md:tracking-[0.3em] uppercase text-lagavulin-gold/65 hover:text-lagavulin-gold transition-colors duration-200 py-2 whitespace-nowrap;
+      @apply text-sm sm:text-xs md:text-xs tracking-[0.22em] sm:tracking-[0.24em] md:tracking-[0.3em] uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold transition-colors duration-200 py-2 whitespace-nowrap;
+    }
+
+    /* Standalone action link (Edit, View full details) — underlined so it reads
+       as clickable, distinct from nav link-minis. */
+    .link-action {
+      @apply text-sm sm:text-xs md:text-xs tracking-[0.22em] sm:tracking-[0.24em] md:tracking-[0.3em] uppercase text-lagavulin-gold/80 hover:text-lagavulin-gold transition-colors duration-200 py-2 whitespace-nowrap underline decoration-lagavulin-gold/40 underline-offset-4 hover:decoration-lagavulin-gold;
     }
   }
 

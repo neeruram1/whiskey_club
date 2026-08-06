@@ -23,7 +23,7 @@
         </h1>
         <%= link_to "Edit tasting",
               edit_meeting_path(@meeting),
-              class: "link-mini self-start",
+              class: "link-action self-start",
               data: { turbo_frame: "modal" } %>
       </div>
 
@@ -38,7 +38,7 @@
           </p>
         <% end %>
         <% if @attendees.any? %>
-          <p class="body-base text-lagavulin-gold/70">
+          <p class="body-base text-lagavulin-gold/85">
             <%= pluralize(@attendees.count, 'attendee') %>
           </p>
         <% end %>
@@ -69,14 +69,14 @@
               <p class="label-sm text-lagavulin-gold">
                 <%= attendee.full_name %>
                 <% if attendee.id == current_user.id %>
-                  <span class="text-lagavulin-gold/60">(You)</span>
+                  <span class="text-lagavulin-gold/80">(You)</span>
                 <% end %>
               </p>
             <% end %>
           <% end %>
         </div>
       <% else %>
-        <p class="body-sm text-lagavulin-gold/60 italic">
+        <p class="body-sm text-lagavulin-gold/80 italic">
           No one marked as attending yet
         </p>
       <% end %>
@@ -113,10 +113,10 @@
             Featured Whiskey
           </h2>
           <div class="flex items-center gap-3 flex-wrap">
-            <%= link_to "View full details", @bottle, class: "link-mini" %>
+            <%= link_to "View full details", @bottle, class: "link-action" %>
             <%= link_to "Edit bottle",
                   edit_bottle_path(@bottle),
-                  class: "link-mini",
+                  class: "link-action",
                   data: { turbo_frame: "modal" } %>
           </div>
         </div>
@@ -147,7 +147,7 @@
                     </svg>
                   <% end %>
                 <% end %>
-                <p class="label-xs text-lagavulin-gold/60 text-center whitespace-nowrap">
+                <p class="label-xs text-lagavulin-gold/80 text-center whitespace-nowrap">
                   <%= current_user.wishlist_includes?(@bottle) ? "Saved" : "Encore?" %>
                 </p>
               </div>
@@ -156,21 +156,21 @@
             <!-- Specs -->
             <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
               <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-                <p class="label-xs text-lagavulin-gold/70">Style</p>
+                <p class="label-xs text-lagavulin-gold/85">Style</p>
                 <p class="mt-2 body-base text-lagavulin-gold">
                   <%= @bottle.bottle_type.presence || "—" %>
                 </p>
               </div>
 
               <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-                <p class="label-xs text-lagavulin-gold/70">Age</p>
+                <p class="label-xs text-lagavulin-gold/85">Age</p>
                 <p class="mt-2 body-base text-lagavulin-gold">
                   <%= @bottle.age.present? ? pluralize(@bottle.age, "year") : "—" %>
                 </p>
               </div>
 
               <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-                <p class="label-xs text-lagavulin-gold/70">Club Average</p>
+                <p class="label-xs text-lagavulin-gold/85">Club Average</p>
                 <p class="mt-2 body-base text-lagavulin-gold">
                   <%= @bottle.average_rating.presence || "—" %>
                   <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
@@ -178,7 +178,7 @@
               </div>
 
               <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-                <p class="label-xs text-lagavulin-gold/70">My Rating</p>
+                <p class="label-xs text-lagavulin-gold/85">My Rating</p>
                 <p class="mt-2 body-base text-lagavulin-gold">
                   <%= @current_user_rating&.score || "—" %>
                   <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
@@ -198,7 +198,7 @@
                   <p class="label-sm text-lagavulin-gold/80">Your Rating</p>
                   <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-lagavulin-gold"><%= @current_user_rating.score %></span>
-                    <span class="body-sm text-lagavulin-gold/60">/ 5</span>
+                    <span class="body-sm text-lagavulin-gold/80">/ 5</span>
                   </div>
                 </div>
                 <% if @current_user_rating.comment.present? %>
@@ -223,11 +223,11 @@
                     <p class="label-sm text-lagavulin-gold/80">
                       <%= @current_user_rating ? "Update your rating or view all ratings" : "Rate this bottle and see what others think" %>
                     </p>
-                    <p class="body-sm text-lagavulin-gold/60">
+                    <p class="body-sm text-lagavulin-gold/80">
                       <%= pluralize(@all_ratings.count, 'member rating') %> • Full flavor profiles • Encore Pours
                     </p>
                   </div>
-                  <svg class="w-6 h-6 text-lagavulin-gold/60 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-6 h-6 text-lagavulin-gold/80 group-hover:text-lagavulin-gold group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                   </svg>
                 </div>

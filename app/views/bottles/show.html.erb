@@ -28,7 +28,7 @@
               </svg>
             <% end %>
           <% end %>
-          <p class="label-xs text-lagavulin-gold/60 text-center whitespace-nowrap">
+          <p class="label-xs text-lagavulin-gold/80 text-center whitespace-nowrap">
             <%= current_user.wishlist_includes?(@bottle) ? "Saved" : "Encore?" %>
           </p>
         </div>
@@ -41,7 +41,7 @@
 
         <span class="hidden sm:block text-lagavulin-gold/35">•</span>
 
-        <p class="label-sm text-lagavulin-gold/70">
+        <p class="label-sm text-lagavulin-gold/85">
           Spirit Guide:
           <% if @bottle.meeting.bottle_bringer.present? %>
             <%= link_to @bottle.meeting.bottle_bringer.full_name, user_path(@bottle.meeting.bottle_bringer), class: "text-lagavulin-gold/80 hover:text-lagavulin-gold transition" %>
@@ -64,28 +64,28 @@
       <!-- Specs -->
       <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="label-xs text-lagavulin-gold/70">Style</p>
+          <p class="label-xs text-lagavulin-gold/85">Style</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.bottle_type.presence || "—" %>
           </p>
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="label-xs text-lagavulin-gold/70">Age</p>
+          <p class="label-xs text-lagavulin-gold/85">Age</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.age.present? ? pluralize(@bottle.age, "year") : "—" %>
           </p>
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="label-xs text-lagavulin-gold/70" title="Average rating from all club members">Final score</p>
+          <p class="label-xs text-lagavulin-gold/85" title="Average rating from all club members">Final score</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.average_rating.presence || "—" %>
           </p>
         </div>
 
         <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
-          <p class="label-xs text-lagavulin-gold/70">My rating</p>
+          <p class="label-xs text-lagavulin-gold/85">My rating</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @current_user_rating&.score || "—" %>
             <span class="meta-xs text-lagavulin-gold/55">/ 5</span>
@@ -124,7 +124,7 @@
               </span>
             <% end %>
           </div>
-          <p class="meta-xs text-lagavulin-gold/50">
+          <p class="meta-xs text-lagavulin-gold/80">
             Based on <%= pluralize(@all_ratings.count, 'member rating') %>
           </p>
         </div>
@@ -140,7 +140,7 @@
             <h2 class="heading-section text-lagavulin-gold">
               Member Ratings
             </h2>
-            <span class="meta-xs text-lagavulin-gold/60">
+            <span class="meta-xs text-lagavulin-gold/80">
               <%= pluralize(@all_ratings.count, 'rating') %>
             </span>
           </div>
@@ -154,7 +154,7 @@
                       <p class="body-base font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/80">
                         <%= rating.user.full_name %>
                         <% if rating.user.id == current_user.id %>
-                          <span class="meta-xs text-lagavulin-gold/60">(You)</span>
+                          <span class="meta-xs text-lagavulin-gold/80">(You)</span>
                         <% end %>
                       </p>
                     <% end %>
@@ -162,7 +162,7 @@
                     <div class="rounded-lg bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-2.5 py-1">
                       <p class="text-sm font-bold text-lagavulin-gold whitespace-nowrap">
                       <%= rating.score %>
-                      <span class="text-lagavulin-gold/60 font-normal">/5</span>
+                      <span class="text-lagavulin-gold/80 font-normal">/5</span>
                     </p>
                   </div>
                 </div>
@@ -178,11 +178,11 @@
                 <% end %>
 
                 <% if rating.comment.present? %>
-                  <p class="body-sm text-lagavulin-gold/70 leading-relaxed">
+                  <p class="body-sm text-lagavulin-gold/85 leading-relaxed">
                     "<%= rating.comment %>"
                   </p>
                 <% else %>
-                  <p class="meta-xs italic text-lagavulin-gold/50">
+                  <p class="meta-xs italic text-lagavulin-gold/80">
                     No comment
                   </p>
                 <% end %>
@@ -204,7 +204,7 @@
                 data: { turbo_frame: "modal" } %>
         </div>
         <div class="pt-3">
-            <%= link_to "Tasting Night", meeting_path(@bottle.meeting), class: "link-mini w-full sm:w-auto" %>
+            <%= link_to "Tasting Night", meeting_path(@bottle.meeting), class: "link-action w-full sm:w-auto" %>
           </div>
 
       </div>

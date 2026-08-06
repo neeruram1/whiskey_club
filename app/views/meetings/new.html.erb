@@ -6,6 +6,10 @@
       <button type="button" data-action="modal#close" class="absolute -top-2 -right-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-lagavulin-gold text-2xl font-bold text-black hover:bg-lagavulin-gold/90 transition shadow-lg">×</button>
       
       <div class="rounded-3xl border border-lagavulin-green/40 bg-[#F8F5E9] px-6 py-8 md:px-8 md:py-10 shadow-2xl shadow-black/50">
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold tracking-wide text-lagavulin-green small-caps">Schedule a Tasting</h2>
+        <p class="mt-1 body-sm text-lagavulin-green/70">Pick a date and a spirit guide — the bottle stays a surprise until the tasting.</p>
+      </div>
       <% if @meeting.errors.any? %>
         <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
           <p class="label-sm text-red-900 mb-2">Please fix the following:</p>

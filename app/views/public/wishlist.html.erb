@@ -3,7 +3,7 @@
   <div class="relative z-10 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="mb-8">
       <h1 class="heading-page text-lagavulin-gold">Encore Pours</h1>
-      <p class="mt-2 body-base text-lagavulin-gold/70">Bottles you'd drink again or want to purchase</p>
+      <p class="mt-2 body-base text-lagavulin-gold/85">Bottles you'd drink again or want to purchase</p>
     </div>
 
     <% if @wishlisted_bottles.any? %>
@@ -29,13 +29,13 @@
             <div class="space-y-3 mb-4">
               <div class="grid gap-3 grid-cols-2">
                 <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-3">
-                  <p class="label-xs text-lagavulin-gold/70">Type</p>
+                  <p class="label-xs text-lagavulin-gold/85">Type</p>
                   <p class="mt-1 body-sm text-lagavulin-gold">
                     <%= bottle.bottle_type.presence || "—" %>
                   </p>
                 </div>
                 <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-3">
-                  <p class="label-xs text-lagavulin-gold/70">Age</p>
+                  <p class="label-xs text-lagavulin-gold/85">Age</p>
                   <p class="mt-1 body-sm text-lagavulin-gold">
                     <%= bottle.age.present? ? pluralize(bottle.age, "year") : "—" %>
                   </p>
@@ -44,9 +44,9 @@
               <% user_rating = bottle.user_rating(current_user) %>
               <% if user_rating %>
                 <div class="rounded-2xl border border-lagavulin-gold/20 bg-lagavulin-gold/10 p-3">
-                  <p class="label-xs text-lagavulin-gold/70">Your Rating</p>
+                  <p class="label-xs text-lagavulin-gold/85">Your Rating</p>
                   <p class="mt-1 body-base font-semibold text-lagavulin-gold">
-                    <%= user_rating.score %> <span class="text-lagavulin-gold/60 font-normal">/ 5</span>
+                    <%= user_rating.score %> <span class="text-lagavulin-gold/80 font-normal">/ 5</span>
                   </p>
                 </div>
               <% end %>
@@ -54,10 +54,10 @@
 
             <% if bottle.meeting %>
               <div class="pt-4 border-t border-lagavulin-gold/18">
-                <p class="body-sm text-lagavulin-gold/70">
+                <p class="body-sm text-lagavulin-gold/85">
                   From <%= link_to bottle.meeting.date.strftime("%B %Y") + " Tasting", bottle.meeting, class: "text-lagavulin-gold hover:text-lagavulin-gold/80 transition-colors underline decoration-lagavulin-gold/30" %>
                 </p>
-                <p class="meta-xs text-lagavulin-gold/50 mt-1"><%= bottle.meeting.date.strftime("%B %d, %Y") %></p>
+                <p class="meta-xs text-lagavulin-gold/80 mt-1"><%= bottle.meeting.date.strftime("%B %d, %Y") %></p>
               </div>
             <% end %>
         </div>
@@ -68,7 +68,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
         <h3 class="mt-4 heading-section text-lagavulin-gold">No bottles saved yet</h3>
-        <p class="mt-2 body-base text-lagavulin-gold/70">Mark bottles you'd drink again or want to purchase</p>
+        <p class="mt-2 body-base text-lagavulin-gold/85">Mark bottles you'd drink again or want to purchase</p>
         <div class="mt-6">
           <%= link_to "Browse Bottles", archives_path, class: "btn-mini" %>
         </div>
