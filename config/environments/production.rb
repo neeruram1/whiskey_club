@@ -73,6 +73,10 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # Mailer links need the app host. Set APP_HOST (e.g. club.example.com) in the
+  # deploy env; delivery method / SMTP is configured separately at deploy time.
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost") }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

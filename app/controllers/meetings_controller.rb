@@ -22,6 +22,7 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.new(meeting_params)
     
     if @meeting.save
+      MeetingNotifier.scheduled(@meeting, except: current_user)
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to meeting_path(@meeting), notice: 'Meeting scheduled successfully.' }
