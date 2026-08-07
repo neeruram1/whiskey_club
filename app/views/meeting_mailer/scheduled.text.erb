@@ -1,0 +1,17 @@
+COLLECTIVE SPIRITS OF MONTCLAIR
+
+A new tasting is on the calendar.
+
+<%= @meeting.date.strftime("%A, %B %-d, %Y") %>
+<% if @meeting.flight_night? -%>
+Whiskey Flight Night
+<% elsif @guide.present? -%>
+Guided by <%= @guide.full_name %>
+<% end -%>
+
+The bottle stays sealed until the reveal.
+
+View the tasting: <%= meeting_url(@meeting) %>
+
+--
+You're receiving this as a member of Collective Spirits of Montclair.

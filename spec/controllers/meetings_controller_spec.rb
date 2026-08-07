@@ -71,6 +71,13 @@ RSpec.describe MeetingsController, type: :controller do
         post :create, params: { meeting: valid_attributes }
         expect(response).to redirect_to(meeting_path(Meeting.last))
       end
+
+      it 'notifies the other members' do
+        create_list(:user, 2)
+        expect {
+          post :create, params: { meeting: valid_attributes }
+        }.to have_enqueued_mail(MeetingMailer, :scheduled).twice
+      end
     end
 
     context 'with invalid parameters' do

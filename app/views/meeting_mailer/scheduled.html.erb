@@ -1,0 +1,59 @@
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f2a23;margin:0;padding:24px 0;font-family:Georgia,'Times New Roman',serif;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background-color:#F8F5E9;border:1px solid #C9A968;border-radius:16px;overflow:hidden;">
+        <!-- Header -->
+        <tr>
+          <td style="padding:28px 32px 8px 32px;text-align:center;">
+            <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#7a6a3a;">Collective Spirits</div>
+            <div style="font-size:14px;font-style:italic;color:#0f2a23;">of Montclair</div>
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:16px 32px 8px 32px;text-align:center;">
+            <p style="margin:0 0 6px 0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7a6a3a;">A new tasting is on the calendar</p>
+            <p style="margin:0;font-size:28px;font-weight:bold;color:#0f2a23;">
+              <%= @meeting.date.strftime("%A, %B %-d, %Y") %>
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:8px 32px 4px 32px;text-align:center;">
+            <p style="margin:0;font-size:16px;color:#2c2c2c;">
+              <% if @meeting.flight_night? %>
+                &#9992;&#65039; Whiskey Flight Night
+              <% elsif @guide.present? %>
+                Guided by <strong style="color:#0f2a23;"><%= @guide.full_name %></strong>
+              <% end %>
+            </p>
+            <p style="margin:6px 0 0 0;font-size:14px;color:#5a5a5a;">
+              The bottle stays sealed until the reveal.
+            </p>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td style="padding:24px 32px 8px 32px;text-align:center;">
+            <a href="<%= meeting_url(@meeting) %>"
+               style="display:inline-block;background-color:#C9A968;color:#0f2a23;text-decoration:none;font-size:14px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;padding:14px 28px;border-radius:9999px;">
+              View the tasting
+            </a>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:20px 32px 28px 32px;text-align:center;border-top:1px solid #e3ddc8;">
+            <p style="margin:16px 0 0 0;font-size:12px;color:#8a8a8a;">
+              You're receiving this as a member of Collective Spirits of Montclair.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
