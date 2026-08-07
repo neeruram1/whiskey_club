@@ -6,8 +6,9 @@
 <% bottle = meeting.primary_bottle %>
 <% revealed = bottle&.revealed_at.present? %>
 
-<%= link_to meeting_path(meeting),
-      class: "group block max-w-3xl touch-manipulation focus-visible:outline-none" do %>
+<div class="max-w-3xl space-y-3">
+  <%= link_to meeting_path(meeting),
+      class: "group block touch-manipulation focus-visible:outline-none" do %>
   <article class="relative overflow-hidden rounded-3xl border border-lagavulin-gold/40 bg-black/40
                   shadow-2xl shadow-black/50 transition duration-300
                   group-hover:border-lagavulin-gold/60 group-hover:shadow-lagavulin-gold/10 group-active:scale-[0.99]">
@@ -83,4 +84,9 @@
       </div>
     </div>
   </article>
-<% end %>
+  <% end %>
+
+  <div class="flex justify-end pr-1">
+    <%= render "meetings/add_to_calendar", meeting: meeting %>
+  </div>
+</div>

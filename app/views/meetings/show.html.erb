@@ -20,16 +20,9 @@
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-4">
         <div>
           <p class="label-sm text-lagavulin-gold/85"><%= @meeting.date.strftime("%A") %></p>
-          <h1 class="heading-page text-lagavulin-gold">
+          <h1 class="heading-page text-lagavulin-gold uppercase [font-variant-caps:normal]">
             <%= @meeting.date.strftime("%B %-d, %Y") %>
           </h1>
-          <p class="mt-1 body-sm text-lagavulin-gold/80">
-            <% if @meeting.start_time_label.present? %>
-              <span class="text-lagavulin-gold/90"><%= @meeting.start_time_label %></span>
-              <span class="mx-1.5 text-lagavulin-gold/40">·</span>
-            <% end %>
-            at <span class="text-lagavulin-gold/90"><%= club_location %></span>
-          </p>
         </div>
         <div class="flex flex-col items-start gap-2 sm:items-end">
           <%= link_to "Edit tasting",
@@ -37,53 +30,25 @@
                 class: "link-action",
                 data: { turbo_frame: "modal" } %>
           <% if @meeting.meeting_status != :past %>
-            <div class="relative" data-controller="menu"
-                 data-action="keydown@window->menu#closeOnEscape click@window->menu#closeOnOutsideClick">
-              <button type="button"
-                      class="link-mini inline-flex items-center gap-1.5"
-                      aria-haspopup="true" aria-expanded="false"
-                      data-menu-target="button" data-action="menu#toggle">
-                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                Add to calendar
-                <svg class="h-3 w-3 text-lagavulin-gold/60" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </button>
-
-              <div class="hidden absolute left-0 sm:left-auto sm:right-0 z-20 mt-2 w-max min-w-[11rem] overflow-hidden rounded-xl border border-lagavulin-gold/30 bg-lagavulin-green p-1.5 shadow-lg shadow-black/50"
-                   data-menu-target="panel" role="menu">
-                <%= link_to google_calendar_url(@meeting),
-                      target: "_blank", rel: "noopener", role: "menuitem",
-                      class: "block whitespace-nowrap rounded-lg px-3 py-2 label-sm text-lagavulin-gold transition hover:bg-lagavulin-gold/10" do %>
-                  Google Calendar
-                <% end %>
-                <%= link_to calendar_meeting_path(@meeting),
-                      data: { turbo: false }, role: "menuitem",
-                      class: "block whitespace-nowrap rounded-lg px-3 py-2 label-sm text-lagavulin-gold transition hover:bg-lagavulin-gold/10" do %>
-                  Apple Calendar
-                <% end %>
-              </div>
-            </div>
+            <%= render "meetings/add_to_calendar", meeting: @meeting %>
           <% end %>
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-x-6 gap-y-2">
+      <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 body-sm text-lagavulin-gold/80">
+        <span>
+          <% if @meeting.start_time_label.present? %><span class="text-lagavulin-gold/90"><%= @meeting.start_time_label %></span> <span class="text-lagavulin-gold/40">·</span> <% end %>at <span class="text-lagavulin-gold/90"><%= club_location %></span>
+        </span>
         <% if @meeting.flight_night? %>
-          <p class="body-base text-lagavulin-gold/80">
-            <span class="font-semibold text-lagavulin-gold">✈️ Whiskey Flight Night</span> — <%= pluralize(@meeting.bottles.count, 'bottle') %>
-          </p>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+          <span><span class="font-semibold text-lagavulin-gold">✈️ Whiskey Flight Night</span> — <%= pluralize(@meeting.bottles.count, 'bottle') %></span>
         <% elsif @meeting.bottle_bringer.present? %>
-          <p class="body-base text-lagavulin-gold/80">
-            Guided by <%= link_to @meeting.bottle_bringer.full_name, user_path(@meeting.bottle_bringer), class: "font-semibold text-lagavulin-gold hover:text-lagavulin-gold/80 transition" %>
-          </p>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+          <span>Guided by <%= link_to @meeting.bottle_bringer.full_name, user_path(@meeting.bottle_bringer), class: "font-semibold text-lagavulin-gold hover:text-lagavulin-gold/80 transition" %></span>
         <% end %>
         <% if @attendees.any? %>
-          <p class="body-base text-lagavulin-gold/85">
-            <%= pluralize(@attendees.count, 'attendee') %>
-          </p>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+          <span><%= pluralize(@attendees.count, 'attendee') %></span>
         <% end %>
       </div>
     </header>
