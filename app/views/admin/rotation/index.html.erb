@@ -15,8 +15,11 @@
 
     <% if @next_guide.present? %>
       <div class="card-glow rounded-2xl border border-lagavulin-gold/40 bg-black/40 p-5 sm:p-6 shadow-xl shadow-black/40">
-        <p class="label-sm text-lagavulin-gold/70">Up next</p>
+        <p class="label-sm text-lagavulin-gold/70">Up next in the rotation</p>
         <p class="mt-1 heading-sub text-lagavulin-gold"><%= @next_guide.full_name %></p>
+        <p class="mt-1 meta-xs text-lagavulin-gold/60">
+          Prefilled as the guide the next time you schedule a tasting.
+        </p>
       </div>
     <% end %>
 
@@ -31,9 +34,15 @@
               <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-lagavulin-gold/50 bg-lagavulin-gold/10 label-sm text-lagavulin-gold">
                 <%= idx + 1 %>
               </span>
-              <span class="min-w-0 flex-1 truncate text-lagavulin-gold">
-                <%= member.full_name %>
-              </span>
+              <div class="flex min-w-0 flex-1 items-center gap-2">
+                <span class="truncate text-lagavulin-gold"><%= member.full_name %></span>
+                <% if member.id == @scheduled_guide_id %>
+                  <%= link_to meeting_path(@scheduled_meeting),
+                        class: "flex-shrink-0 whitespace-nowrap rounded-full border border-lagavulin-gold/40 bg-lagavulin-gold/15 px-2.5 py-0.5 label-xs text-lagavulin-gold transition hover:bg-lagavulin-gold/25" do %>
+                    Guiding <%= @scheduled_meeting.date.strftime("%b %-d") %>
+                  <% end %>
+                <% end %>
+              </div>
               <div class="flex items-center gap-1">
                 <%= button_to admin_move_rotation_path(member, direction: :up), class: "btn-mini px-3 py-2 #{'pointer-events-none opacity-30' if idx.zero?}",
                       disabled: idx.zero?, aria: { label: "Move #{member.first_name} up" } do %>↑<% end %>

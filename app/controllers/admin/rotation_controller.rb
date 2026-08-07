@@ -3,6 +3,8 @@ class Admin::RotationController < Admin::BaseController
     @members = Rotation.members
     @candidates = Rotation.candidates
     @next_guide = Rotation.next_guide
+    @scheduled_meeting = Meeting.upcoming.first
+    @scheduled_guide_id = @scheduled_meeting&.bottle_bringer_id
   end
 
   # NB: redirect with :see_other (303) so Turbo follows it as a full page visit
