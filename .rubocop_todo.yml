@@ -225,6 +225,8 @@ Rails/HttpStatusNameConsistency:
 # Offense count: 18
 Rails/I18nLocaleTexts:
   Exclude:
+    - 'app/controllers/admin/base_controller.rb'
+    - 'app/controllers/admin/rotation_controller.rb'
     - 'app/controllers/admin/users_controller.rb'
     - 'app/controllers/bottles_controller.rb'
     - 'app/controllers/meetings_controller.rb'
@@ -272,6 +274,7 @@ Rails/SkipsModelValidations:
   Exclude:
     - 'app/controllers/admin/users_controller.rb'
     - 'app/models/bottle.rb'
+    - 'app/models/rotation.rb'
 
 # Offense count: 1
 Rails/UniqueValidationWithoutIndex:

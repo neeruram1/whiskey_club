@@ -24,6 +24,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users, only: [:index, :destroy]
+
+    get "rotation", to: "rotation#index"
+    post "rotation/:user_id/add", to: "rotation#add", as: :add_rotation
+    delete "rotation/:user_id", to: "rotation#remove", as: :remove_rotation
+    post "rotation/:user_id/move", to: "rotation#move", as: :move_rotation
   end
   
   get 'stats', to: 'public#stats', as: :stats

@@ -49,6 +49,13 @@ RSpec.describe MeetingsController, type: :controller do
       get :new
       expect(assigns(:users).count).to eq(4) # 3 + logged in user
     end
+
+    it 'prefills the bottle bringer with the next guide in the rotation' do
+      next_up = create(:user)
+      Rotation.add(next_up)
+      get :new
+      expect(assigns(:meeting).bottle_bringer_id).to eq(next_up.id)
+    end
   end
 
   describe 'POST #create' do

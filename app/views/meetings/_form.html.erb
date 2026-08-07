@@ -17,6 +17,11 @@
                   class: form_input_classes(errors_present: @meeting.errors[:bottle_bringer_id].any?),
                   data: { action: "change->form-errors#clearError", form_errors_error_id_param: "bottle-bringer-error" } %>
             <%= form_error_message(@meeting, :bottle_bringer_id, id: "bottle-bringer-error") %>
+            <% if @next_guide.present? %>
+              <p class="mt-1.5 meta-xs text-lagavulin-green/70">
+                Prefilled from the rotation — <%= @next_guide.full_name %> is up next. Change it for a swap or guest.
+              </p>
+            <% end %>
           </div>
           
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">

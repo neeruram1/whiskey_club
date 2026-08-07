@@ -1,6 +1,4 @@
-class Admin::UsersController < ApplicationController
-  before_action :require_admin
-
+class Admin::UsersController < Admin::BaseController
   def index
     @users = User.order(:created_at)
   end
@@ -16,11 +14,5 @@ class Admin::UsersController < ApplicationController
     user.destroy
 
     redirect_to admin_users_path, notice: "#{user.full_name} was removed."
-  end
-
-  private
-
-  def require_admin
-    redirect_to root_path, alert: "Not authorized." unless current_user&.admin?
   end
 end
