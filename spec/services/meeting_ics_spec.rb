@@ -22,16 +22,16 @@ RSpec.describe MeetingIcs do
     expect(ics).to include("SUMMARY:Whiskey Tasting — Ava Guide guides")
   end
 
-  it "uses an all-day date event when no start time is set" do
+  it "defaults to a 7 PM three-hour event when no start time is set" do
     ics = ics_for(create(:meeting, date: Date.new(2026, 9, 12), start_time: nil))
-    expect(ics).to include("DTSTART;VALUE=DATE:20260912")
-    expect(ics).to include("DTEND;VALUE=DATE:20260913")
+    expect(ics).to include("DTSTART:20260912T190000")
+    expect(ics).to include("DTEND:20260912T220000")
   end
 
   it "uses a timed event when a start time is set" do
     ics = ics_for(create(:meeting, date: Date.new(2026, 9, 12), start_time: "19:00"))
     expect(ics).to include("DTSTART:20260912T190000")
-    expect(ics).to include("DTEND:20260912T210000")
+    expect(ics).to include("DTEND:20260912T220000")
   end
 
   it "calls it a flight night when there's no guide" do

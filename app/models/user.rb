@@ -15,6 +15,10 @@ class User < ApplicationRecord
   has_many :bottle_wishlists, dependent: :destroy
   has_many :wishlisted_bottles, through: :bottle_wishlists, source: :bottle
 
+  # Members who are part of the spirit-guide rotation, in turn order.
+  scope :in_rotation, -> { where.not(rotation_position: nil).order(:rotation_position) }
+  scope :not_in_rotation, -> { where(rotation_position: nil).order(:first_name) }
+
   def full_name
     "#{first_name} #{last_name}"
   end

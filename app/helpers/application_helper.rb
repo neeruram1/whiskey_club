@@ -69,14 +69,12 @@ module ApplicationHelper
   end
 
   # A one-click "Add to Google Calendar" URL, pre-filled from the tasting. Uses
-  # a timed 2-hour block when a start time is set, otherwise an all-day event.
+  # a timed 3-hour block, defaulting to the club's usual hour when no start time
+  # is set.
   def google_calendar_url(meeting)
-    start_at, end_at = if meeting.starts_at
-                         [meeting.starts_at.strftime("%Y%m%dT%H%M%S"),
-                          (meeting.starts_at + MeetingIcs::DURATION).strftime("%Y%m%dT%H%M%S")]
-                       else
-                         [meeting.date.strftime("%Y%m%d"), (meeting.date + 1).strftime("%Y%m%d")]
-                       end
+    starts = meeting.calendar_starts_at
+    start_at = starts.strftime("%Y%m%dT%H%M%S")
+    end_at = (starts + MeetingIcs::DURATION).strftime("%Y%m%dT%H%M%S")
 
     params = {
       action: "TEMPLATE",

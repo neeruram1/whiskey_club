@@ -1,0 +1,9 @@
+<%# Sub-navigation between the admin pages. %>
+<nav class="flex flex-wrap gap-2">
+  <% tabs = [["Members", admin_users_path], ["Rotation", admin_rotation_path]] %>
+  <% tabs.each do |label, path| %>
+    <% active = current_page?(path) %>
+    <%= link_to label, path,
+          class: "rounded-full border px-4 py-2 label-xs transition #{active ? 'border-lagavulin-gold/60 bg-lagavulin-gold/15 text-lagavulin-gold' : 'border-lagavulin-gold/25 text-lagavulin-gold/70 hover:text-lagavulin-gold hover:border-lagavulin-gold/50'}" %>
+  <% end %>
+</nav>

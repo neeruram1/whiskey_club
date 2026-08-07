@@ -157,5 +157,17 @@ RSpec.describe Meeting, type: :model do
       meeting = create(:meeting, start_time: "19:00")
       expect(meeting.start_time_label).to eq("7:00 PM")
     end
+
+    it 'defaults calendar_starts_at to 7 PM when no start time is set' do
+      meeting = create(:meeting, date: Date.new(2026, 9, 12), start_time: nil)
+      expect(meeting.calendar_starts_at.hour).to eq(19)
+      expect(meeting.calendar_starts_at.min).to eq(0)
+    end
+
+    it 'uses the explicit start time for calendar_starts_at when set' do
+      meeting = create(:meeting, start_time: "18:30")
+      expect(meeting.calendar_starts_at.hour).to eq(18)
+      expect(meeting.calendar_starts_at.min).to eq(30)
+    end
   end
 end

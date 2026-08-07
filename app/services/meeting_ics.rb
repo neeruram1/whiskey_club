@@ -1,8 +1,8 @@
 # Builds an RFC 5545 iCalendar (.ics) document for a single tasting so members
-# can add it to their own calendar. When the meeting has a start time the event
-# is timed (defaulting to a two-hour pour); otherwise it's an all-day event.
+# can add it to their own calendar. The event is a timed three-hour pour,
+# defaulting to the club's usual start hour when no time is set.
 class MeetingIcs
-  DURATION = 2.hours
+  DURATION = 3.hours
 
   def initialize(meeting, location:, url:)
     @meeting = meeting
@@ -37,13 +37,9 @@ class MeetingIcs
   private
 
   def dtstart_dtend
-    if (start = @meeting.starts_at)
-      ["DTSTART:#{start.strftime('%Y%m%dT%H%M%S')}",
-       "DTEND:#{(start + DURATION).strftime('%Y%m%dT%H%M%S')}"]
-    else
-      ["DTSTART;VALUE=DATE:#{@meeting.date.strftime('%Y%m%d')}",
-       "DTEND;VALUE=DATE:#{(@meeting.date + 1).strftime('%Y%m%d')}"]
-    end
+    start = @meeting.calendar_starts_at
+    ["DTSTART:#{start.strftime('%Y%m%dT%H%M%S')}",
+     "DTEND:#{(start + DURATION).strftime('%Y%m%dT%H%M%S')}"]
   end
 
   def description

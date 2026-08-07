@@ -14,6 +14,8 @@ class MeetingsController < ApplicationController
 
   def new
     @meeting = Meeting.new
+    @next_guide = Rotation.next_guide
+    @meeting.bottle_bringer_id = @next_guide&.id
     @users = User.all
     render layout: !turbo_frame_request?
   end
