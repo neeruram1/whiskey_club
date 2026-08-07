@@ -73,9 +73,24 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  # Mailer links need the app host. Set APP_HOST (e.g. club.example.com) in the
-  # deploy env; delivery method / SMTP is configured separately at deploy time.
-  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost") }
+  # Mailer links need the app host (https in production). Set APP_HOST
+  # (e.g. collectivespirits.club) in the deploy env.
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost"), protocol: "https" }
+
+  # Deliver via SMTP (e.g. SendGrid). All credentials come from the deploy env —
+  # never commit them. For SendGrid: SMTP_ADDRESS=smtp.sendgrid.net, PORT=587,
+  # SMTP_USERNAME=apikey, SMTP_PASSWORD=<your SendGrid API key>.
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    address: ENV["SMTP_ADDRESS"],
+    port: ENV.fetch("SMTP_PORT", 587).to_i,
+    user_name: ENV["SMTP_USERNAME"],
+    password: ENV["SMTP_PASSWORD"],
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
