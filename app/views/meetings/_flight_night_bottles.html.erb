@@ -42,21 +42,21 @@
 
           <!-- Specs grid -->
           <div class="grid gap-3 grid-cols-2">
-            <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+            <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
               <p class="label-xs text-lagavulin-gold/85">Style</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <%= bottle.bottle_type.presence || "—" %>
               </p>
             </div>
 
-            <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+            <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
               <p class="label-xs text-lagavulin-gold/85">Age</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <%= bottle.age.present? ? pluralize(bottle.age, "year") : "—" %>
               </p>
             </div>
 
-            <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+            <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
               <p class="label-xs text-lagavulin-gold/85">Club Avg</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <%= bottle.average_rating.presence ? format("%.1f", bottle.average_rating) : "—" %>
@@ -64,7 +64,7 @@
               </p>
             </div>
 
-            <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+            <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
               <p class="label-xs text-lagavulin-gold/85">My Rating</p>
               <p class="mt-2 body-sm text-lagavulin-gold">
                 <% user_rating = bottle.user_rating(current_user) %>

@@ -63,28 +63,28 @@
 
       <!-- Specs -->
       <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
-        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+        <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
           <p class="label-xs text-lagavulin-gold/85">Style</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.bottle_type.presence || "—" %>
           </p>
         </div>
 
-        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+        <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
           <p class="label-xs text-lagavulin-gold/85">Age</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @bottle.age.present? ? pluralize(@bottle.age, "year") : "—" %>
           </p>
         </div>
 
-        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+        <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
           <p class="label-xs text-lagavulin-gold/85" title="Average rating from all club members">Club Verdict</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= format_rating(@bottle.average_rating) %>
           </p>
         </div>
 
-        <div class="rounded-2xl border border-lagavulin-gold/14 bg-black/12 p-4">
+        <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4">
           <p class="label-xs text-lagavulin-gold/85">My rating</p>
           <p class="mt-2 body-base text-lagavulin-gold">
             <%= @current_user_rating&.score || "—" %>
@@ -147,7 +147,7 @@
 
           <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             <% @all_ratings.each do |rating| %>
-              <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-3 transition hover:bg-black/25 hover:border-lagavulin-gold/40">
+              <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 space-y-3 transition hover:bg-black/35 hover:border-lagavulin-gold/50">
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
                     <%= link_to user_path(rating.user), class: "group" do %>
