@@ -43,6 +43,17 @@ class Meeting < ApplicationRecord
     start_time.strftime("%-l:%M %p")
   end
 
+  # Event title shared by every "add to calendar" target (.ics and Google).
+  def calendar_title
+    if flight_night?
+      "Whiskey Flight Night — Collective Spirits"
+    elsif bottle_bringer.present?
+      "Whiskey Tasting — #{bottle_bringer.full_name} guides"
+    else
+      "Whiskey Tasting — Collective Spirits"
+    end
+  end
+
   def meeting_status
     if date == Time.zone.today
       :happening_today

@@ -24,7 +24,7 @@ class MeetingIcs
       "UID:tasting-#{@meeting.id}@collectivespirits.club",
       "DTSTAMP:#{Time.now.utc.strftime('%Y%m%dT%H%M%SZ')}",
       *dtstart_dtend,
-      "SUMMARY:#{escape(summary)}",
+      "SUMMARY:#{escape(@meeting.calendar_title)}",
       "LOCATION:#{escape(@location)}",
       "DESCRIPTION:#{escape(description)}",
       "URL:#{@url}",
@@ -43,16 +43,6 @@ class MeetingIcs
     else
       ["DTSTART;VALUE=DATE:#{@meeting.date.strftime('%Y%m%d')}",
        "DTEND;VALUE=DATE:#{(@meeting.date + 1).strftime('%Y%m%d')}"]
-    end
-  end
-
-  def summary
-    if @meeting.flight_night?
-      "Whiskey Flight Night — Collective Spirits"
-    elsif @meeting.bottle_bringer.present?
-      "Whiskey Tasting — #{@meeting.bottle_bringer.full_name} guides"
-    else
-      "Whiskey Tasting — Collective Spirits"
     end
   end
 

@@ -68,6 +68,27 @@ module ApplicationHelper
     ENV["CLUB_LOCATION"].presence || "our usual spot"
   end
 
+  # A one-click "Add to Google Calendar" URL, pre-filled from the tasting. Uses
+  # a timed 2-hour block when a start time is set, otherwise an all-day event.
+  def google_calendar_url(meeting)
+    start_at, end_at = if meeting.starts_at
+                         [meeting.starts_at.strftime("%Y%m%dT%H%M%S"),
+                          (meeting.starts_at + MeetingIcs::DURATION).strftime("%Y%m%dT%H%M%S")]
+                       else
+                         [meeting.date.strftime("%Y%m%d"), (meeting.date + 1).strftime("%Y%m%d")]
+                       end
+
+    params = {
+      action: "TEMPLATE",
+      text: meeting.calendar_title,
+      dates: "#{start_at}/#{end_at}",
+      details: "The bottle stays sealed until the reveal. Details: #{meeting_url(meeting)}",
+      location: club_location,
+      ctz: Time.zone.tzinfo.name
+    }
+    "https://calendar.google.com/calendar/render?#{params.to_query}"
+  end
+
   # Small gold "pill" badge used across stat cards.
   def gold_pill(text)
     content_tag(:div, class: "rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1") do
