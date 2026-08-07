@@ -43,8 +43,7 @@
           <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 min-h-[100px] flex flex-col justify-between">
             <p class="stat-label text-lagavulin-gold/80">Club Avg Rating</p>
             <p class="mt-3 stat-value text-lagavulin-gold">
-              <%= @club_avg_rating || "—" %>
-              <span class="text-lagavulin-gold/60 text-lg font-medium ml-1">/ 5</span>
+              <%= format_rating(@club_avg_rating) %><% if @club_avg_rating %><span class="ml-1 font-medium text-lagavulin-gold/70">/ 5</span><% end %>
             </p>
           </div>
         </div>
@@ -61,31 +60,21 @@
 
       <% if @top_bottle.present? || @controversial_bottle.present? %>
         <div class="grid gap-6 lg:grid-cols-2">
-          <!-- Top rated bottle -->
           <% if @top_bottle.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "🏆 Highest Rated", pill: "#{@top_bottle.avg_score.round(1)} / 5" } do %>
-              <%= link_to meeting_path(@top_bottle.meeting), class: "block group" do %>
-                <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 transition hover:bg-black/25 hover:border-lagavulin-gold/40 space-y-2">
-                  <p class="body-sm text-lagavulin-gold/85"><%= @top_bottle.distillery %></p>
-                  <p class="text-2xl font-semibold text-lagavulin-gold"><%= @top_bottle.name %></p>
-                  <p class="meta-sm text-lagavulin-gold/85"><%= pluralize(@top_bottle.ratings.count, "rating") %></p>
-                </div>
-              <% end %>
+                       locals: { title: "🏆 Highest Rated", pill: "#{@top_bottle.avg_score.round(1)} / 5", href: meeting_path(@top_bottle.meeting) } do %>
+              <p class="body-sm text-lagavulin-gold/85"><%= @top_bottle.distillery %></p>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @top_bottle.name %></p>
+              <p class="meta-sm text-lagavulin-gold/85"><%= pluralize(@top_bottle.ratings.count, "rating") %></p>
             <% end %>
           <% end %>
 
-          <!-- Most controversial -->
           <% if @controversial_bottle.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "⚡ Most Divisive", pill: "#{@controversial_bottle.avg_score.round(1)} avg" } do %>
-              <%= link_to meeting_path(@controversial_bottle.meeting), class: "block group" do %>
-                <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 transition hover:bg-black/25 hover:border-lagavulin-gold/40 space-y-2">
-                  <p class="body-sm text-lagavulin-gold/85"><%= @controversial_bottle.distillery %></p>
-                  <p class="text-2xl font-semibold text-lagavulin-gold"><%= @controversial_bottle.name %></p>
-                  <p class="meta-sm text-lagavulin-gold/85">Wide range of opinions</p>
-                </div>
-              <% end %>
+                       locals: { title: "⚡ Most Divisive", pill: "#{@controversial_bottle.avg_score.round(1)} avg", href: meeting_path(@controversial_bottle.meeting) } do %>
+              <p class="body-sm text-lagavulin-gold/85"><%= @controversial_bottle.distillery %></p>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @controversial_bottle.name %></p>
+              <p class="meta-sm text-lagavulin-gold/85">Wide range of opinions</p>
             <% end %>
           <% end %>
         </div>
@@ -107,47 +96,35 @@
         </h2>
 
         <div class="grid gap-6 lg:grid-cols-2">
-          <!-- Golden Nose -->
           <% if @golden_nose.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "👃 Golden Nose", pill: "#{@golden_nose[:accuracy]} accuracy" } do %>
-              <%= link_to user_path(@golden_nose[:user]), class: "block rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2 transition hover:bg-black/25 hover:border-lagavulin-gold/40 group" do %>
-                <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @golden_nose[:user].full_name %></p>
-                <p class="body-sm text-lagavulin-gold/85">Their ratings best predict the club average</p>
-              <% end %>
+                       locals: { title: "👃 Golden Nose", pill: "#{@golden_nose[:accuracy]} accuracy", href: user_path(@golden_nose[:user]) } do %>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @golden_nose[:user].full_name %></p>
+              <p class="body-sm text-lagavulin-gold/85">Their ratings best predict the club average</p>
             <% end %>
           <% end %>
 
-          <!-- Tastemaker -->
           <% if @tastemaker.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "⭐ Tastemaker", pill: "#{@tastemaker[:avg_score]} avg" } do %>
-              <%= link_to user_path(@tastemaker[:spirit_guide]), class: "block rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2 transition hover:bg-black/25 hover:border-lagavulin-gold/40 group" do %>
-                <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @tastemaker[:spirit_guide].full_name %></p>
-                <p class="body-sm text-lagavulin-gold/85">Their bottles consistently score highest</p>
-              <% end %>
+                       locals: { title: "⭐ Tastemaker", pill: "#{@tastemaker[:avg_score]} avg", href: user_path(@tastemaker[:spirit_guide]) } do %>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @tastemaker[:spirit_guide].full_name %></p>
+              <p class="body-sm text-lagavulin-gold/85">Their bottles consistently score highest</p>
             <% end %>
           <% end %>
 
-          <!-- Hardest rater -->
           <% if @hardest_rater.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "🎯 Toughest Critic", pill: "#{@hardest_rater.avg_score.round(1)} avg" } do %>
-              <%= link_to user_path(@hardest_rater), class: "block rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2 transition hover:bg-black/25 hover:border-lagavulin-gold/40 group" do %>
-                <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @hardest_rater.full_name %></p>
-                <p class="body-sm text-lagavulin-gold/85">Has high standards and isn’t afraid to show it</p>
-              <% end %>
+                       locals: { title: "🎯 Toughest Critic", pill: "#{@hardest_rater.avg_score.round(1)} avg", href: user_path(@hardest_rater) } do %>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @hardest_rater.full_name %></p>
+              <p class="body-sm text-lagavulin-gold/85">Has high standards and isn’t afraid to show it</p>
             <% end %>
           <% end %>
 
-          <!-- Easiest rater -->
           <% if @easiest_rater.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "😊 Most Generous", pill: "#{@easiest_rater.avg_score.round(1)} avg" } do %>
-              <%= link_to user_path(@easiest_rater), class: "block rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2 transition hover:bg-black/25 hover:border-lagavulin-gold/40 group" do %>
-                <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @easiest_rater.full_name %></p>
-                <p class="body-sm text-lagavulin-gold/85">Finds something to love in every pour</p>
-              <% end %>
+                       locals: { title: "😊 Most Generous", pill: "#{@easiest_rater.avg_score.round(1)} avg", href: user_path(@easiest_rater) } do %>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @easiest_rater.full_name %></p>
+              <p class="body-sm text-lagavulin-gold/85">Finds something to love in every pour</p>
             <% end %>
           <% end %>
         </div>
@@ -164,32 +141,22 @@
         </h2>
 
         <div class="grid gap-6 lg:grid-cols-2">
-          <!-- Most poured distillery -->
           <% if @most_poured_distillery.present? %>
             <%= render layout: "public/superlative_card",
                        locals: { title: "🥃 Most Poured Distillery", pill: pluralize(@most_poured_distillery[1], "bottle") } do %>
-              <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 space-y-2">
-                <p class="text-2xl font-semibold text-lagavulin-gold"><%= @most_poured_distillery[0] %></p>
-                <p class="body-sm text-lagavulin-gold/85">Our most-tasted distillery</p>
-              </div>
+              <p class="text-2xl font-semibold text-lagavulin-gold"><%= @most_poured_distillery[0] %></p>
+              <p class="body-sm text-lagavulin-gold/85">Our most-tasted distillery</p>
             <% end %>
           <% end %>
 
-          <!-- Best meeting -->
           <% if @best_meeting.present? %>
             <%= render layout: "public/superlative_card",
-                       locals: { title: "✨ Best Meeting", pill: "#{@best_meeting.avg_score.round(1)} avg" } do %>
-              <%= link_to meeting_path(@best_meeting), class: "block group" do %>
-                <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-5 transition hover:bg-black/25 hover:border-lagavulin-gold/40 space-y-2">
-                  <p class="text-2xl font-semibold text-lagavulin-gold"><%= @best_meeting.date.strftime("%B %Y") %></p>
-                  <% if @best_meeting.bottle_bringer.present? %>
-                    <p class="body-sm text-lagavulin-gold/85">
-                      Guided by <%= link_to @best_meeting.bottle_bringer.full_name, user_path(@best_meeting.bottle_bringer), class: "hover:text-lagavulin-gold transition" %>
-                    </p>
-                  <% end %>
-                  <p class="meta-sm text-lagavulin-gold/85">The night with the highest-rated bottle</p>
-                </div>
+                       locals: { title: "✨ Best Meeting", pill: "#{@best_meeting.avg_score.round(1)} avg", href: meeting_path(@best_meeting) } do %>
+              <p class="text-2xl font-semibold text-lagavulin-gold transition group-hover:text-lagavulin-gold/90"><%= @best_meeting.date.strftime("%B %Y") %></p>
+              <% if @best_meeting.bottle_bringer.present? %>
+                <p class="body-sm text-lagavulin-gold/85">Guided by <%= @best_meeting.bottle_bringer.full_name %></p>
               <% end %>
+              <p class="meta-sm text-lagavulin-gold/85">The night with the highest-rated bottle</p>
             <% end %>
           <% end %>
         </div>
