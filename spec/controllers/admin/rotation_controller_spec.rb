@@ -46,6 +46,8 @@ RSpec.describe Admin::RotationController, type: :controller do
         post :add, params: { user_id: member.id }
       end.to change { member.reload.rotation_position }.from(nil)
       expect(response).to redirect_to(admin_rotation_path)
+      # Turbo needs 303 to follow the redirect as a page visit, not a stream.
+      expect(response).to have_http_status(:see_other)
     end
 
     it 'removes a member from the rotation' do
