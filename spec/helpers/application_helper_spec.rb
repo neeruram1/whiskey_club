@@ -117,14 +117,14 @@ RSpec.describe ApplicationHelper, type: :helper do
       params = Rack::Utils.parse_query(URI(url).query)
       expect(url).to start_with('https://calendar.google.com/calendar/render')
       expect(params['action']).to eq('TEMPLATE')
-      expect(params['dates']).to eq('20260912T190000/20260912T210000')
+      expect(params['dates']).to eq('20260912T190000/20260912T220000')
       expect(params['text']).to eq('Whiskey Tasting — Ava Guide guides')
     end
 
-    it 'uses a timed 2-hour range when a start time is set' do
+    it 'uses a timed 3-hour range when a start time is set' do
       meeting = create(:meeting, bottle_bringer: guide, date: Date.new(2026, 9, 12), start_time: '19:00')
       params = Rack::Utils.parse_query(URI(helper.google_calendar_url(meeting)).query)
-      expect(params['dates']).to eq('20260912T190000/20260912T210000')
+      expect(params['dates']).to eq('20260912T190000/20260912T220000')
       expect(params['ctz']).to eq('America/New_York')
     end
   end

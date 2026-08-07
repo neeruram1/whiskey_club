@@ -69,7 +69,7 @@ module ApplicationHelper
   end
 
   # A one-click "Add to Google Calendar" URL, pre-filled from the tasting. Uses
-  # a timed 2-hour block, defaulting to the club's usual hour when no start time
+  # a timed 3-hour block, defaulting to the club's usual hour when no start time
   # is set.
   def google_calendar_url(meeting)
     starts = meeting.calendar_starts_at
