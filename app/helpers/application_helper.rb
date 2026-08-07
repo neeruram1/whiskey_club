@@ -62,6 +62,12 @@ module ApplicationHelper
                 id: id)
   end
 
+  # The club's usual gathering spot, configurable per environment. Per-meeting
+  # locations (for future club outings) can override this down the road.
+  def club_location
+    ENV["CLUB_LOCATION"].presence || "our usual spot"
+  end
+
   # Small gold "pill" badge used across stat cards.
   def gold_pill(text)
     content_tag(:div, class: "rounded-full bg-lagavulin-gold/20 border border-lagavulin-gold/40 px-3 py-1") do

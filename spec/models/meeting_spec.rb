@@ -138,4 +138,24 @@ RSpec.describe Meeting, type: :model do
       expect(meeting.meeting_status).to eq(:upcoming)
     end
   end
+
+  describe 'start time' do
+    it 'returns nil for starts_at and start_time_label when no time set' do
+      meeting = create(:meeting, start_time: nil)
+      expect(meeting.starts_at).to be_nil
+      expect(meeting.start_time_label).to be_nil
+    end
+
+    it 'combines the date and time into a zoned starts_at' do
+      meeting = create(:meeting, date: Date.new(2026, 9, 12), start_time: "19:30")
+      expect(meeting.starts_at.hour).to eq(19)
+      expect(meeting.starts_at.min).to eq(30)
+      expect(meeting.starts_at.to_date).to eq(Date.new(2026, 9, 12))
+    end
+
+    it 'formats a human start time label' do
+      meeting = create(:meeting, start_time: "19:00")
+      expect(meeting.start_time_label).to eq("7:00 PM")
+    end
+  end
 end

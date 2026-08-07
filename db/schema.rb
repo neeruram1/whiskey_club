@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_03_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_07_190408) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_03_000000) do
     t.integer "attendees_count", default: 0, null: false
     t.boolean "is_flight", default: false, null: false
     t.text "notes"
+    t.time "start_time"
     t.index ["bottle_bringer_id"], name: "index_meetings_on_bottle_bringer_id"
     t.index ["date"], name: "index_meetings_on_date"
   end

@@ -23,11 +23,28 @@
           <h1 class="heading-page text-lagavulin-gold">
             <%= @meeting.date.strftime("%B %-d, %Y") %>
           </h1>
+          <p class="mt-1 body-sm text-lagavulin-gold/80">
+            <% if @meeting.start_time_label.present? %>
+              <span class="text-lagavulin-gold/90"><%= @meeting.start_time_label %></span>
+              <span class="mx-1.5 text-lagavulin-gold/40">·</span>
+            <% end %>
+            at <span class="text-lagavulin-gold/90"><%= club_location %></span>
+          </p>
         </div>
-        <%= link_to "Edit tasting",
-              edit_meeting_path(@meeting),
-              class: "link-action self-start",
-              data: { turbo_frame: "modal" } %>
+        <div class="flex flex-col items-start gap-2 sm:items-end">
+          <%= link_to "Edit tasting",
+                edit_meeting_path(@meeting),
+                class: "link-action",
+                data: { turbo_frame: "modal" } %>
+          <% if @meeting.meeting_status != :past %>
+            <%= link_to calendar_meeting_path(@meeting), class: "link-mini inline-flex items-center gap-1.5", data: { turbo: false } do %>
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              Add to calendar
+            <% end %>
+          <% end %>
+        </div>
       </div>
 
       <div class="flex flex-wrap gap-x-6 gap-y-2">
@@ -85,6 +102,12 @@
       <% else %>
         <p class="body-sm italic text-lagavulin-gold/80">
           <%= is_past ? "No one marked as attended." : "Be the first to say you’re in. 🥃" %>
+        </p>
+      <% end %>
+
+      <% if !is_past && @awaiting_rsvp&.any? %>
+        <p class="meta-xs text-lagavulin-gold/60">
+          Waiting on <%= @awaiting_rsvp.map(&:first_name).to_sentence %>.
         </p>
       <% end %>
     </section>

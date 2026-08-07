@@ -28,6 +28,21 @@ class Meeting < ApplicationRecord
   end
 
 
+  # Combines the tasting date with its optional start time into a single
+  # zoned Time. Falls back to nil when no start time has been set.
+  def starts_at
+    return nil unless start_time
+
+    Time.zone.local(date.year, date.month, date.day, start_time.hour, start_time.min)
+  end
+
+  # A short human label for the start time, e.g. "7:00 PM". Blank when unset.
+  def start_time_label
+    return nil unless start_time
+
+    start_time.strftime("%-l:%M %p")
+  end
+
   def meeting_status
     if date == Time.zone.today
       :happening_today

@@ -3,6 +3,7 @@ COLLECTIVE SPIRITS OF MONTCLAIR
 A new tasting is on the calendar.
 
 <%= @meeting.date.strftime("%A, %B %-d, %Y") %>
+<% if @meeting.start_time_label.present? -%><%= @meeting.start_time_label %> · <% end -%>at <%= club_location %>
 <% if @meeting.flight_night? -%>
 Whiskey Flight Night
 <% elsif @guide.present? -%>

@@ -17,6 +17,9 @@
             <p style="margin:0;font-size:28px;font-weight:bold;color:#0f2a23;">
               <%= @meeting.date.strftime("%A, %B %-d, %Y") %>
             </p>
+            <p style="margin:6px 0 0 0;font-size:14px;color:#5a5a5a;">
+              <% if @meeting.start_time_label.present? %><%= @meeting.start_time_label %> &middot; <% end %>at <%= club_location %>
+            </p>
           </td>
         </tr>
 
