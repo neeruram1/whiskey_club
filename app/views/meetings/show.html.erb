@@ -57,7 +57,7 @@
         <div>
           <h2 class="heading-section text-lagavulin-gold"><%= is_past ? "Who Came" : "Who's In" %></h2>
           <% if @attendees.any? %>
-            <p class="mt-1 meta-xs text-lagavulin-gold/80"><%= pluralize(@attendees.count, is_past ? "went" : "coming") %></p>
+            <p class="mt-1 meta-xs text-lagavulin-gold/80"><%= @attendees.count %> <%= is_past ? "attended" : "coming" %></p>
           <% end %>
         </div>
         <%= button_to toggle_attendance_meeting_path(@meeting),
