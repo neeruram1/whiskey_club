@@ -55,18 +55,13 @@
       </div>
     <% else %>
       <!-- Non-spirit guide view - bottle is hidden -->
-      <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
-        <p class="heading-section text-lagavulin-gold/80">
-          🔒 Bottle Not Yet Revealed
-        </p>
-        <p class="body-sm text-lagavulin-gold/85">
-          The bottle is a surprise! The spirit guide will reveal it during the tasting. 
-        </p>
+      <%= render "meetings/sealed_bottle", meeting: meeting %>
+
+      <% if meeting_is_today || meeting_has_passed %>
         <div class="max-w-2xl mx-auto">
           <%= render "ratings/module", bottle: @bottle, current_user_rating: @current_user_rating %>
         </div>
-        </p>
-      </div>
+      <% end %>
     <% end %>
   </section>
 
@@ -97,15 +92,8 @@
       
     <% elsif meeting_is_today %>
       <!-- It's meeting day but you're not the spirit guide -->
-      <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
-        <p class="heading-section text-lagavulin-gold/80">
-          🔒 Bottle Not Yet Revealed
-        </p>
-        <p class="body-sm text-lagavulin-gold/85">
-          The bottle is a surprise!The spirit guide will reveal the bottle during today's tasting.
-        </p>
-      </div>
-      
+      <%= render "meetings/sealed_bottle", meeting: meeting %>
+
     <% elsif meeting_has_passed %>
       <!-- Meeting completed but no bottle added -->
       <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-8 shadow-lg shadow-black/40 space-y-4">
@@ -144,14 +132,7 @@
       
     <% else %>
       <!-- Upcoming meeting - non-spirit guide -->
-      <div class="rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-8 shadow-sm shadow-black/30 text-center space-y-3">
-        <p class="heading-section text-lagavulin-gold/80">
-          🔒 Bottle Not Yet Revealed
-        </p>
-        <p class="body-sm text-lagavulin-gold/85">
-          The bottle is a surprise! It will be revealed during the tasting on <%= meeting.date.strftime("%B %-d") %>.
-        </p>
-      </div>
+      <%= render "meetings/sealed_bottle", meeting: meeting %>
     <% end %>
   </section>
 <% end %>

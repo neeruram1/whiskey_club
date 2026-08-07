@@ -1,0 +1,27 @@
+<%# The pre-reveal "mystery bottle" moment for members. locals: meeting %>
+<% days_until = (meeting.date.to_date - Time.zone.today).to_i %>
+<% when_revealed = days_until <= 0 ? "today" : (days_until == 1 ? "tomorrow" : "in #{days_until} days") %>
+<% guide = meeting.bottle_bringer %>
+
+<div class="relative overflow-hidden rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-8 sm:p-12 text-center shadow-lg shadow-black/40">
+  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(201,169,104,0.18),transparent_70%)]"></div>
+
+  <div class="relative space-y-4">
+    <!-- Wax seal -->
+    <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-lagavulin-gold/50 bg-lagavulin-gold/10 shadow-lg shadow-black/40 motion-safe:animate-pulse">
+      <span class="text-3xl" aria-hidden="true">&#128274;</span>
+    </div>
+
+    <p class="label-sm text-lagavulin-gold/85">Sealed until the reveal</p>
+    <p class="heading-sub text-lagavulin-gold">The bottle is a mystery</p>
+
+    <p class="body-base text-lagavulin-gold/85 max-w-md mx-auto">
+      <% if guide.present? %>
+        <span class="font-semibold text-lagavulin-gold"><%= guide.full_name %></span> pours the reveal <%= when_revealed %>.
+      <% else %>
+        The reveal comes <%= when_revealed %>.
+      <% end %>
+      No peeking till the pour. &#129346;
+    </p>
+  </div>
+</div>
