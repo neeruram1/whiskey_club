@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :bottles
     member do
       post :toggle_attendance
+      get :calendar
     end
   end
 

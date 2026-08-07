@@ -15,7 +15,8 @@
     <!-- Hero: Next tasting invitation -->
     <section>
       <% if @next_meeting.present? %>
-        <%= render "next_meeting_card", meeting: @next_meeting %>
+        <%= render "next_meeting_card", meeting: @next_meeting,
+              attendees: @next_attendees, attending: @next_attending, awaiting: @next_awaiting %>
       <% else %>
         <div class="max-w-3xl rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 md:p-10 shadow-lg shadow-black/40 space-y-4">
           <p class="label-sm text-lagavulin-gold/85">Next Tasting</p>
@@ -38,7 +39,7 @@
         Your Stats
       </h2>
 
-      <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-4 sm:p-6 md:p-8 lg:p-10 shadow-lg shadow-black/40 space-y-10">
+      <div class="card-glow rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-4 sm:p-6 md:p-8 lg:p-10 shadow-xl shadow-black/40 space-y-10">
 
         <!-- Stat tiles -->
         <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">

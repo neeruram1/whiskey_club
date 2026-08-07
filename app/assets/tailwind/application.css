@@ -40,6 +40,23 @@ a {
   .small-caps {
       font-variant-caps: small-caps;
     }
+
+  /* Warm amber "pour glow" anchored to a card's top-right corner and clipped to
+     its rounded shape. Add to a section card to lift it off the charred-oak
+     background the way the homepage hero does — no extra gradient div needed. */
+  .card-glow {
+    position: relative;
+    isolation: isolate;
+  }
+  .card-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(120% 130% at 100% 0%, rgba(201, 169, 104, 0.15), transparent 55%);
+    pointer-events: none;
+  }
   .btn {
     @apply 
       relative 

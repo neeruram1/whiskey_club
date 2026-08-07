@@ -19,6 +19,18 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  # How many tastings this member has been the spirit guide for (including any
+  # upcoming ones). Used to hype the guide on the tasting page.
+  def times_guiding
+    guided_meetings.count
+  end
+
+  # The average club rating across every bottle this member has poured. Returns
+  # nil when none of their pours have been rated yet.
+  def pours_average_score
+    Rating.where(bottle: Bottle.brought_by(self)).average(:score)
+  end
+
   def wishlist_includes?(bottle)
     bottle_wishlists.exists?(bottle: bottle)
   end

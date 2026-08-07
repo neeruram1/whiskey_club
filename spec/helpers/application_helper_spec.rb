@@ -93,4 +93,39 @@ RSpec.describe ApplicationHelper, type: :helper do
       expect(result).to include('hover:bg-gray-50')
     end
   end
+
+  describe '#club_location' do
+    it 'falls back to a friendly default when unset' do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('CLUB_LOCATION').and_return(nil)
+      expect(helper.club_location).to eq('our usual spot')
+    end
+
+    it 'uses CLUB_LOCATION when configured' do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('CLUB_LOCATION').and_return("Dan's place")
+      expect(helper.club_location).to eq("Dan's place")
+    end
+  end
+
+  describe '#google_calendar_url' do
+    let(:guide) { create(:user, first_name: 'Ava', last_name: 'Guide') }
+
+    it 'builds a Google render URL with an all-day range when no time is set' do
+      meeting = create(:meeting, bottle_bringer: guide, date: Date.new(2026, 9, 12), start_time: nil)
+      url = helper.google_calendar_url(meeting)
+      params = Rack::Utils.parse_query(URI(url).query)
+      expect(url).to start_with('https://calendar.google.com/calendar/render')
+      expect(params['action']).to eq('TEMPLATE')
+      expect(params['dates']).to eq('20260912/20260913')
+      expect(params['text']).to eq('Whiskey Tasting — Ava Guide guides')
+    end
+
+    it 'uses a timed 2-hour range when a start time is set' do
+      meeting = create(:meeting, bottle_bringer: guide, date: Date.new(2026, 9, 12), start_time: '19:00')
+      params = Rack::Utils.parse_query(URI(helper.google_calendar_url(meeting)).query)
+      expect(params['dates']).to eq('20260912T190000/20260912T210000')
+      expect(params['ctz']).to eq('America/New_York')
+    end
+  end
 end

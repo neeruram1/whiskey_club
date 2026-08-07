@@ -37,6 +37,7 @@ class MeetingsController < ApplicationController
     @bottle = @meeting&.primary_bottle
     @attendees = @meeting.attendees.includes(:ratings)
     @user_is_attending = current_user && @meeting.attendees.exists?(id: current_user.id)
+    @awaiting_rsvp = awaiting_rsvp(@meeting, @attendees)
     
     # Calculate meeting stats and load ratings
     if @bottle.present?
@@ -60,6 +61,15 @@ class MeetingsController < ApplicationController
     end
     
     redirect_back fallback_location: meeting_path(@meeting), notice: message, status: :see_other
+  end
+
+  def calendar
+    meeting = Meeting.includes(:bottle_bringer, :bottles).find(params[:id])
+    ics = MeetingIcs.new(meeting, location: helpers.club_location, url: meeting_url(meeting)).to_ics
+    send_data ics,
+              filename: MeetingIcs.new(meeting, location: nil, url: nil).filename,
+              type: "text/calendar; charset=utf-8",
+              disposition: "attachment"
   end
 
   def edit
@@ -94,8 +104,15 @@ class MeetingsController < ApplicationController
 
   private
 
+  # Members we're still waiting on to RSVP, for upcoming/today tastings only.
+  def awaiting_rsvp(meeting, attendees)
+    return if meeting.meeting_status == :past
+
+    User.where.not(id: attendees.map(&:id)).order(:first_name)
+  end
+
   def meeting_params
-    params.require(:meeting).permit(:bottle_bringer_id, :date, :is_flight, :notes)
+    params.require(:meeting).permit(:bottle_bringer_id, :date, :start_time, :is_flight, :notes)
   end
 
   def find_meeting

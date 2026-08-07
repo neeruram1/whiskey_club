@@ -19,14 +19,24 @@
             <%= form_error_message(@meeting, :bottle_bringer_id, id: "bottle-bringer-error") %>
           </div>
           
-          <div>
-            <%= f.label :date, class: form_label_classes do %>
-              Tasting Date
-            <% end %>
-            <%= f.date_field :date,
-                  class: form_input_classes(errors_present: @meeting.errors[:date].any?),
-                  data: { action: "change->form-errors#clearError", form_errors_error_id_param: "date-error" } %>
-            <%= form_error_message(@meeting, :date, id: "date-error") %>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <%= f.label :date, class: form_label_classes do %>
+                Tasting Date
+              <% end %>
+              <%= f.date_field :date,
+                    class: form_input_classes(errors_present: @meeting.errors[:date].any?),
+                    data: { action: "change->form-errors#clearError", form_errors_error_id_param: "date-error" } %>
+              <%= form_error_message(@meeting, :date, id: "date-error") %>
+            </div>
+
+            <div>
+              <%= f.label :start_time, class: form_label_classes do %>
+                Start Time <span class="font-normal text-lagavulin-green/70">(optional)</span>
+              <% end %>
+              <%= f.time_field :start_time,
+                    class: form_input_classes(errors_present: @meeting.errors[:start_time].any?) %>
+            </div>
           </div>
           
           <div>

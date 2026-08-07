@@ -23,5 +23,16 @@
       <% end %>
       No peeking till the pour. &#129346;
     </p>
+
+    <% if guide.present? %>
+      <% avg = guide.pours_average_score %>
+      <div class="mt-2 inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 meta-xs text-lagavulin-gold/70">
+        <% if avg.present? %>
+          <span>Their pours average <span class="font-semibold text-lagavulin-gold/90"><%= format_rating(avg) %></span> / 5</span>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+        <% end %>
+        <span><%= guide.times_guiding.ordinalize %> time as spirit guide</span>
+      </div>
+    <% end %>
   </div>
 </div>

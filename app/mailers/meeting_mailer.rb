@@ -1,4 +1,6 @@
 class MeetingMailer < ApplicationMailer
+  helper ApplicationHelper
+
   # Sent to each member when a new tasting is scheduled.
   def scheduled(meeting, member)
     @meeting = meeting

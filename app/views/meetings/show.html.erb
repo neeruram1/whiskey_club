@@ -20,30 +20,35 @@
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-4">
         <div>
           <p class="label-sm text-lagavulin-gold/85"><%= @meeting.date.strftime("%A") %></p>
-          <h1 class="heading-page text-lagavulin-gold">
+          <h1 class="heading-page text-lagavulin-gold uppercase [font-variant-caps:normal]">
             <%= @meeting.date.strftime("%B %-d, %Y") %>
           </h1>
         </div>
-        <%= link_to "Edit tasting",
-              edit_meeting_path(@meeting),
-              class: "link-action self-start",
-              data: { turbo_frame: "modal" } %>
+        <div class="flex flex-col items-start gap-2 sm:items-end">
+          <%= link_to "Edit tasting",
+                edit_meeting_path(@meeting),
+                class: "link-action",
+                data: { turbo_frame: "modal" } %>
+          <% if @meeting.meeting_status != :past %>
+            <%= render "meetings/add_to_calendar", meeting: @meeting %>
+          <% end %>
+        </div>
       </div>
 
-      <div class="flex flex-wrap gap-x-6 gap-y-2">
+      <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 body-sm text-lagavulin-gold/80">
+        <span>
+          <% if @meeting.start_time_label.present? %><span class="text-lagavulin-gold/90"><%= @meeting.start_time_label %></span> <span class="text-lagavulin-gold/40">·</span> <% end %>at <span class="text-lagavulin-gold/90"><%= club_location %></span>
+        </span>
         <% if @meeting.flight_night? %>
-          <p class="body-base text-lagavulin-gold/80">
-            <span class="font-semibold text-lagavulin-gold">✈️ Whiskey Flight Night</span> — <%= pluralize(@meeting.bottles.count, 'bottle') %>
-          </p>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+          <span><span class="font-semibold text-lagavulin-gold">✈️ Whiskey Flight Night</span> — <%= pluralize(@meeting.bottles.count, 'bottle') %></span>
         <% elsif @meeting.bottle_bringer.present? %>
-          <p class="body-base text-lagavulin-gold/80">
-            Guided by <%= link_to @meeting.bottle_bringer.full_name, user_path(@meeting.bottle_bringer), class: "font-semibold text-lagavulin-gold hover:text-lagavulin-gold/80 transition" %>
-          </p>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+          <span>Guided by <%= link_to @meeting.bottle_bringer.full_name, user_path(@meeting.bottle_bringer), class: "font-semibold text-lagavulin-gold hover:text-lagavulin-gold/80 transition" %></span>
         <% end %>
         <% if @attendees.any? %>
-          <p class="body-base text-lagavulin-gold/85">
-            <%= pluralize(@attendees.count, 'attendee') %>
-          </p>
+          <span class="text-lagavulin-gold/40" aria-hidden="true">·</span>
+          <span><%= pluralize(@attendees.count, 'attendee') %></span>
         <% end %>
       </div>
     </header>
@@ -51,7 +56,7 @@
     <div class="h-px bg-lagavulin-gold/18"></div>
 
     <!-- Attendance Section -->
-    <section class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 sm:p-6 space-y-4">
+    <section class="card-glow rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-5 sm:p-6 space-y-4 shadow-xl shadow-black/40">
       <% is_past = @meeting.meeting_status == :past %>
       <div class="flex items-start justify-between gap-4">
         <div>
@@ -87,13 +92,19 @@
           <%= is_past ? "No one marked as attended." : "Be the first to say you’re in. 🥃" %>
         </p>
       <% end %>
+
+      <% if !is_past && @awaiting_rsvp&.any? %>
+        <p class="meta-xs text-lagavulin-gold/60">
+          Waiting on <%= @awaiting_rsvp.map(&:first_name).to_sentence %>.
+        </p>
+      <% end %>
     </section>
 
     <% if @meeting.notes.present? %>
       <div class="h-px bg-lagavulin-gold/18"></div>
 
       <!-- Meeting Notes Section -->
-      <section class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 sm:p-6 space-y-4">
+      <section class="card-glow rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-5 sm:p-6 space-y-4 shadow-xl shadow-black/40">
         <h2 class="heading-section text-lagavulin-gold">
           Meeting Notes
         </h2>
@@ -125,7 +136,7 @@
                 data: { turbo_frame: "modal" } %>
         </div>
 
-        <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-6">
+        <div class="card-glow rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-xl shadow-black/40 space-y-6">
           <div class="flex items-start justify-between gap-4">
             <div class="min-w-0">
               <p class="label-sm uppercase tracking-wider text-lagavulin-gold/80">
