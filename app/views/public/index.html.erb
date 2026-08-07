@@ -15,7 +15,8 @@
     <!-- Hero: Next tasting invitation -->
     <section>
       <% if @next_meeting.present? %>
-        <%= render "next_meeting_card", meeting: @next_meeting %>
+        <%= render "next_meeting_card", meeting: @next_meeting,
+              attendees: @next_attendees, attending: @next_attending, awaiting: @next_awaiting %>
       <% else %>
         <div class="max-w-3xl rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 md:p-10 shadow-lg shadow-black/40 space-y-4">
           <p class="label-sm text-lagavulin-gold/85">Next Tasting</p>

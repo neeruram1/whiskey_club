@@ -2,8 +2,15 @@ class PublicController < ApplicationController
   def index
     @next_meeting = Meeting.where("date >= ?", Time.zone.today)
                            .order(date: :asc)
-                           .includes(:bottle_bringer, bottles: [:ratings, :user])
+                           .includes(:bottle_bringer, :attendees, bottles: [:ratings, :user])
                            .first
+
+    # RSVP context for the next-tasting hero.
+    if @next_meeting
+      @next_attendees = @next_meeting.attendees.to_a
+      @next_attending = @next_attendees.any? { |u| u.id == current_user.id }
+      @next_awaiting = User.where.not(id: @next_attendees.map(&:id)).order(:first_name)
+    end
 
     # Ratings by current user with eager loading
     @my_ratings = Rating.includes(bottle: :meeting).where(user: current_user)
