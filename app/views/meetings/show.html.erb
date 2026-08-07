@@ -52,35 +52,39 @@
 
     <!-- Attendance Section -->
     <section class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-5 sm:p-6 space-y-4">
-      <div class="flex items-center justify-between gap-4">
-        <h2 class="heading-section text-lagavulin-gold">
-          Attendance
-        </h2>
-        <% is_past = @meeting.meeting_status == :past %>
+      <% is_past = @meeting.meeting_status == :past %>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="heading-section text-lagavulin-gold"><%= is_past ? "Who Came" : "Who's In" %></h2>
+          <% if @attendees.any? %>
+            <p class="mt-1 meta-xs text-lagavulin-gold/80"><%= pluralize(@attendees.count, is_past ? "went" : "coming") %></p>
+          <% end %>
+        </div>
         <%= button_to toggle_attendance_meeting_path(@meeting),
               method: :post,
-              class: "btn-mini #{'bg-lagavulin-gold/20 border-lagavulin-gold/40' if @user_is_attending}",
+              class: "btn-mini flex-shrink-0 #{'bg-lagavulin-gold/20 border-lagavulin-gold/40' if @user_is_attending}",
               data: { turbo_submits_with: "Saving…" } do %>
-          <%= @user_is_attending ? (is_past ? "✓ Attended" : "✓ Attending") : (is_past ? "Mark Attended" : "Mark Attending") %>
+          <%= @user_is_attending ? (is_past ? "✓ Attended" : "✓ You're in") : (is_past ? "Mark Attended" : "Count me in") %>
         <% end %>
       </div>
 
       <% if @attendees.any? %>
         <div class="flex flex-wrap gap-2">
           <% @attendees.each do |attendee| %>
-            <%= link_to user_path(attendee), class: "inline-flex items-center rounded-full bg-lagavulin-gold/15 border border-lagavulin-gold/30 px-3 py-1.5 transition hover:bg-lagavulin-gold/20 hover:border-lagavulin-gold/40" do %>
-              <p class="label-sm text-lagavulin-gold">
-                <%= attendee.full_name %>
-                <% if attendee.id == current_user.id %>
-                  <span class="text-lagavulin-gold/80">(You)</span>
-                <% end %>
-              </p>
+            <%= link_to user_path(attendee),
+                  class: "group inline-flex items-center gap-2 rounded-full border border-lagavulin-gold/30 bg-lagavulin-gold/10 py-1 pl-1 pr-3 transition hover:border-lagavulin-gold/50 hover:bg-lagavulin-gold/20" do %>
+              <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-lagavulin-gold/50 bg-lagavulin-gold/15 text-[0.65rem] font-bold text-lagavulin-gold" aria-hidden="true">
+                <%= attendee.first_name.first %><%= attendee.last_name.first %>
+              </span>
+              <span class="label-sm text-lagavulin-gold">
+                <%= attendee.first_name %><% if attendee.id == current_user.id %> <span class="text-lagavulin-gold/70">(You)</span><% end %>
+              </span>
             <% end %>
           <% end %>
         </div>
       <% else %>
-        <p class="body-sm text-lagavulin-gold/80 italic">
-          No one marked as attending yet
+        <p class="body-sm italic text-lagavulin-gold/80">
+          <%= is_past ? "No one marked as attended." : "Be the first to say you’re in. 🥃" %>
         </p>
       <% end %>
     </section>
