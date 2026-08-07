@@ -28,12 +28,21 @@ class Meeting < ApplicationRecord
   end
 
 
+  # Assumed start time for a tasting when none is set explicitly (7 PM).
+  DEFAULT_START_HOUR = 19
+
   # Combines the tasting date with its optional start time into a single
   # zoned Time. Falls back to nil when no start time has been set.
   def starts_at
     return nil unless start_time
 
     Time.zone.local(date.year, date.month, date.day, start_time.hour, start_time.min)
+  end
+
+  # The start time to use for calendar events — the explicit time when set,
+  # otherwise the club's default hour, so calendar entries are never all-day.
+  def calendar_starts_at
+    starts_at || Time.zone.local(date.year, date.month, date.day, DEFAULT_START_HOUR)
   end
 
   # A short human label for the start time, e.g. "7:00 PM". Blank when unset.

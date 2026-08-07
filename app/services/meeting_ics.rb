@@ -37,13 +37,9 @@ class MeetingIcs
   private
 
   def dtstart_dtend
-    if (start = @meeting.starts_at)
-      ["DTSTART:#{start.strftime('%Y%m%dT%H%M%S')}",
-       "DTEND:#{(start + DURATION).strftime('%Y%m%dT%H%M%S')}"]
-    else
-      ["DTSTART;VALUE=DATE:#{@meeting.date.strftime('%Y%m%d')}",
-       "DTEND;VALUE=DATE:#{(@meeting.date + 1).strftime('%Y%m%d')}"]
-    end
+    start = @meeting.calendar_starts_at
+    ["DTSTART:#{start.strftime('%Y%m%dT%H%M%S')}",
+     "DTEND:#{(start + DURATION).strftime('%Y%m%dT%H%M%S')}"]
   end
 
   def description
