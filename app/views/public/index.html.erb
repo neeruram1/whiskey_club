@@ -12,34 +12,17 @@
     <!-- Modal frame for forms -->
     <%= turbo_frame_tag "modal" %>
 
-    <!-- Hero: Next meeting -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="heading-sub text-lagavulin-gold">
-          Next Tasting
-        </h2>
-
-        <p class="mt-3 heading-hero text-lagavulin-gold leading-tight">
-          <% if @next_meeting.present? %>
-            <span class="block sm:inline"><%= @next_meeting.date.strftime("%A") %>,</span>
-            <span class="block sm:inline"><%= @next_meeting.date.strftime("%B %-d, %Y") %></span>
-          <% else %>
-            No meeting scheduled
-          <% end %>
-        </p>
-      </div>
-
+    <!-- Hero: Next tasting invitation -->
+    <section>
       <% if @next_meeting.present? %>
         <%= render "next_meeting_card", meeting: @next_meeting %>
       <% else %>
-        <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-8 shadow-lg shadow-black/40 space-y-4">
-          <p class="body-base text-lagavulin-gold/90">
-            Nothing on the calendar yet.
-          </p>
+        <div class="max-w-3xl rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 md:p-10 shadow-lg shadow-black/40 space-y-4">
+          <p class="label-sm text-lagavulin-gold/85">Next Tasting</p>
+          <p class="text-2xl sm:text-3xl font-semibold text-lagavulin-gold">Nothing on the calendar yet.</p>
           <p class="body-sm text-lagavulin-gold/80">
-            Schedule the next tasting when you're ready.
+            Schedule the next tasting when you're ready — the guide brings a bottle, sealed until the reveal.
           </p>
-
           <div class="pt-2">
             <a href="<%= new_meeting_path %>" class="btn-mini w-full sm:w-auto" data-turbo-frame="modal">Schedule Tasting</a>
           </div>
@@ -51,14 +34,9 @@
 
     <!-- Member ledger -->
     <section class="space-y-6">
-      <div>
-        <h2 class="heading-sub text-lagavulin-gold">
-          Your Stats
-        </h2>
-        <p class="mt-2 heading-page text-lagavulin-gold/90">
-          Tasting History
-        </p>
-      </div>
+      <h2 class="heading-page text-lagavulin-gold">
+        Your Stats
+      </h2>
 
       <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-4 sm:p-6 md:p-8 lg:p-10 shadow-lg shadow-black/40 space-y-10">
 
@@ -124,8 +102,8 @@
                       <div class="flex min-h-[56px] gap-2 sm:gap-3">
                         <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
 
-                        <div class="flex-1 min-w-0 rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5
-                                    shadow-sm shadow-black/30 transition group-hover:bg-black/25 group-hover:border-lagavulin-gold/40 group-active:scale-[0.98]">
+                        <div class="flex-1 min-w-0 rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5
+                                    shadow-sm shadow-black/30 transition group-hover:bg-black/35 group-hover:border-lagavulin-gold/50 group-active:scale-[0.98]">
                           <p class="body-sm text-lagavulin-gold/85 truncate">
                             #<%= idx + 1 %> · <%= bottle.distillery.presence || "Distillery" %>
                             <% if bottle.meeting&.flight_night? %>
@@ -149,7 +127,7 @@
                 <% end %>
               </ul>
             <% else %>
-              <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-6 space-y-2">
+              <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-6 space-y-2">
                 <p class="body-sm text-lagavulin-gold/75">
                   No ratings yet.
                 </p>
@@ -179,8 +157,8 @@
                       <div class="flex min-h-[56px] gap-2 sm:gap-3">
                         <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
 
-                        <div class="flex-1 min-w-0 rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5
-                                    shadow-sm shadow-black/30 transition group-hover:bg-black/25 group-hover:border-lagavulin-gold/40 group-active:scale-[0.98]">
+                        <div class="flex-1 min-w-0 rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5
+                                    shadow-sm shadow-black/30 transition group-hover:bg-black/35 group-hover:border-lagavulin-gold/50 group-active:scale-[0.98]">
                           <p class="body-sm text-lagavulin-gold/85 truncate">
                             <% if bottle.meeting.flight_night? %>✈️ <% end %><%= bottle.distillery.presence || "Distillery" %>
                           </p>
@@ -201,7 +179,7 @@
                 <% end %>
               </ul>
             <% else %>
-              <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-6 space-y-2">
+              <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-6 space-y-2">
                 <p class="body-sm text-lagavulin-gold/75">
                   None yet.
                 </p>
@@ -232,7 +210,7 @@
                 </div>
 
                 <%= link_to user_path(@taste_match[:user]), class: "block group" do %>
-                  <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5 lg:p-6 space-y-3 hover:bg-black/25 hover:border-lagavulin-gold/40 transition-all">
+                  <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 lg:p-6 space-y-3 hover:bg-black/35 hover:border-lagavulin-gold/50 transition-all">
                     <div class="flex items-center justify-between gap-2 min-w-0">
                       <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-lagavulin-gold truncate">
                         <%= @taste_match[:user].full_name %>
@@ -272,7 +250,7 @@
                 </div>
 
                 <%= link_to user_path(@favorite_bringer[:bringer]), class: "block group" do %>
-                  <div class="rounded-2xl border border-lagavulin-gold/25 bg-black/15 p-4 sm:p-5 lg:p-6 space-y-3 hover:bg-black/25 hover:border-lagavulin-gold/40 transition-all">
+                  <div class="rounded-2xl border border-lagavulin-gold/30 bg-black/25 p-4 sm:p-5 lg:p-6 space-y-3 hover:bg-black/35 hover:border-lagavulin-gold/50 transition-all">
                     <div class="flex items-center justify-between gap-2 min-w-0">
                       <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-lagavulin-gold truncate">
                         <%= @favorite_bringer[:bringer].full_name %>

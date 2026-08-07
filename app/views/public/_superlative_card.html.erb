@@ -1,8 +1,20 @@
-<%# Card shell for a stats superlative: title row with a gold pill, then the yielded body. %>
-<div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-4">
-  <div class="flex items-center justify-between">
+<%# A stats superlative as a single flat panel. locals: title, pill, href (optional).
+    Yields the body (subject + one-line note); the whole card links when href is given. %>
+<% header = capture do %>
+  <div class="flex items-center justify-between gap-3">
     <h3 class="heading-section text-lagavulin-gold"><%= title %></h3>
     <%= gold_pill(pill) %>
   </div>
-  <%= yield %>
-</div>
+<% end %>
+
+<% if local_assigns[:href].present? %>
+  <%= link_to href, class: "group block rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-3 transition hover:border-lagavulin-gold/60 hover:bg-black/50" do %>
+    <%= header %>
+    <%= yield %>
+  <% end %>
+<% else %>
+  <div class="rounded-3xl border border-lagavulin-gold/40 bg-black/40 p-6 sm:p-8 shadow-lg shadow-black/40 space-y-3">
+    <%= header %>
+    <%= yield %>
+  </div>
+<% end %>

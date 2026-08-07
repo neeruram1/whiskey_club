@@ -1,106 +1,86 @@
-<% meeting_is_today = meeting.date == Time.zone.today %>
-<% meeting_has_passed = meeting.date < Time.zone.today %>
-<% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
-<% is_revealed = meeting.primary_bottle.present? && meeting.primary_bottle.revealed_at.present? %>
+<%# The next tasting, composed as an invitation: engraved date, the spirit guide,
+    and the club's ritual — the bottle stays sealed until the reveal. %>
+<% days_until = (meeting.date.to_date - Time.zone.today).to_i %>
+<% countdown = days_until <= 0 ? "Today" : days_until == 1 ? "Tomorrow" : "In #{days_until} days" %>
+<% is_guide = current_user&.id == meeting.bottle_bringer_id %>
+<% bottle = meeting.primary_bottle %>
+<% revealed = bottle&.revealed_at.present? %>
 
-<%= link_to meeting_path(meeting), class: "block group touch-manipulation max-w-3xl" do %>
-  <div class="flex min-h-[120px]">
-    <div class="w-[3px] bg-lagavulin-gold/40 rounded-full transition group-hover:bg-lagavulin-gold flex-shrink-0"></div>
+<%= link_to meeting_path(meeting),
+      class: "group block max-w-3xl touch-manipulation focus-visible:outline-none" do %>
+  <article class="relative overflow-hidden rounded-3xl border border-lagavulin-gold/40 bg-black/40
+                  shadow-2xl shadow-black/50 transition duration-300
+                  group-hover:border-lagavulin-gold/60 group-hover:shadow-lagavulin-gold/10 group-active:scale-[0.99]">
+    <!-- Amber pour glow -->
+    <div class="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full
+                bg-[radial-gradient(circle,rgba(201,169,104,0.16),transparent_70%)]"></div>
 
-    <div class="flex-1 ml-3 sm:ml-4 md:ml-5 rounded-3xl border border-lagavulin-gold/20 bg-black/15 p-4 sm:p-5 md:p-6 lg:p-7
-                shadow-sm shadow-black/30 transition group-hover:bg-black/22 group-active:scale-[0.98]">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div class="relative p-6 sm:p-8 md:p-10">
+      <!-- Eyebrow + countdown -->
+      <div class="mb-6 flex items-center justify-between gap-3">
+        <p class="label-sm text-lagavulin-gold/85">Next Tasting</p>
+        <span class="inline-flex items-center rounded-full border border-lagavulin-gold/40 bg-lagavulin-gold/10 px-3 py-1">
+          <span class="meta-xs font-semibold text-lagavulin-gold"><%= countdown %></span>
+        </span>
+      </div>
 
-        <div class="space-y-3">
-          <!-- Date (quiet, editorial) -->
-          <div class="flex items-center gap-2 flex-wrap">
-            <p class="label-sm text-lagavulin-gold/80">
-              <%= date_with_friendly(meeting.date, format: "%A · %B %d, %Y") %>
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-stretch sm:gap-8">
+        <!-- Engraved date -->
+        <div class="flex-shrink-0">
+          <p class="label-sm text-lagavulin-gold/85"><%= meeting.date.strftime("%A") %></p>
+          <p class="mt-1 text-2xl sm:text-3xl font-semibold leading-none text-lagavulin-gold">
+            <%= meeting.date.strftime("%b %-d") %>
+          </p>
+          <p class="mt-2 label-sm text-lagavulin-gold/70"><%= meeting.date.strftime("%Y") %></p>
+        </div>
+
+        <!-- Pour-line divider -->
+        <div class="hidden w-px self-stretch bg-lagavulin-gold/20 sm:block"></div>
+
+        <!-- Guide + ritual -->
+        <div class="min-w-0 flex-1 space-y-5">
+          <div>
+            <p class="label-sm text-lagavulin-gold/70">
+              <%= meeting.bottle_bringer.present? ? "Guided by" : "Flight Night" %>
             </p>
-            <% is_attending = current_user && meeting.attendees.exists?(id: current_user.id) %>
-            <% if is_attending %>
-              <span class="inline-flex items-center rounded-full bg-lagavulin-gold/10 border border-lagavulin-gold/30 px-2.5 py-0.5">
-                <p class="label-xs text-lagavulin-gold font-medium">Attending</p>
-              </span>
-            <% end %>
+            <p class="mt-1 text-2xl sm:text-3xl font-semibold text-lagavulin-gold truncate">
+              <% if meeting.bottle_bringer.present? %>
+                <%= meeting.bottle_bringer.full_name %>
+              <% else %>
+                ✈️ A flight of many
+              <% end %>
+            </p>
           </div>
 
-          <!-- Spirit Guide -->
-          <% if meeting.bottle_bringer.present? %>
-            <p class="label-sm text-lagavulin-gold/85">
-              Guided by
-              <span class="text-lagavulin-gold/85">
-                <%= meeting.bottle_bringer.full_name %>
-              </span>
-            </p>
-          <% elsif meeting.flight_night? %>
-            <p class="label-sm text-lagavulin-gold/85">
-              <span class="text-lagavulin-gold/85">✈️ Whiskey Flight Night</span>
-            </p>
-          <% end %>
-
-          <!-- Featured bottle -->
-          <% if meeting.primary_bottle.present? && (is_revealed || is_spirit_guide) %>
-            <div class="pt-1">
-              <p class="label-sm text-lagavulin-gold/80">
-                Featured bottle
+          <!-- The ritual -->
+          <div class="rounded-2xl border border-lagavulin-gold/20 bg-black/25 px-4 py-3">
+            <% if bottle.present? && (revealed || is_guide) %>
+              <p class="label-sm text-lagavulin-gold/70"><%= revealed ? "Featured bottle" : "Your sealed bottle" %></p>
+              <p class="mt-1 text-lg font-semibold text-lagavulin-gold truncate">
+                <%= bottle.distillery.presence %> <%= bottle.name %>
               </p>
-
-              <p class="mt-2 heading-sub text-lagavulin-gold leading-snug">
-                <span class="text-lagavulin-gold/85 font-normal">
-                  <%= meeting.primary_bottle.distillery.presence || "Distillery" %> ·
-                </span>
-                <span class="font-normal"><%= meeting.primary_bottle.name %></span>
+            <% elsif is_guide %>
+              <p class="text-base font-semibold text-lagavulin-gold">🥃 Your call — add the bottle you're bringing</p>
+              <p class="mt-1 body-sm text-lagavulin-gold/80">It stays hidden until you reveal it.</p>
+            <% else %>
+              <p class="flex items-center gap-2 text-base font-semibold text-lagavulin-gold">
+                <span aria-hidden="true">🔒</span> Sealed until the reveal
               </p>
-            </div>
-          <% else %>
-            <% meeting_is_today = meeting.date == Time.zone.today %>
-            <% meeting_has_passed = meeting.date < Time.zone.today %>
-            
-            <div class="pt-1 space-y-2">
-              <% if meeting_is_today && is_spirit_guide %>
-                <p class="body-base font-semibold text-lagavulin-gold">
-                  🥃 Ready to reveal the bottle!
-                </p>
-                <p class="label-sm text-lagavulin-gold/80">
-                  Reveal it during the tasting.
-                </p>
-              <% elsif meeting_has_passed %>
-                <p class="body-base text-lagavulin-gold/75">
-                  Bottle details not yet added.
-                </p>
-                <p class="label-sm text-lagavulin-gold/80">
-                  Complete the record by adding the bottle.
-                </p>
-              <% elsif !is_spirit_guide %>
-                <p class="body-base text-lagavulin-gold/75">
-                  Bottle not announced yet.
-                </p>
-                <p class="label-sm text-lagavulin-gold/80">
-                  The spirit guide will reveal it during the tasting.
-                </p>
-              <% else %>
-                <p class="body-base font-semibold text-lagavulin-gold">
-                  🥃 Time to add the bottle!
-                </p>
-                <p class="label-sm text-lagavulin-gold/80">
-                  Let the club know what you'll be bringing.
-                </p>
-              <% end %>
-            </div>
-          <% end %>
+              <p class="mt-1 body-sm text-lagavulin-gold/80">The spirit guide unveils it at the tasting.</p>
+            <% end %>
+          </div>
         </div>
+      </div>
 
-        <!-- Affordance -->
-        <div class="flex items-center gap-2 text-lagavulin-gold/85 transition group-hover:text-lagavulin-gold">
-          <span class="label-sm">View</span>
-          <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
-               fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-          </svg>
-        </div>
-
+      <!-- Action -->
+      <div class="mt-6 flex items-center gap-2 border-t border-lagavulin-gold/15 pt-4
+                  text-lagavulin-gold/85 transition-colors group-hover:text-lagavulin-gold">
+        <span class="label-sm">View the tasting</span>
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-1"
+             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
       </div>
     </div>
-  </div>
+  </article>
 <% end %>
