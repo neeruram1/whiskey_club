@@ -228,7 +228,7 @@
                       </div>
                     <% end %>
                   </div>
-                <% elsif bottle.present? && (bottle.revealed_at.present? || current_user&.id == meeting.bottle_bringer_id) %>
+                <% elsif bottle.present? && (bottle.revealed? || current_user&.id == meeting.bottle_bringer_id) %>
                   <div class="mt-4 rounded-xl bg-black/30 border border-lagavulin-gold/20 p-4">
                     <p class="label-xs text-lagavulin-gold/80 uppercase tracking-wider mb-2">
                       <%= bottle.distillery %>

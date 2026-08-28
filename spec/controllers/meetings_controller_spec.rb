@@ -163,6 +163,19 @@ RSpec.describe MeetingsController, type: :controller do
         expect(response.body).not_to include('Submit Rating')
       end
 
+      # Regression: 2025 tastings whose bottles predate the reveal feature have
+      # a nil revealed_at, and were showing the sealed-wax card — hiding a
+      # whiskey the club had already poured and rated.
+      it 'shows the bottle on a past tasting even with no reveal timestamp' do
+        past = create(:meeting, bottle_bringer: guide, date: 1.year.ago.to_date)
+        bottle = create(:bottle, :unrevealed, meeting: past, user: guide)
+
+        get :show, params: { id: past.id }
+
+        expect(response.body).to include(bottle.name)
+        expect(response.body).not_to include('Sealed until the reveal')
+      end
+
       it 'says the dram is not in yet when the guide has not added it on tasting day' do
         today = create(:meeting, bottle_bringer: guide, date: Time.zone.today)
 

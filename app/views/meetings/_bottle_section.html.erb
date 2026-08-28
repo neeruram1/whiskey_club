@@ -2,7 +2,7 @@
 <% meeting_has_passed = meeting.date < Time.zone.today %>
 <% meeting_is_upcoming = meeting.date > Time.zone.today %>
 <% is_spirit_guide = current_user&.id == meeting.bottle_bringer_id %>
-<% is_revealed = bottle.present? && bottle.revealed_at.present? %>
+<% is_revealed = bottle.present? && bottle.revealed? %>
 
 <% if bottle.present? && !is_revealed %>
   <!-- Bottle exists but not revealed yet -->
