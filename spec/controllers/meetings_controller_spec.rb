@@ -33,6 +33,39 @@ RSpec.describe MeetingsController, type: :controller do
     end
   end
 
+  describe 'GET #index placeholder for a tasting with no bottle' do
+    render_views
+
+    let(:guide) { create(:user) }
+
+    it 'says the dram is not in yet on the day, rather than prompting a member to add it' do
+      create(:meeting, bottle_bringer: guide, date: Time.zone.today)
+
+      get :index
+
+      expect(response.body).to include('isn&rsquo;t in yet')
+      expect(response.body).to include("Rating opens once #{guide.first_name}")
+      expect(response.body).not_to include('Click to add bottle details')
+    end
+
+    it 'prompts the guide to load it in on the day' do
+      create(:meeting, bottle_bringer: user, date: Time.zone.today)
+
+      get :index
+
+      expect(response.body).to include('Time to load tonight')
+    end
+
+    it 'still asks for the details on a tasting that has passed' do
+      create(:meeting, bottle_bringer: guide, date: 2.weeks.ago.to_date)
+
+      get :index
+
+      expect(response.body).to include('No bottle added yet')
+      expect(response.body).to include('Click to add bottle details')
+    end
+  end
+
   describe 'GET #new' do
     it 'returns success' do
       get :new
