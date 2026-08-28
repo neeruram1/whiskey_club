@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Offline · Collective Spirits of Montclair</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#050f0a">
+    <%# Styles are inline: this page has to render when the network — and
+        possibly the cached stylesheet — isn't there. %>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+        background: #13261b;
+        color: #c9a968;
+        font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        text-align: center;
+      }
+      .seal {
+        width: 96px;
+        height: 96px;
+        margin: 0 auto 1.75rem;
+        border-radius: 999px;
+        border: 2px solid rgba(201, 169, 104, 0.5);
+        background: rgba(201, 169, 104, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+      }
+      .label {
+        font-size: 0.75rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(201, 169, 104, 0.75);
+        margin: 0 0 0.75rem;
+      }
+      h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        margin: 0 0 1rem;
+      }
+      p.body {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: rgba(201, 169, 104, 0.85);
+        margin: 0 auto 2rem;
+        max-width: 28rem;
+      }
+      button {
+        font: inherit;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #c9a968;
+        background: rgba(201, 169, 104, 0.15);
+        border: 1px solid rgba(201, 169, 104, 0.6);
+        border-radius: 999px;
+        padding: 0.85rem 2rem;
+        cursor: pointer;
+      }
+      button:active { background: rgba(201, 169, 104, 0.25); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="seal" aria-hidden="true">&#129347;</div>
+      <p class="label">No connection</p>
+      <h1>The cellar is out of reach</h1>
+      <p class="body">
+        You&rsquo;re offline, so tonight&rsquo;s pour can&rsquo;t be loaded. Ratings and RSVPs need a
+        connection &mdash; try again once you&rsquo;re back on.
+      </p>
+      <button type="button" onclick="window.location.reload()">Try again</button>
+    </main>
+  </body>
+</html>

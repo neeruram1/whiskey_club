@@ -33,6 +33,12 @@ Rails.application.routes.draw do
   
   get 'stats', to: 'public#stats', as: :stats
   get 'wishlist', to: 'public#wishlist', as: :wishlist
+
+  # Installable-app endpoints. The service worker must be served from the root
+  # so its scope covers the whole site.
+  get 'manifest.webmanifest', to: 'pwa#manifest', as: :pwa_manifest
+  get 'service-worker.js', to: 'pwa#service_worker', as: :pwa_service_worker
+  get 'offline', to: 'pwa#offline', as: :pwa_offline
   
   # get "up" => "rails/health#show", as: :rails_health_check
 end
