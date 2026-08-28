@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "../stylesheets/typography.css";
 
+/* standalone: — only when launched from the home screen as an installed app.
+   In a browser tab the toolbar already provides back and the address bar, so
+   the in-app nav would just duplicate it. */
+@custom-variant standalone (@media (display-mode: standalone));
+
 @theme {
   --font-sans: Cormorant Garamond, serif;
   --font-of: Great Vibes, cursive;

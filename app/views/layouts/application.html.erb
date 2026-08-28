@@ -56,15 +56,32 @@
                  data-controller="menu"
                  data-action="keydown@window->menu#closeOnEscape click@window->menu#closeOnOutsideClick">
               <nav class="flex items-center justify-between gap-4" aria-label="Main navigation">
-                <!-- Left: wordmark -->
-                <%= link_to root_path, class: "group flex flex-col gap-0.5 flex-shrink-0" do %>
-                  <span class="text-xs tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap leading-none">
-                    Collective Spirits
-                  </span>
-                  <span class="font-of text-sm text-lagavulin-gold/70 transition group-hover:text-lagavulin-gold/90 leading-none">
-                    of Montclair
-                  </span>
-                <% end %>
+                <div class="flex min-w-0 items-center">
+                  <%# Back, for the installed app only — a browser tab has its own.
+                      Hidden on section roots, which the bottom bar already reaches. %>
+                  <% unless section_root? %>
+                    <button type="button"
+                            class="hidden standalone:flex -ml-2 mr-1 h-11 w-9 flex-shrink-0 items-center justify-center
+                                   text-lagavulin-gold/80 hover:text-lagavulin-gold transition-colors"
+                            data-controller="back"
+                            data-action="back#go"
+                            aria-label="Go back">
+                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 5.25 8.25 12 15 18.75" />
+                      </svg>
+                    </button>
+                  <% end %>
+
+                  <!-- Left: wordmark -->
+                  <%= link_to root_path, class: "group flex flex-col gap-0.5 flex-shrink-0" do %>
+                    <span class="text-xs tracking-[0.28em] uppercase text-lagavulin-gold/90 transition group-hover:text-lagavulin-gold whitespace-nowrap leading-none">
+                      Collective Spirits
+                    </span>
+                    <span class="font-of text-sm text-lagavulin-gold/70 transition group-hover:text-lagavulin-gold/90 leading-none">
+                      of Montclair
+                    </span>
+                  <% end %>
+                </div>
 
                 <!-- Mobile menu button -->
                 <button type="button"
@@ -137,8 +154,12 @@
         <% end %>
 
         <%# Sign-in and sign-up hide the header, so nothing else is holding the
-            content clear of the status bar on an installed phone. %>
-        <main id="main-content" class="flex-1 <%= 'pt-[env(safe-area-inset-top)]' if hide_shell %>" role="main" aria-label="Main content">
+            content clear of the status bar on an installed phone. The bottom
+            padding clears the tab bar, which is fixed over the page. %>
+        <main id="main-content"
+              class="flex-1 <%= 'pt-[env(safe-area-inset-top)]' if hide_shell %>
+                     <%= 'standalone:pb-[calc(4.5rem_+_env(safe-area-inset-bottom))]' unless hide_shell %>"
+              role="main" aria-label="Main content">
           <!-- Flash messages (centered; mobile safe) -->
           <div class="pointer-events-none fixed top-[calc(1rem_+_env(safe-area-inset-top))] left-3 right-3 z-50 mx-auto max-w-xs sm:max-w-sm sm:top-[calc(1.5rem_+_env(safe-area-inset-top))] sm:left-1/2 sm:right-auto sm:-translate-x-1/2">
             <div id="flash-messages" class="pointer-events-auto">
@@ -150,8 +171,9 @@
         </main>
 
         <% unless hide_shell %>
-          <%# Bottom inset clears the iPhone home indicator. %>
-          <footer class="border-t border-lagavulin-gold/25 bg-lagavulin-green/40 supports-[backdrop-filter]:backdrop-blur-md pt-8 pb-[calc(2rem_+_env(safe-area-inset-bottom))] sm:pt-10 sm:pb-[calc(2.5rem_+_env(safe-area-inset-bottom))]" role="contentinfo" aria-label="Footer">
+          <%# Bottom inset clears the iPhone home indicator. Hidden in the
+              installed app, where the tab bar occupies that edge instead. %>
+          <footer class="standalone:hidden border-t border-lagavulin-gold/25 bg-lagavulin-green/40 supports-[backdrop-filter]:backdrop-blur-md pt-8 pb-[calc(2rem_+_env(safe-area-inset-bottom))] sm:pt-10 sm:pb-[calc(2.5rem_+_env(safe-area-inset-bottom))]" role="contentinfo" aria-label="Footer">
             <div class="mx-auto max-w-screen-xl px-4 text-center space-y-3 sm:px-6 sm:space-y-4">
               <p class="label-xs text-lagavulin-gold/65">
                 Collective Spirits of Montclair · Est. 2023
@@ -164,6 +186,10 @@
           </footer>
         <% end %>
       </div>
+
+    <% unless hide_shell %>
+      <%= render "shared/bottom_nav" %>
+    <% end %>
 
     <%= turbo_frame_tag "modal" %>
 
