@@ -30,6 +30,15 @@ class Bottle < ApplicationRecord
     update(revealed_at: Time.current) unless revealed_at
   end
 
+  # A tasting that has already happened had its reveal that night, whatever the
+  # column says. Bottles recorded before the reveal feature existed carry a nil
+  # revealed_at, and reading that as "still sealed" hid whiskeys the club had
+  # already poured and rated. Today's tasting is deliberately excluded: the
+  # guide reveals it during the evening.
+  def revealed?
+    revealed_at.present? || meeting.date < Time.zone.today
+  end
+
   def user_rating(user)
     ratings.find_by(user: user)
   end

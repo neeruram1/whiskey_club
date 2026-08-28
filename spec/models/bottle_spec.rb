@@ -89,6 +89,35 @@ RSpec.describe Bottle, type: :model do
     end
   end
 
+  describe '#revealed?' do
+    it 'is true once the guide has revealed it' do
+      bottle = create(:bottle, :revealed, meeting: create(:meeting, date: 1.week.from_now.to_date))
+
+      expect(bottle.revealed?).to be(true)
+    end
+
+    # Bottles recorded before the reveal feature existed have a nil
+    # revealed_at. Reading that as "still sealed" hid 2025 tastings the club
+    # had already poured and rated behind the sealed-wax card.
+    it 'is true for a past tasting even with no timestamp' do
+      bottle = create(:bottle, :unrevealed, meeting: create(:meeting, date: 1.year.ago.to_date))
+
+      expect(bottle.revealed?).to be(true)
+    end
+
+    it 'stays false on the day of the tasting, which the guide reveals that evening' do
+      bottle = create(:bottle, :unrevealed, meeting: create(:meeting, date: Time.zone.today))
+
+      expect(bottle.revealed?).to be(false)
+    end
+
+    it 'stays false for an upcoming tasting' do
+      bottle = create(:bottle, :unrevealed, meeting: create(:meeting, date: 3.days.from_now.to_date))
+
+      expect(bottle.revealed?).to be(false)
+    end
+  end
+
   describe '#reveal!' do
     let(:bottle) { create(:bottle, :unrevealed) }
 

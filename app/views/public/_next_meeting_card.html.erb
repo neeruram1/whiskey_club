@@ -5,7 +5,7 @@
 <% countdown = days_until <= 0 ? "Today" : days_until == 1 ? "Tomorrow" : "In #{days_until} days" %>
 <% is_guide = current_user&.id == meeting.bottle_bringer_id %>
 <% bottle = meeting.primary_bottle %>
-<% revealed = bottle&.revealed_at.present? %>
+<% revealed = bottle&.revealed? %>
 <% guide = meeting.bottle_bringer %>
 
 <article class="relative overflow-hidden rounded-3xl border border-lagavulin-gold/40 bg-black/40 shadow-2xl shadow-black/50">

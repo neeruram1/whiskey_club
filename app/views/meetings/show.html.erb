@@ -119,7 +119,7 @@
     <!-- Bottle Section -->
     <% 
       meeting_has_passed = @meeting.date < Time.zone.today
-      is_revealed = @bottle.present? && @bottle.revealed_at.present?
+      is_revealed = @bottle.present? && @bottle.revealed?
     %>
     <% if @meeting.flight_night? %>
       <%= render "flight_night_bottles", meeting: @meeting, bottles: @meeting.bottles %>
