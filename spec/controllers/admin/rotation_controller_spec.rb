@@ -57,6 +57,9 @@ RSpec.describe Admin::RotationController, type: :controller do
       delete :remove, params: { user_id: member.id }
 
       expect(member.reload.rotation_position).to be_nil
+      expect(response).to redirect_to(admin_rotation_path)
+      # Turbo needs 303 to follow the redirect as a page visit, not a stream.
+      expect(response).to have_http_status(:see_other)
     end
 
     it 'moves a member up in the order' do
@@ -68,6 +71,37 @@ RSpec.describe Admin::RotationController, type: :controller do
       post :move, params: { user_id: b.id, direction: 'up' }
 
       expect(Rotation.members).to eq([b, a])
+      expect(response).to redirect_to(admin_rotation_path)
+      # Turbo needs 303 to follow the redirect as a page visit, not a stream.
+      expect(response).to have_http_status(:see_other)
+    end
+
+    # Reordering never moves whoever is already on the calendar — they're locked
+    # to their scheduled date — so the list marks that member.
+    describe 'the scheduled-guide badge' do
+      let(:scheduled) { create(:user) }
+      let(:other) { create(:user) }
+
+      it 'badges the member guiding the upcoming tasting' do
+        Rotation.add(other)
+        Rotation.add(scheduled)
+        meeting = create(:meeting, bottle_bringer: scheduled, date: 5.days.from_now.to_date)
+
+        get :index
+
+        expect(assigns(:scheduled_guide_id)).to eq(scheduled.id)
+        expect(response.body).to include("Guiding #{meeting.date.strftime('%b %-d')}")
+        expect(response.body.scan('Guiding ').size).to eq(1)
+      end
+
+      it 'badges no one when nothing is on the calendar' do
+        Rotation.add(other)
+
+        get :index
+
+        expect(assigns(:scheduled_guide_id)).to be_nil
+        expect(response.body).not_to include('Guiding ')
+      end
     end
   end
 end
