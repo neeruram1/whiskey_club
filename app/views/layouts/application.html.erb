@@ -6,6 +6,16 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%# Installable app: manifest drives Android/desktop install, the apple-*
+        tags are how iOS still does it from Share → Add to Home Screen. %>
+    <link rel="manifest" href="<%= pwa_manifest_path %>">
+    <meta name="theme-color" content="#050f0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Collective Spirits">
+    <link rel="apple-touch-icon" href="<%= asset_path('apple-touch-icon.png') %>">
+    <link rel="icon" type="image/png" sizes="192x192" href="<%= asset_path('icon-192.png') %>">
+
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>

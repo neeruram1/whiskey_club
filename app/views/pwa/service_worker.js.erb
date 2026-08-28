@@ -1,0 +1,72 @@
+// Service worker for the installable Collective Spirits app.
+//
+// Deliberately conservative about what it stores: every HTML page here is
+// member-specific (your ratings, who's in, the sealed bottle), so pages are
+// never cached — a stale or cross-account page is worse than no page. Only
+// fingerprinted static assets and the offline fallback live in the cache.
+//
+// Bump CACHE_VERSION after changing this file OR the offline page: the old
+// cache is only discarded on activate, so an edit to offline.html.erb alone
+// leaves already-installed phones serving the previous copy forever.
+const CACHE_VERSION = "v1";
+const CACHE_NAME = `collective-spirits-${CACHE_VERSION}`;
+const OFFLINE_URL = "<%= pwa_offline_path %>";
+
+const PRECACHE = [
+  OFFLINE_URL,
+  "<%= asset_path('icon-192.png') %>",
+  "<%= asset_path('icon-512.png') %>"
+];
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(PRECACHE))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  // Pages: always go to the network. If the network is gone, show the offline
+  // card rather than a browser error. Never cache the response.
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request).catch(() => caches.match(OFFLINE_URL))
+    );
+    return;
+  }
+
+  // Fingerprinted assets: cache-first, since the filename changes on redeploy.
+  if (url.pathname.startsWith("/assets/")) {
+    event.respondWith(
+      caches.match(request).then((hit) => {
+        if (hit) return hit;
+
+        return fetch(request).then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        });
+      })
+    );
+  }
+});
