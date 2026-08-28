@@ -136,6 +136,43 @@ RSpec.describe MeetingsController, type: :controller do
       get :show, params: { id: meeting.id }
       expect(response).to be_successful
     end
+
+    # The club rates blind: on tasting day members rate the sealed dram before
+    # the spirit guide reveals what it is.
+    describe 'the pre-reveal rating module' do
+      render_views
+
+      let(:guide) { create(:user) }
+
+      it 'lets a member rate the sealed bottle on tasting day' do
+        today = create(:meeting, bottle_bringer: guide, date: Time.zone.today)
+        bottle = create(:bottle, :unrevealed, meeting: today, user: guide)
+
+        get :show, params: { id: today.id }
+
+        expect(response.body).to include('Submit Rating')
+        expect(response.body).not_to include(bottle.name)
+      end
+
+      it 'hides the rating module before tasting day' do
+        upcoming = create(:meeting, bottle_bringer: guide, date: 3.days.from_now.to_date)
+        create(:bottle, :unrevealed, meeting: upcoming, user: guide)
+
+        get :show, params: { id: upcoming.id }
+
+        expect(response.body).not_to include('Submit Rating')
+      end
+
+      it 'says the dram is not in yet when the guide has not added it on tasting day' do
+        today = create(:meeting, bottle_bringer: guide, date: Time.zone.today)
+
+        get :show, params: { id: today.id }
+
+        expect(response.body).to include('dram')
+        expect(response.body).to include('Rating opens the moment they do')
+        expect(response.body).not_to include('Sealed until the reveal')
+      end
+    end
   end
 
   describe 'GET #edit' do
