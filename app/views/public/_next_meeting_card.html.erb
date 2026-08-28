@@ -77,6 +77,11 @@
             <% elsif is_guide %>
               <p class="text-base font-semibold text-lagavulin-gold">🥃 Your call — add the bottle you're bringing</p>
               <p class="mt-1 body-sm text-lagavulin-gold/80">It stays hidden until you reveal it.</p>
+            <% elsif bottle.nil? && days_until <= 0 %>
+              <p class="flex items-center gap-2 text-base font-semibold text-lagavulin-gold">
+                <span aria-hidden="true">⏳</span> Today&rsquo;s dram isn&rsquo;t in yet
+              </p>
+              <p class="mt-1 body-sm text-lagavulin-gold/80">Rating opens once the guide loads it in. 🥃</p>
             <% else %>
               <p class="flex items-center gap-2 text-base font-semibold text-lagavulin-gold">
                 <span aria-hidden="true">🔒</span> Sealed until the reveal

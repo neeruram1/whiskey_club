@@ -1,4 +1,7 @@
-<%# The pre-reveal "mystery bottle" moment for members. locals: meeting %>
+<%# The pre-reveal "mystery bottle" moment for members. locals: meeting,
+    awaiting_bottle: false — true on tasting day when the guide hasn't added the
+    bottle yet, so the empty state reads as "not loaded in" rather than broken. %>
+<% awaiting_bottle = local_assigns.fetch(:awaiting_bottle, false) %>
 <% days_until = (meeting.date.to_date - Time.zone.today).to_i %>
 <% when_revealed = days_until <= 0 ? "today" : (days_until == 1 ? "tomorrow" : "in #{days_until} days") %>
 <% guide = meeting.bottle_bringer %>
@@ -12,17 +15,32 @@
       <span class="text-3xl" aria-hidden="true">&#128274;</span>
     </div>
 
-    <p class="label-sm text-lagavulin-gold/85">Sealed until the reveal</p>
-    <p class="heading-sub text-lagavulin-gold">The bottle is a mystery</p>
+    <% if awaiting_bottle %>
+      <p class="label-sm text-lagavulin-gold/85">Waiting on the pour</p>
+      <p class="heading-sub text-lagavulin-gold">Today&rsquo;s dram isn&rsquo;t in yet</p>
 
-    <p class="body-base text-lagavulin-gold/85 max-w-md mx-auto">
-      <% if guide.present? %>
-        <span class="font-semibold text-lagavulin-gold"><%= guide.full_name %></span> pours the reveal <%= when_revealed %>.
-      <% else %>
-        The reveal comes <%= when_revealed %>.
-      <% end %>
-      No peeking till the pour. &#129346;
-    </p>
+      <p class="body-base text-lagavulin-gold/85 max-w-md mx-auto">
+        <% if guide.present? %>
+          <span class="font-semibold text-lagavulin-gold"><%= guide.full_name %></span> hasn&rsquo;t loaded tonight&rsquo;s bottle in yet.
+          Rating opens the moment they do.
+        <% else %>
+          The bottle hasn&rsquo;t been loaded in yet. Rating opens the moment it is.
+        <% end %>
+        &#129346;
+      </p>
+    <% else %>
+      <p class="label-sm text-lagavulin-gold/85">Sealed until the reveal</p>
+      <p class="heading-sub text-lagavulin-gold">The bottle is a mystery</p>
+
+      <p class="body-base text-lagavulin-gold/85 max-w-md mx-auto">
+        <% if guide.present? %>
+          <span class="font-semibold text-lagavulin-gold"><%= guide.full_name %></span> pours the reveal <%= when_revealed %>.
+        <% else %>
+          The reveal comes <%= when_revealed %>.
+        <% end %>
+        No peeking till the pour. &#129346;
+      </p>
+    <% end %>
 
     <% if guide.present? %>
       <% avg = guide.pours_average_score %>
